@@ -1,0 +1,27 @@
+.CodeMirror {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+body {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+tr.file-row > td {
+    font-size: x-large;
+    padding-bottom: 5px;
+}
+
+img.thumbnail {
+    height: 32px;
+    width: 32px;
+}
+
+a.filename {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    margin-left: 10px;
+}
