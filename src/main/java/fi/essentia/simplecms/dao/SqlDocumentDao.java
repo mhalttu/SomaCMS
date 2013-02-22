@@ -1,5 +1,6 @@
 package fi.essentia.simplecms.dao;
 
+import fi.essentia.simplecms.models.DatabaseDocument;
 import fi.essentia.simplecms.models.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,6 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
  */
 @Repository
 public class SqlDocumentDao implements DocumentDao {
+    private static final String FIELDS = "id, NAME, size, parent_id, mime_type, folder, created, modified";
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert insertDocument;
 
@@ -28,46 +31,68 @@ public class SqlDocumentDao implements DocumentDao {
     }
 
     @Override
-    public Document findById(long id, boolean includeData) {
-        StringBuilder sql = new StringBuilder("SELECT id, name, size, parent_id, mime_type, folder, created, modified");
-        if (includeData) {
+    public DatabaseDocument findById(long id, Data data) {
+        StringBuilder sql = new StringBuilder("SELECT ").append(FIELDS);
+        if (data == Data.INCLUDE) {
             sql.append(", data");
         }
         sql.append(" FROM document WHERE id=?");
-        return jdbcTemplate.queryForObject(sql.toString(), new DocumentMapper(includeData), id);
+        return jdbcTemplate.queryForObject(sql.toString(), new DocumentMapper(data), id);
     }
 
     @Override
-    public long save(Document document) {
-        return insertDocument.executeAndReturnKey(new BeanPropertySqlParameterSource(document)).longValue();
+    public long save(DatabaseDocument databaseDocument) {
+        Number key = insertDocument.executeAndReturnKey(new BeanPropertySqlParameterSource(databaseDocument));
+        databaseDocument.setId(key.longValue());
+        return databaseDocument.getId();
     }
 
     @Override
-    public List<Document> findByParentId(Long parentId) {
-        return jdbcTemplate.queryForList("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document WHERE parent_id=?", Document.class, parentId);
+    public List<DatabaseDocument> findByParentId(Long parentId) {
+        StringBuilder sql = new StringBuilder("SELECT ").append(FIELDS).append(" FROM document WHERE ");
+        if (parentId == null) {
+            sql.append("parent_id is null");
+            return jdbcTemplate.query(sql.toString(), new DocumentMapper(Data.EXCLUDE));
+        } else {
+            sql.append("parent_id=?");
+            return jdbcTemplate.query(sql.toString(), new DocumentMapper(Data.EXCLUDE));
+        }
     }
 
-    private static class DocumentMapper implements RowMapper<Document> {
-        private final boolean includeData;
+    @Override
+    public List<DatabaseDocument> findAll() {
+        return jdbcTemplate.query("SELECT " + FIELDS + " FROM document", new DocumentMapper(Data.EXCLUDE));
+    }
 
-        public DocumentMapper(boolean includeData) {
-            this.includeData = includeData;
+    public void loadData(Document document) {
+        Blob blob = jdbcTemplate.queryForObject("SELECT data FROM document WHERE id=?", Blob.class, document.getId());
+        document.setData(blob);
+    }
+
+    private static class DocumentMapper implements RowMapper<DatabaseDocument> {
+        private final Data data;
+
+        public DocumentMapper(Data data) {
+            this.data = data;
         }
 
-        public Document mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Document document = new Document();
-            document.setId(rs.getLong("id"));
-            document.setName(rs.getString("name"));
-            document.setSize(rs.getLong("size"));
-            document.setParentId(rs.getLong("parent_id"));
-            document.setMimeType(rs.getString("mime_type"));
-            document.setFolder(rs.getBoolean("folder"));
-            document.setCreated(rs.getDate("created"));
-            document.setModified(rs.getDate("modified"));
-            if (includeData) {
-                document.setData(rs.getBlob("data"));
+        public DatabaseDocument mapRow(ResultSet rs, int rowNum) throws SQLException {
+            DatabaseDocument databaseDocument = new DatabaseDocument();
+            databaseDocument.setId(rs.getLong("id"));
+            databaseDocument.setName(rs.getString("name"));
+            databaseDocument.setSize(rs.getLong("size"));
+            long parentId = rs.getLong("parent_id");
+            if (!rs.wasNull()) {
+                databaseDocument.setParentId(parentId);
             }
-            return document;
+            databaseDocument.setMimeType(rs.getString("mime_type"));
+            databaseDocument.setFolder(rs.getBoolean("folder"));
+            databaseDocument.setCreated(rs.getDate("created"));
+            databaseDocument.setModified(rs.getDate("modified"));
+            if (data == Data.INCLUDE) {
+                databaseDocument.setData(rs.getBlob("data"));
+            }
+            return databaseDocument;
         }
     }
 }

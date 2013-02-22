@@ -4,20 +4,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Blob;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
  */
-@Getter @Setter
-public class Document {
-    private long id;
-    private String name;
-    private long size;
-    private Long parentId;
-    private String mimeType;
-    private boolean folder;
-    private Date created;
-    private Date modified;
-    private Blob data;
+public interface Document {
+    long getId();
+    String getName();
+    long getSize();
+    Long getParentId();
+    String getMimeType();
+    boolean isFolder();
+    Date getCreated();
+    Date getModified();
+    Blob getData();
+    void setData(Blob blob);
 }

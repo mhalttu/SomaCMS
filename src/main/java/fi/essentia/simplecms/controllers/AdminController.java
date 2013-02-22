@@ -1,7 +1,7 @@
 package fi.essentia.simplecms.controllers;
 
-import fi.essentia.simplecms.dao.DocumentDao;
-import fi.essentia.simplecms.models.Document;
+import fi.essentia.simplecms.tree.DocumentManager;
+import fi.essentia.simplecms.tree.TreeDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author Markus Halttunen
@@ -17,33 +16,24 @@ import java.util.List;
 @Controller
 @RequestMapping(value="/admin")
 public class AdminController {
-    @Autowired private DocumentDao documentDao;
+    @Autowired private DocumentManager documentManager;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
-    public String listFiles(Model model) {
-        return listFiles(null, model);
+    public String admin() {
+        return "redirect:/admin/folder/0/";
     }
 
-    @RequestMapping(value="/folder/{id}", method=RequestMethod.GET)
-    public String listFiles(@PathVariable Long id, Model model) {
-        List<Document> documents = documentDao.findByParentId(id);
-        model.addAttribute("documents", documents);
+    @RequestMapping(value="/folder/{id}/", method=RequestMethod.GET)
+    public String showFolder(@PathVariable Long id, Model model) {
+        TreeDocument document = documentManager.documentById(id);
+        model.addAttribute("document", document);
         return "admin";
     }
 
-    @RequestMapping(value="/new", method=RequestMethod.POST)
-    public String newFolder(@RequestParam("name") String name, Model model) {
-        return newFolder(null, name, model);
-    }
-
     @RequestMapping(value="/folder/{parentId}/new", method=RequestMethod.POST)
-    public String newFolder(@PathVariable Long parentId, @RequestParam("name") String name, Model model) {
-        Document document = new Document();
-        document.setName(name);
-        document.setFolder(true);
-        document.setParentId(parentId);
-        documentDao.save(document);
-        return listFiles(parentId, model);
+    public @ResponseBody String newFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
+        documentManager.createChildFolder(parentId, name);
+        return "success";
     }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)

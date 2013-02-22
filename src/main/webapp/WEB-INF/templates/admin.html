@@ -43,34 +43,31 @@
     </div>
     <hr/>
     <div class="row">
-        <div class="span5">
+        <div class="span9">
             <table>
-                <tr class="file-row" th:unless="${#strings.isEmpty(parentPath)}">
+                <tr th:unless="${document.root}" th:onclick="'document.location=\'/admin/folder/' + ${document.parent.id} + '/\';'" class="document-row">
                     <td>
-                        <a th:href="${parentPath}" href="#">
-                            <img class="thumbnail" src="/resources/back.jpg"/>
-                        </a>
+                        <img class="document-thumbnail" src="/resources/back.jpg"/>
                     </td>
-                    <td>
-                        <a th:href="${parentPath}" href="#" class="filename">
-                            Parent Folder
-                        </a>
+                    <td class="document-name">
+                        Parent Folder
                     </td>
                 </tr>
-                <tr class="file-row" th:each="file : ${files}">
+                <tr th:onclick="'document.location=\'/admin/folder/' + ${child.id} + '/\';'" class="document-row" th:each="child : ${document.children}">
                     <td>
-                        <a th:href="${file.href}" href="#">
-                            <img class="thumbnail" th:src="${file.thumbnailHref}" src="/resources/document.png"/>
-                        </a>
+                        <img class="document-thumbnail" th:src="${child.thumbail}" src="/resources/document.png"/>
                     </td>
-                    <td>
-                        <a th:href="${file.href}" th:text="${file.name}" href="#" class="filename">
-                            example.txt
-                        </a>
+                    <td th:text="${child.name}" class="document-name">
+                        example.txt
                     </td>
                 </tr>
             </table>
-            <hr/>
+            <div th:if="${#lists.isEmpty(document.children)}">
+                <br/>
+                <i>This folder is empty.</i>
+
+            </div>
+            <br/>
             <button type="button" class="btn-primary" onclick="newFolder()">New Folder</button>
         </div>
     </div>

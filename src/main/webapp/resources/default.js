@@ -2,7 +2,17 @@ function newFolder() {
     bootbox.prompt("Folder Name?", function(result) {
         if (result === null) {
         } else {
-            location.href = location.href + "/newFolder";
+            $.ajax({
+                url: "new/",
+                type: "post",
+                data: "name=" + result,
+                success: function(result) {
+                    location.reload()
+                },
+                error: function() {
+                    alert("Error");
+                }
+            });
         }
     });
 }

@@ -9,6 +9,6 @@ CREATE TABLE `document` (
   `modified` timestamp,
   `data` blob,
   PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`),
+  UNIQUE (`name`),
   FOREIGN KEY (`parent_id`) REFERENCES `document` (`id`)
-);
+) AUTO_INCREMENT=1

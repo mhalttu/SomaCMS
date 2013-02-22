@@ -8,20 +8,24 @@ body {
     padding-bottom: 40px;
 }
 
-tr.file-row > td {
+tr.document-row {
     font-size: x-large;
-    padding-bottom: 5px;
+    color: #0081c2;
+    cursor: pointer;
+    border: 1px solid #ddd;
 }
 
-img.thumbnail {
+tr.document-row > td {
+    padding: 5px;
+}
+
+img.document-thumbnail {
     height: 32px;
     width: 32px;
 }
 
-a.filename {
-    display: block;
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
-    margin-left: 10px;
+td.document-name {
+    padding-left: 10px;
+    min-width: 600px;
 }
+
