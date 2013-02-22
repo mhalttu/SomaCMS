@@ -66,7 +66,11 @@ public class SqlDocumentDao implements DocumentDao {
 
     public void loadData(Document document) {
         Blob blob = jdbcTemplate.queryForObject("SELECT data FROM document WHERE id=?", Blob.class, document.getId());
-        document.setData(blob);
+        try {
+            document.setData(blob.getBytes(1, (int)blob.length()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static class DocumentMapper implements RowMapper<DatabaseDocument> {
@@ -90,7 +94,7 @@ public class SqlDocumentDao implements DocumentDao {
             databaseDocument.setCreated(rs.getDate("created"));
             databaseDocument.setModified(rs.getDate("modified"));
             if (data == Data.INCLUDE) {
-                databaseDocument.setData(rs.getBlob("data"));
+                databaseDocument.setData(rs.getBytes("data"));
             }
             return databaseDocument;
         }

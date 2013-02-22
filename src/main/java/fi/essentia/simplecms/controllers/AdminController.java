@@ -26,6 +26,9 @@ public class AdminController {
     @RequestMapping(value="/folder/{id}/", method=RequestMethod.GET)
     public String showFolder(@PathVariable Long id, Model model) {
         TreeDocument document = documentManager.documentById(id);
+        if (!document.isFolder()) {
+            throw new ResourceNotFoundException();
+        }
         model.addAttribute("document", document);
         return "admin";
     }
@@ -36,10 +39,9 @@ public class AdminController {
         return "success";
     }
 
-    @RequestMapping(value="/upload", method=RequestMethod.POST)
-    @ResponseBody
-    public String uploadFile(@RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
-        //fileManager.save(file);
-        return "{success:\"true\"}";
+    @RequestMapping(value="/folder/{parentId}/upload", method=RequestMethod.POST)
+    public @ResponseBody String uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
+        documentManager.saveFile(parentId, file);
+        return "{\"success\":true}";
     }
 }

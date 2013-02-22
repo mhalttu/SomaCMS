@@ -128,11 +128,13 @@
         </dependency>
 
         <!-- Detecting mime types -->
+        <!--
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
             <version>1.1</version>
         </dependency>
+        -->
 
         <!-- Only for compilation -->
         <dependency>

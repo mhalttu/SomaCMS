@@ -5,8 +5,10 @@ import fi.essentia.simplecms.models.DatabaseDocument;
 import fi.essentia.simplecms.models.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +53,7 @@ public class DocumentManager {
 
     private void initializeRoot() {
         DatabaseDocument databaseDocument = new DatabaseDocument();
+        databaseDocument.setFolder(true);
         databaseDocument.setId(ROOT_ID);
         databaseDocument.setName("");
         root = new TreeDocument(databaseDocument);
@@ -84,11 +87,7 @@ public class DocumentManager {
         databaseDocument.setParentId(parentId);
         documentDao.save(databaseDocument);
 
-        TreeDocument treeDocument = new TreeDocument(databaseDocument);
-        TreeDocument parent = parentFromId(parentId);
-        parent.addChild(treeDocument);
-        treeDocument.setParent(parent);
-        idToDocument.put(treeDocument.getId(), treeDocument);
+        addToTree(databaseDocument, parentId);
     }
 
     private TreeDocument parentFromId(Long parentId) {
@@ -98,4 +97,42 @@ public class DocumentManager {
             return idToDocument.get(parentId);
         }
     }
+
+    public void saveFile(Long parentId, MultipartFile file) throws IOException {
+        if (parentId == ROOT_ID) {
+            parentId = null;
+        }
+
+        DatabaseDocument databaseDocument = new DatabaseDocument();
+        databaseDocument.setName(file.getOriginalFilename());
+        databaseDocument.setParentId(parentId);
+        byte[] bytes = file.getBytes();
+        databaseDocument.setSize(bytes.length);
+        databaseDocument.setData(bytes);
+        databaseDocument.setMimeType(file.getContentType());
+        documentDao.save(databaseDocument);
+
+        addToTree(databaseDocument, parentId);
+    }
+
+    private void addToTree(DatabaseDocument databaseDocument, Long parentId) {
+        TreeDocument treeDocument = new TreeDocument(databaseDocument);
+        TreeDocument parent = parentFromId(parentId);
+        parent.addChild(treeDocument);
+        treeDocument.setParent(parent);
+        idToDocument.put(treeDocument.getId(), treeDocument);
+    }
+
+     /*
+    private void detectMimeType(File file) {
+        try {
+            mimeType = TIKA.detect(file);
+            if (mimeType.endsWith("jpeg") || mimeType.endsWith("png") || mimeType.endsWith("gif")) {
+                image = true;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    */
 }

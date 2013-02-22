@@ -18,6 +18,6 @@ public interface Document {
     boolean isFolder();
     Date getCreated();
     Date getModified();
-    Blob getData();
-    void setData(Blob blob);
+    byte[] getData();
+    void setData(byte[] data);
 }
