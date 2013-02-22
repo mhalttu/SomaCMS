@@ -1,5 +1,6 @@
 package fi.essentia.simplecms.tree;
 
+import fi.essentia.simplecms.controllers.UnauthorizedException;
 import fi.essentia.simplecms.dao.DocumentDao;
 import fi.essentia.simplecms.models.DatabaseDocument;
 import fi.essentia.simplecms.models.Document;
@@ -73,21 +74,30 @@ public class DocumentManager {
     }
 
     public TreeDocument documentById(Long id) {
+        if (id == null) {
+            return root;
+        }
         return idToDocument.get(id);
     }
 
     public void createChildFolder(Long parentId, String name) {
-        if (parentId == ROOT_ID) {
-            parentId = null;
-        }
+        TreeDocument parent = folder(parentId);
 
         DatabaseDocument databaseDocument = new DatabaseDocument();
         databaseDocument.setName(name);
         databaseDocument.setFolder(true);
-        databaseDocument.setParentId(parentId);
+        databaseDocument.setParentId(parent.isRoot() ? null : parent.getId());
         documentDao.save(databaseDocument);
 
         addToTree(databaseDocument, parentId);
+    }
+
+    private TreeDocument folder(Long folderId) {
+        TreeDocument folder = documentById(folderId);
+        if (!folder.isFolder()) {
+            throw new UnauthorizedException();
+        }
+        return folder;
     }
 
     private TreeDocument parentFromId(Long parentId) {
@@ -99,13 +109,11 @@ public class DocumentManager {
     }
 
     public void saveFile(Long parentId, MultipartFile file) throws IOException {
-        if (parentId == ROOT_ID) {
-            parentId = null;
-        }
+        TreeDocument parent = folder(parentId);
 
         DatabaseDocument databaseDocument = new DatabaseDocument();
         databaseDocument.setName(file.getOriginalFilename());
-        databaseDocument.setParentId(parentId);
+        databaseDocument.setParentId(parent.isRoot() ? null : parent.getId());
         byte[] bytes = file.getBytes();
         databaseDocument.setSize(bytes.length);
         databaseDocument.setData(bytes);

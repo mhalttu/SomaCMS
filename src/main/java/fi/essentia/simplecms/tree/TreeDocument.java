@@ -47,12 +47,15 @@ public class TreeDocument implements Document {
         if (isFolder()) {
             return "/resources/folder.png";
         }
-        String mimeType = getMimeType();
-        if (mimeType.startsWith("image/")) {
+        if (isImage()) {
             return getPath();
         }
 
         return "/resources/document.png";
+    }
+
+    public boolean isImage() {
+        return getMimeType().startsWith("image/");
     }
 
     public boolean isRoot() {

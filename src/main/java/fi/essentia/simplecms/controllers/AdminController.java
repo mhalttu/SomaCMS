@@ -16,32 +16,36 @@ import java.io.IOException;
 @Controller
 @RequestMapping(value="/admin")
 public class AdminController {
+    public static final String SUCCESS = "{\"success\":true}";
     @Autowired private DocumentManager documentManager;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String admin() {
-        return "redirect:/admin/folder/0/";
+        return "redirect:/admin/view/0/";
     }
 
-    @RequestMapping(value="/folder/{id}/", method=RequestMethod.GET)
+    @RequestMapping(value="/view/{id}/", method=RequestMethod.GET)
     public String showFolder(@PathVariable Long id, Model model) {
         TreeDocument document = documentManager.documentById(id);
-        if (!document.isFolder()) {
+        model.addAttribute("document", document);
+        if (document.isFolder()) {
+            return "folder";
+        } else if (document.isImage()) {
+            return "image";
+        } else {
             throw new ResourceNotFoundException();
         }
-        model.addAttribute("document", document);
-        return "admin";
     }
 
-    @RequestMapping(value="/folder/{parentId}/new", method=RequestMethod.POST)
+    @RequestMapping(value="/view/{parentId}/new", method=RequestMethod.POST)
     public @ResponseBody String newFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
         documentManager.createChildFolder(parentId, name);
-        return "success";
+        return SUCCESS;
     }
 
-    @RequestMapping(value="/folder/{parentId}/upload", method=RequestMethod.POST)
+    @RequestMapping(value="/view/{parentId}/upload", method=RequestMethod.POST)
     public @ResponseBody String uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
         documentManager.saveFile(parentId, file);
-        return "{\"success\":true}";
+        return SUCCESS;
     }
 }
