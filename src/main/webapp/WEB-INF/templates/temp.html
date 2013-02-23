@@ -1,5 +1,6 @@
 <div id="jquery-wrapped-fine-uploader"></div>
-
+lineNumbers: true,
+matchBrackets: true,
 <form><textarea id="code" name="code">
     <html style="color: green">
     <!-- this is a comment -->
@@ -33,4 +34,12 @@
         });
     });
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {mode: "htmlmixed", tabMode: "indent"});
+</script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    ...
+    var username = /*[[${sesion.user.name}]]*/ 'Sebastian';
+    ...
+    /*]]>*/
 </script>

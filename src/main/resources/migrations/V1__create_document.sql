@@ -7,7 +7,6 @@ CREATE TABLE `document` (
   `folder` int(1),
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp,
-  `data` mediumblob,
   PRIMARY KEY (`id`),
   UNIQUE (`name`),
   FOREIGN KEY (`parent_id`) REFERENCES `document` (`id`)

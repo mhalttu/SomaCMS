@@ -10,11 +10,25 @@
     <script src="/resources/common.js"></script>
 
     <script src="/resources/jquery/jquery-1.9.1.min.js"></script>
-    <link href="/resources/upload/fineuploader-3.3.0.css" rel="stylesheet"/>
-    <script src="/resources/upload/jquery.fineuploader-3.3.0.min.js"></script>
 
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
     <script src="/resources/bootbox/bootbox.min.js"></script>
+
+    <link rel="stylesheet" href="/resources/codemirror/lib/codemirror.css"/>
+    <script src="/resources/codemirror/lib/codemirror.js"></script>
+    <script src="/resources/codemirror/mode/xml/xml.js"></script>
+    <script src="/resources/codemirror/mode/javascript/javascript.js"></script>
+    <script src="/resources/codemirror/mode/css/css.js"></script>
+    <script src="/resources/codemirror/mode/vbscript/vbscript.js"></script>
+    <script src="/resources/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
+    <style>
+        .CodeMirror {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            height: 450px;
+        }
+    </style>
 </head>
 <body>
 
@@ -26,7 +40,7 @@
     <div class="row">
         <div class="span12">
             <table>
-                <tr th:unless="${document.root}" th:onclick="'document.location=\'/admin/view/' + ${document.parent.id} + '/\';'" class="document-row link-row">
+                <tr th:unless="${document.root}" th:onclick="'document.location=\'/admin/view/' + ${document.parent.id} + '/\';'"  class="document-row link-row">
                     <td>
                         <img class="document-thumbnail" src="/resources/back.jpg"/>
                     </td>
@@ -40,9 +54,21 @@
     <br/>
     <div class="row">
         <div class="span12">
-            <img class="preview" th:src="${document.path}"/>
+            <form><textarea id="code" name="code" th:text="${documentText}"></textarea></form>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    var editorMode = null;
+    /*[+editorMode = [[${document.mimeType}]];+]*/
+
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: editorMode,
+        tabMode: "indent",
+        lineNumbers:true,
+        matchBrackets:true
+    });
+</script>
 </body>
 </html>

@@ -16,3 +16,11 @@ function newFolder() {
         }
     });
 }
+
+function showDocument(id, viewable) {
+    if (!viewable) {
+        return;
+    }
+
+    location.href = "/admin/view/" + id + "/";
+}

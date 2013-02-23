@@ -19,5 +19,4 @@ public class DatabaseDocument implements Document {
     @Getter @Setter private boolean folder;
     @Getter @Setter private Date created;
     @Getter @Setter private Date modified;
-    @Getter @Setter private byte[] data;
 }

@@ -1,8 +1,3 @@
-.CodeMirror {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-}
-
 body {
     padding-top: 20px;
     padding-bottom: 40px;
@@ -14,9 +9,11 @@ hr {
 
 tr.document-row {
     font-size: x-large;
+}
+
+tr.link-row {
     color: #0081c2;
     cursor: pointer;
-/*    border: 1px solid #ddd;*/
 }
 
 tr.document-row > td {

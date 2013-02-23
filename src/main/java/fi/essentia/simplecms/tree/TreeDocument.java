@@ -55,7 +55,17 @@ public class TreeDocument implements Document {
     }
 
     public boolean isImage() {
-        return getMimeType().startsWith("image/");
+        String mimeType = getMimeType();
+        return mimeType != null && mimeType.startsWith("image/");
+    }
+
+    public boolean isText() {
+        String mimeType = getMimeType();
+        return mimeType != null && mimeType.startsWith("text/");
+    }
+
+    public boolean isViewable() {
+        return isFolder() || isImage() || isText();
     }
 
     public boolean isRoot() {

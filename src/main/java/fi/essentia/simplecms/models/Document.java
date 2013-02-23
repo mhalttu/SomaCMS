@@ -18,6 +18,4 @@ public interface Document {
     boolean isFolder();
     Date getCreated();
     Date getModified();
-    byte[] getData();
-    void setData(byte[] data);
 }

@@ -21,7 +21,6 @@ import java.sql.SQLException;
 @Component
 @RequestMapping(value="/", method= RequestMethod.GET)
 public class CmsController {
-    @Autowired private SqlDocumentDao documentDao;
     @Autowired private DocumentManager documentManager;
 
     @RequestMapping(value="/**", method=RequestMethod.GET)
@@ -35,9 +34,9 @@ public class CmsController {
             throw new UnauthorizedException();
         }
 
-        documentDao.loadData(document);
+        byte[] bytes = documentManager.loadData(document.getId());
         response.setContentType(document.getMimeType());
-        IOUtils.write(document.getData(), response.getOutputStream());
+        IOUtils.write(bytes, response.getOutputStream());
         response.flushBuffer();
     }
 }

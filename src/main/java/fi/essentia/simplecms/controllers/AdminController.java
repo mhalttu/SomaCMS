@@ -32,6 +32,10 @@ public class AdminController {
             return "folder";
         } else if (document.isImage()) {
             return "image";
+        } else if (document.isText()) {
+            byte[] bytes = documentManager.loadData(document.getId());
+            model.addAttribute("documentText", new String(bytes));
+            return "text";
         } else {
             throw new ResourceNotFoundException();
         }
@@ -39,13 +43,13 @@ public class AdminController {
 
     @RequestMapping(value="/view/{parentId}/new", method=RequestMethod.POST)
     public @ResponseBody String newFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
-        documentManager.createChildFolder(parentId, name);
+        documentManager.createFolder(parentId, name);
         return SUCCESS;
     }
 
     @RequestMapping(value="/view/{parentId}/upload", method=RequestMethod.POST)
     public @ResponseBody String uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
-        documentManager.saveFile(parentId, file);
+        documentManager.createDocument(parentId, file);
         return SUCCESS;
     }
 }
