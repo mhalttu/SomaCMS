@@ -3,7 +3,7 @@ function newFolder() {
         if (result === null) {
         } else {
             $.ajax({
-                url: "new/",
+                url: "newFolder/",
                 type: "post",
                 data: "name=" + result,
                 success: function(result) {
@@ -21,6 +21,21 @@ function showDocument(id, viewable) {
     if (!viewable) {
         return;
     }
-
     location.href = "/admin/view/" + id + "/";
+}
+
+function saveText(text, parentId) {
+    $.ajax({
+        url: "save/",
+        type: "put",
+        data: "contents=" + text,
+        success: function(result) {
+            location.href="/admin/view/" + parentId + "/";
+        },
+        error: function() {
+            alert("Error");
+        }
+    });
+
+
 }

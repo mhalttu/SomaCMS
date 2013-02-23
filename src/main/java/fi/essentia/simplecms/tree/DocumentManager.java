@@ -13,5 +13,4 @@ public interface DocumentManager {
     TreeDocument documentById(Long id);
     void createFolder(Long parentId, String name);
     void createDocument(Long parentId, MultipartFile file) throws IOException;
-    byte[] loadData(Long documentId);
 }

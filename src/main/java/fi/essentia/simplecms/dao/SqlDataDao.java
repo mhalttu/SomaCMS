@@ -23,12 +23,17 @@ public class SqlDataDao implements DataDao {
     }
 
     @Override
-    public void saveDataForDocument(long documentId, byte[] data) {
+    public void insertData(long documentId, byte[] data) {
         jdbcTemplate.update("INSERT INTO document_data (document_id, data) VALUES(?, ?)", documentId, data);
     }
 
     @Override
-    public byte[] loadDataForDocument(long documentId) {
+    public void updateData(long documentId, byte[] data) {
+        jdbcTemplate.update("UPDATE document_data SET data=? WHERE document_id=?", data, documentId);
+    }
+
+    @Override
+    public byte[] loadData(long documentId) {
         Blob blob = jdbcTemplate.queryForObject("SELECT data FROM document_data WHERE document_id=?", Blob.class, documentId);
         try {
             return blob.getBytes(1, (int)blob.length());

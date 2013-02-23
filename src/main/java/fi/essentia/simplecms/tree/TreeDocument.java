@@ -13,7 +13,7 @@ import java.util.*;
  *
  */
 public class TreeDocument implements Document {
-    @Delegate private final DatabaseDocument databaseDocument;
+    @Delegate(excludes = ParentId.class) private final DatabaseDocument databaseDocument;
     @Getter @Setter private TreeDocument parent;
     private Map<String, TreeDocument> nameToChild = new TreeMap<String, TreeDocument>();
 
@@ -31,6 +31,15 @@ public class TreeDocument implements Document {
 
     public Collection<TreeDocument> getChildren() {
         return Collections.unmodifiableCollection(nameToChild.values());
+    }
+
+    public Long getParentId() {
+        Long parentId = databaseDocument.getParentId();
+        if (parentId == null) {
+            return 0L;
+        } else {
+            return parentId;
+        }
     }
 
     public String getPath() {
@@ -70,5 +79,9 @@ public class TreeDocument implements Document {
 
     public boolean isRoot() {
         return parent == null;
+    }
+
+    private interface ParentId {
+        Long getParentId();
     }
 }

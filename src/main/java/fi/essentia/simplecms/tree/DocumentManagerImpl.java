@@ -123,12 +123,7 @@ public class DocumentManagerImpl implements DocumentManager {
         documentDao.save(databaseDocument);
         addToTree(databaseDocument, parentId);
 
-        dataDao.saveDataForDocument(databaseDocument.getId(), bytes); // TODO This whole method call should be transactional
-    }
-
-    @Override
-    public byte[] loadData(Long documentId) {
-        return dataDao.loadDataForDocument(documentId);
+        dataDao.insertData(databaseDocument.getId(), bytes); // TODO This whole method call should be transactional
     }
 
     private void addToTree(DatabaseDocument databaseDocument, Long parentId) {

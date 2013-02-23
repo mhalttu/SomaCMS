@@ -1,5 +1,6 @@
 package fi.essentia.simplecms.controllers;
 
+import fi.essentia.simplecms.dao.DataDao;
 import fi.essentia.simplecms.dao.SqlDocumentDao;
 import fi.essentia.simplecms.models.Document;
 import fi.essentia.simplecms.tree.DocumentManager;
@@ -22,6 +23,7 @@ import java.sql.SQLException;
 @RequestMapping(value="/", method= RequestMethod.GET)
 public class CmsController {
     @Autowired private DocumentManager documentManager;
+    @Autowired private DataDao dataDao;
 
     @RequestMapping(value="/**", method=RequestMethod.GET)
     public void get(HttpServletResponse response, HttpServletRequest request) throws SQLException, IOException {
@@ -34,7 +36,7 @@ public class CmsController {
             throw new UnauthorizedException();
         }
 
-        byte[] bytes = documentManager.loadData(document.getId());
+        byte[] bytes = dataDao.loadData(document.getId());
         response.setContentType(document.getMimeType());
         IOUtils.write(bytes, response.getOutputStream());
         response.flushBuffer();

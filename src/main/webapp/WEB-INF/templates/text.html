@@ -40,7 +40,7 @@
     <div class="row">
         <div class="span12">
             <table>
-                <tr th:unless="${document.root}" th:onclick="'document.location=\'/admin/view/' + ${document.parent.id} + '/\';'"  class="document-row link-row">
+                <tr th:unless="${document.root}" th:onclick="'showDocument(' + ${document.parentId} + ', true)'" class="document-row link-row">
                     <td>
                         <img class="document-thumbnail" src="/resources/back.jpg"/>
                     </td>
@@ -55,6 +55,11 @@
     <div class="row">
         <div class="span12">
             <form><textarea id="code" name="code" th:text="${documentText}"></textarea></form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <button type="button" class="btn btn-primary" th:onclick="'saveText(editor.getValue(), ' + ${document.parent.id} + ')'">Save</button>
         </div>
     </div>
 </div>

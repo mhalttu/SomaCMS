@@ -1,5 +1,6 @@
 package fi.essentia.simplecms.controllers;
 
+import fi.essentia.simplecms.dao.DataDao;
 import fi.essentia.simplecms.tree.DocumentManager;
 import fi.essentia.simplecms.tree.TreeDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.io.IOException;
 public class AdminController {
     public static final String SUCCESS = "{\"success\":true}";
     @Autowired private DocumentManager documentManager;
+    @Autowired private DataDao dataDao;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String admin() {
@@ -33,7 +35,7 @@ public class AdminController {
         } else if (document.isImage()) {
             return "image";
         } else if (document.isText()) {
-            byte[] bytes = documentManager.loadData(document.getId());
+            byte[] bytes = dataDao.loadData(document.getId());
             model.addAttribute("documentText", new String(bytes));
             return "text";
         } else {
@@ -41,7 +43,7 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value="/view/{parentId}/new", method=RequestMethod.POST)
+    @RequestMapping(value="/view/{parentId}/newFolder", method=RequestMethod.POST)
     public @ResponseBody String newFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
         documentManager.createFolder(parentId, name);
         return SUCCESS;
@@ -50,6 +52,12 @@ public class AdminController {
     @RequestMapping(value="/view/{parentId}/upload", method=RequestMethod.POST)
     public @ResponseBody String uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
         documentManager.createDocument(parentId, file);
+        return SUCCESS;
+    }
+
+    @RequestMapping(value="/view/{documentId}/save", method=RequestMethod.PUT)
+    public @ResponseBody String saveTextDocument(@PathVariable Long documentId, @RequestParam("contents") String contents) {
+        dataDao.updateData(documentId, contents.getBytes());
         return SUCCESS;
     }
 }

@@ -6,6 +6,7 @@ import fi.essentia.simplecms.models.Document;
  *
  */
 public interface DataDao {
-    void saveDataForDocument(long documentId, byte[] data);
-    byte[] loadDataForDocument(long documentId);
+    void insertData(long documentId, byte[] data);
+    void updateData(long documentId, byte[] data);
+    byte[] loadData(long documentId);
 }

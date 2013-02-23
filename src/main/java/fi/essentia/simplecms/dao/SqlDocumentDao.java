@@ -46,14 +46,14 @@ public class SqlDocumentDao implements DocumentDao {
     @Override
     public List<DatabaseDocument> findByParentId(Long parentId) {
         if (parentId == null) {
-            return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document WHERE parent_id IS NULL", new BeanPropertyRowMapper<DatabaseDocument>());
+            return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document WHERE parent_id IS NULL", BeanPropertyRowMapper.newInstance(DatabaseDocument.class));
         } else {
-            return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document WHERE parent_id=?", new BeanPropertyRowMapper<DatabaseDocument>(), parentId);
+            return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document WHERE parent_id=?", BeanPropertyRowMapper.newInstance(DatabaseDocument.class), parentId);
         }
     }
 
     @Override
     public List<DatabaseDocument> findAll() {
-        return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document", new BeanPropertyRowMapper<DatabaseDocument>());
+        return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document", BeanPropertyRowMapper.newInstance(DatabaseDocument.class));
     }
 }
