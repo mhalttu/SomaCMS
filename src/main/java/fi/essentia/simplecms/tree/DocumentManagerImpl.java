@@ -111,19 +111,38 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public void createDocument(Long parentId, MultipartFile file) throws IOException {
+    public void createDocument(Long parentId, MultipartFile file) {
         TreeDocument parent = folder(parentId);
 
         DatabaseDocument databaseDocument = new DatabaseDocument();
         databaseDocument.setName(file.getOriginalFilename());
         databaseDocument.setParentId(parent.isRoot() ? null : parent.getId());
-        byte[] bytes = file.getBytes();
+        byte[] bytes;
+        try {
+            bytes = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         databaseDocument.setSize(bytes.length);
         databaseDocument.setMimeType(file.getContentType());
         documentDao.save(databaseDocument);
         addToTree(databaseDocument, parentId);
 
-        dataDao.insertData(databaseDocument.getId(), bytes); // TODO This whole method call should be transactional
+        // TODO The whole document creation should be transactional
+        dataDao.insertData(databaseDocument.getId(), bytes);
+    }
+
+    @Override
+    public void deleteDocument(Long documentId) {
+        TreeDocument document = documentById(documentId);
+        if (document.isRoot()) {
+            throw new UnauthorizedException();
+        }
+        if (document.getChildren().size() > 0) {
+            throw new UnauthorizedException();
+        }
+
+        documentDao.deleteById(documentId);
     }
 
     private void addToTree(DatabaseDocument databaseDocument, Long parentId) {

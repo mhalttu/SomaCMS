@@ -7,6 +7,10 @@ hr {
     margin-top: 0px;
 }
 
+table.document-table {
+    width: 100%;
+}
+
 tr.document-row {
     font-size: x-large;
 }

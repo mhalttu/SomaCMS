@@ -10,4 +10,6 @@ public interface DocumentDao {
     public long save(DatabaseDocument document);
     List<DatabaseDocument> findByParentId(Long parentId);
     List<DatabaseDocument> findAll();
+
+    void deleteById(Long documentId);
 }

@@ -60,4 +60,10 @@ public class AdminController {
         dataDao.updateData(documentId, contents.getBytes());
         return SUCCESS;
     }
+
+    @RequestMapping(value="/view/{documentId}/delete", method=RequestMethod.DELETE)
+    public @ResponseBody String delete(@PathVariable Long documentId) {
+        documentManager.deleteDocument(documentId);
+        return SUCCESS;
+    }
 }

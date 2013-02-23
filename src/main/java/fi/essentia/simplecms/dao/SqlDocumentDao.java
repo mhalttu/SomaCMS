@@ -56,4 +56,8 @@ public class SqlDocumentDao implements DocumentDao {
     public List<DatabaseDocument> findAll() {
         return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document", BeanPropertyRowMapper.newInstance(DatabaseDocument.class));
     }
+
+    @Override public void deleteById(Long documentId) {
+        jdbcTemplate.update("DELETE FROM document WHERE id=?", documentId);
+    }
 }
