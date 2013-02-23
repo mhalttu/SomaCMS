@@ -84,4 +84,8 @@ public class TreeDocument implements Document {
     private interface ParentId {
         Long getParentId();
     }
+
+    public Document getShallowCopy() {
+        return new ImmutableDocument(databaseDocument);
+    }
 }

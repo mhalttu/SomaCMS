@@ -55,7 +55,6 @@
         </dependency>
 
         <!-- Logging -->
-
         <!--
         <dependency>
             <groupId>ch.qos.logback</groupId>

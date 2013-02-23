@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import java.sql.Blob;
 import java.util.ArrayList;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *

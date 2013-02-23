@@ -17,13 +17,6 @@ function newFolder() {
     });
 }
 
-function showDocument(id, viewable) {
-    if (!viewable) {
-        return;
-    }
-    location.href = "/admin/view/" + id + "/";
-}
-
 function saveText(text, parentId) {
     $.ajax({
         url: "save/",
@@ -36,6 +29,25 @@ function saveText(text, parentId) {
             alert("Error");
         }
     });
+}
 
-
+function deleteDocument() {
+    event.stopImmediatePropagation();
+    var row = $(this).closest('tr');
+    var id = row.attr('id');
+    var name = row.find(".document-name").html();
+    bootbox.confirm("Delete " + name + "?", function(result) {
+        if (result) {
+            $.ajax({
+                url: "delete/" + id + "/",
+                type: "delete",
+                success: function(result) {
+                    location.reload();
+                },
+                error: function() {
+                    alert("Error");
+                }
+            });
+        }
+    });
 }

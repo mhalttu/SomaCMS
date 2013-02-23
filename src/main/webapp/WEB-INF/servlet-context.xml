@@ -43,8 +43,7 @@
         <property name="cacheable" value="false"/> <!-- Set to true in production -->
     </bean>
 
-    <bean id="templateEngine"
-          class="org.thymeleaf.spring3.SpringTemplateEngine">
+    <bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
     </bean>
 

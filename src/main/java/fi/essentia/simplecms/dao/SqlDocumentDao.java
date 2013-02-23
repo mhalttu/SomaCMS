@@ -21,7 +21,6 @@ import java.util.List;
  */
 @Repository
 public class SqlDocumentDao implements DocumentDao {
-    private static final String FIELDS = "id, NAME, size, parent_id, mime_type, folder, created, modified";
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert insertDocument;
 

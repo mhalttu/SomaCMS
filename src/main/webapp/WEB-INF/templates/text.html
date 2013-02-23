@@ -4,15 +4,13 @@
 <head>
     <title>SimpleCMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-
-    <link href="/resources/common.css" rel="stylesheet"/>
-    <script src="/resources/common.js"></script>
-
     <script src="/resources/jquery/jquery-1.9.1.min.js"></script>
-
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
     <script src="/resources/bootbox/bootbox.min.js"></script>
+    <script src="/resources/common.js"></script>
+
+    <link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="/resources/common.css" rel="stylesheet"/>
 
     <link rel="stylesheet" href="/resources/codemirror/lib/codemirror.css"/>
     <script src="/resources/codemirror/lib/codemirror.js"></script>
@@ -40,7 +38,7 @@
     <div class="row">
         <div class="span12">
             <table>
-                <tr th:unless="${document.root}" th:onclick="'showDocument(' + ${document.parentId} + ', true)'" class="document-row link-row">
+                <tr th:unless="${document.root}" th:id="${document.parentId}" class="document-row link-row">
                     <td>
                         <img class="document-thumbnail" src="/resources/back.jpg"/>
                     </td>
@@ -65,14 +63,20 @@
 </div>
 
 <script th:inline="javascript">
-    var editorMode = null;
-    /*[+editorMode = [[${document.mimeType}]];+]*/
+    $(document).ready(function() {
+        $('.link-row').click(function() {
+            location.href="/admin/view/" + this.id + "/";
+        });
 
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        mode: editorMode,
-        tabMode: "indent",
-        lineNumbers:true,
-        matchBrackets:true
+        var editorMode = null;
+        /*[+editorMode = [[${document.mimeType}]];+]*/
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: editorMode,
+            tabMode: "indent",
+            lineNumbers:true,
+            matchBrackets:true
+        });
     });
 </script>
 </body>

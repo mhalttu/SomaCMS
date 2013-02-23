@@ -4,17 +4,13 @@
 <head>
     <title>SimpleCMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-
-    <link href="/resources/common.css" rel="stylesheet"/>
-    <script src="/resources/common.js"></script>
-
     <script src="/resources/jquery/jquery-1.9.1.min.js"></script>
-    <link href="/resources/upload/fineuploader-3.3.0.css" rel="stylesheet"/>
-    <script src="/resources/upload/jquery.fineuploader-3.3.0.min.js"></script>
-
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
     <script src="/resources/bootbox/bootbox.min.js"></script>
+    <script src="/resources/common.js"></script>
+
+    <link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="/resources/common.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -26,7 +22,7 @@
     <div class="row">
         <div class="span12">
             <table>
-                <tr th:unless="${document.root}" th:onclick="'showDocument(' + ${document.parentId} + ', 'true')'" class="document-row link-row">
+                <tr th:unless="${document.root}" th:id="${document.parentId}" class="document-row link-row">
                     <td>
                         <img class="document-thumbnail" src="/resources/back.jpg"/>
                     </td>
@@ -44,5 +40,14 @@
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $('.link-row').click(function() {
+            location.href="/admin/view/" + this.id + "/";
+        });
+    });
+</script>
+
 </body>
 </html>
