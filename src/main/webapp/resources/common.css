@@ -29,6 +29,10 @@ img.document-thumbnail {
     width: 32px;
 }
 
+img.greyed-out, tr.greyed-out > td {
+    opacity: 0.5;
+}
+
 td.document-name {
     padding-left: 10px;
     min-width: 600px;

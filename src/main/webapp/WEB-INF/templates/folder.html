@@ -27,9 +27,9 @@
     <div class="row">
         <div class="span12">
             <table class="document-table">
-                <tr th:unless="${document.root}" th:id="${document.parentId}" class="document-row link-row">
+                <tr th:id="${document.parentId}" th:class="${document.root} ? 'document-row greyed-out' : 'document-row link-row'">
                     <td>
-                        <img class="document-thumbnail" src="/resources/back.jpg"/>
+                        <img th:class="${document.root} ? 'document-thumbnail greyed-out' : 'document-thumbnail'" src="/resources/back.jpg"/>
                     </td>
                     <td class="document-name">
                         Parent Folder
