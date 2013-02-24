@@ -16,16 +16,16 @@ import java.io.IOException;
  * @author Markus Halttunen
  */
 @Controller
-@RequestMapping(value="/admin")
+@RequestMapping(value="/admin/")
 public class AdminController {
     public static final String SUCCESS = "{\"success\":true}";
     @Autowired private DocumentManager documentManager;
     @Autowired private DataDao dataDao;
     @Autowired private ArchiveHelper archiveHelper;
 
-    @RequestMapping(value="/", method=RequestMethod.GET)
+    @RequestMapping(method=RequestMethod.GET)
     public String admin() {
-        return "redirect:/admin/document/0";
+        return "redirect:document/0";
     }
 
     @RequestMapping(value="/document/{id}", method=RequestMethod.GET)
@@ -67,7 +67,7 @@ public class AdminController {
     }
 
     @RequestMapping(value="/document/{documentId}", method=RequestMethod.PUT)
-    public @ResponseBody String saveTextDocument(@PathVariable Long documentId, @RequestParam("contents") String contents) {
+    public @ResponseBody String saveTextDocument(@PathVariable Long documentId, @RequestBody String contents) {
         dataDao.updateData(documentId, contents.getBytes());
         return SUCCESS;
     }

@@ -1,8 +1,8 @@
 function clickDocument() {
     if (this.id == "") {
-        location.href="/admin/document/0";
+        location.href="0";
     } else {
-        location.href="/admin/document/" + this.id;
+        location.href=this.id;
     }
 }
 
@@ -28,9 +28,10 @@ function createFolder() {
 function saveText(text, documentId) {
     $.ajax({
         type: "put",
-        data: "contents=" + text,
+        data: text,
+        url: window.location.pathname,
         success: function(result) {
-            location.href="/admin/document/" + documentId;
+            location.href=documentId;
         },
         error: function() {
             alert("Error");
@@ -46,7 +47,7 @@ function deleteDocument() {
     bootbox.confirm("Are you sure you want to delete <b>" + name + "</b>?", function(result) {
         if (result) {
             $.ajax({
-                url: "/admin/document/" + id,
+                url: id,
                 type: "delete",
                 success: function(result) {
                     location.reload();

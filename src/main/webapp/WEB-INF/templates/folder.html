@@ -4,24 +4,24 @@
 <head>
     <title>SimpleCMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script src="/resources/jquery/jquery-1.9.1.min.js"></script>
-    <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/resources/bootbox/bootbox.min.js"></script>
-    <script src="/resources/common.js"></script>
+    <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}"></script>
+    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/resources/bootbox/bootbox.min.js}"></script>
+    <script th:src="@{/resources/common.js}"></script>
     <!--<script th:inline="javascript">/*<![CDATA[*/ var document = /*[[${document.shallowCopy}]]*/ null; /*]]>*/</script>-->
 
-    <link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-    <link href="/resources/common.css" rel="stylesheet"/>
+    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/resources/common.css}" rel="stylesheet"/>
 
-    <link href="/resources/upload/fineuploader-3.3.0.css" rel="stylesheet"/>
-    <script src="/resources/upload/jquery.fineuploader-3.3.0.min.js"></script>
+    <link th:href="@{/resources/upload/fineuploader-3.3.0.css}" rel="stylesheet"/>
+    <script th:src="@{/resources/upload/jquery.fineuploader-3.3.0.min.js}"></script>
 
 </head>
 <body>
 
 <div class="container">
     <div>
-        <a href="/admin/document/0/"><img src="/resources/logo.png"/></a>
+        <a href="0"><img th:src="@{/resources/logo.png}"/></a>
     </div>
     <hr/>
     <div class="row">
@@ -29,7 +29,7 @@
             <table class="document-table">
                 <tr th:id="${document.parentId}" th:class="${document.root} ? 'document-row greyed-out' : 'document-row link-row'">
                     <td>
-                        <img th:class="${document.root} ? 'document-thumbnail greyed-out' : 'document-thumbnail'" src="/resources/back.jpg"/>
+                        <img th:class="${document.root} ? 'document-thumbnail greyed-out' : 'document-thumbnail'" th:src="@{/resources/back.jpg}"/>
                     </td>
                     <td class="document-name">
                         Parent Folder
@@ -39,7 +39,7 @@
                 <tr th:id="${child.id}" th:class="${child.viewable} ? 'document-row link-row' : 'document-row'"
                     th:each="child : ${document.children}" class="document-row">
                     <td>
-                        <img class="document-thumbnail" th:src="${child.thumbail}" src="/resources/document.png"/>
+                        <img class="document-thumbnail" th:src="@{${child.thumbail}}" src="/resources/document.png"/>
                     </td>
                     <td th:text="${child.name}" class="document-name">
                         example.txt

@@ -68,7 +68,10 @@ public class TreeDocument implements Document {
         }
 
         String mimeType = getMimeType();
-        return mimeType.startsWith("text/") || mimeType.equals("application/xml") || mimeType.equals("application/xhtml+xml");
+        return mimeType.startsWith("text/") ||
+                mimeType.equals("application/xml") ||
+                mimeType.equals("application/xhtml+xml") ||
+                mimeType.equals("application/javascript");
     }
 
     public boolean isViewable() {

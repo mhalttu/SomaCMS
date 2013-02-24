@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -142,8 +139,10 @@ public class DocumentManagerImpl implements DocumentManager {
         if (document.isRoot()) {
             throw new UnauthorizedException();
         }
-        if (document.getChildren().size() > 0) {
-            throw new UnauthorizedException();
+
+        List<TreeDocument> children = new ArrayList<TreeDocument>(document.getChildren());
+        for (TreeDocument child : children) {
+            deleteDocument(child.getId());
         }
 
         documentDao.deleteById(documentId);

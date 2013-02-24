@@ -4,21 +4,21 @@
 <head>
     <title>SimpleCMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script src="/resources/jquery/jquery-1.9.1.min.js"></script>
-    <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/resources/bootbox/bootbox.min.js"></script>
-    <script src="/resources/common.js"></script>
+    <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}"></script>
+    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/resources/bootbox/bootbox.min.js}"></script>
+    <script th:src="@{/resources/common.js}"></script>
 
-    <link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-    <link href="/resources/common.css" rel="stylesheet"/>
+    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/resources/common.css}" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="/resources/codemirror/lib/codemirror.css"/>
-    <script src="/resources/codemirror/lib/codemirror.js"></script>
-    <script src="/resources/codemirror/mode/xml/xml.js"></script>
-    <script src="/resources/codemirror/mode/javascript/javascript.js"></script>
-    <script src="/resources/codemirror/mode/css/css.js"></script>
-    <script src="/resources/codemirror/mode/vbscript/vbscript.js"></script>
-    <script src="/resources/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <link rel="stylesheet" th:href="@{/resources/codemirror/lib/codemirror.css}"/>
+    <script th:src="@{/resources/codemirror/lib/codemirror.js}"></script>
+    <script th:src="@{/resources/codemirror/mode/xml/xml.js}"></script>
+    <script th:src="@{/resources/codemirror/mode/javascript/javascript.js}"></script>
+    <script th:src="@{/resources/codemirror/mode/css/css.js}"></script>
+    <script th:src="@{/resources/codemirror/mode/vbscript/vbscript.js}"></script>
+    <script th:src="@{/resources/codemirror/mode/htmlmixed/htmlmixed.js}"></script>
 
     <style>
         .CodeMirror {
@@ -32,7 +32,7 @@
 
 <div class="container">
     <div>
-        <a href="/admin/document/0/"><img src="/resources/logo.png"/></a>
+        <a href="0"><img th:src="@{/resources/logo.png}"/></a>
     </div>
     <hr/>
     <div class="row">
@@ -40,7 +40,7 @@
             <table>
                 <tr th:unless="${document.root}" th:id="${document.parentId}" class="document-row link-row">
                     <td>
-                        <img class="document-thumbnail" src="/resources/back.jpg"/>
+                        <img class="document-thumbnail" th:src="@{/resources/back.jpg}"/>
                     </td>
                     <td class="document-name">
                         Parent Folder

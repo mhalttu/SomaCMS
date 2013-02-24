@@ -27,7 +27,10 @@ public class CmsController {
 
     @RequestMapping(value="/**", method=RequestMethod.GET)
     public void get(HttpServletResponse response, HttpServletRequest request) throws SQLException, IOException {
-        String path = URLDecoder.decode(request.getRequestURI().substring(1), "UTF8");
+        String contextPath = request.getContextPath();
+        String requestURI = request.getRequestURI();
+        String resourcePath = requestURI.substring(contextPath.length()+1);
+        String path = URLDecoder.decode(resourcePath, "UTF8");
         Document document = documentManager.documentFromPath(path);
         if (document == null) {
             throw new ResourceNotFoundException();
