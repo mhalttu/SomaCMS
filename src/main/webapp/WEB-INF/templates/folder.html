@@ -62,16 +62,14 @@
         <div id="fine-uploader-basic" class="btn btn-success">
             <i class="icon-upload icon-white"></i> Upload File
         </div>
-        <button type="button" class="btn btn-primary" onclick="folders()">New Folder</button>
+        <button type="button" class="btn btn-primary" onclick="createFolder()">New Folder</button>
     </div>
     <div id="messages"></div>
 </div>
 
 <script>
     $(document).ready(function() {
-        $('.link-row').click(function() {
-            location.href="/admin/document/" + this.id;
-        });
+        $('.link-row').click(clickDocument);
 
         var uploader = new qq.FineUploaderBasic({
             button: $('#fine-uploader-basic')[0],

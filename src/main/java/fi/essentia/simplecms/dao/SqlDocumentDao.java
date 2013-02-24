@@ -32,7 +32,7 @@ public class SqlDocumentDao implements DocumentDao {
 
     @Override
     public DatabaseDocument findById(long id) {
-        return jdbcTemplate.queryForObject("SELECT id, NAME, size, parent_id, mime_type, folder, created, modified FROM document WHERE id=?", new BeanPropertyRowMapper<DatabaseDocument>(), id);
+        return jdbcTemplate.queryForObject("SELECT * FROM document WHERE id=?", new BeanPropertyRowMapper<DatabaseDocument>(), id);
     }
 
     @Override
@@ -43,17 +43,24 @@ public class SqlDocumentDao implements DocumentDao {
     }
 
     @Override
+    public void update(Document document) {
+        jdbcTemplate.update("UPDATE document SET name=?, size=?, parent_id=?, mime_type=?, folder=?, created=?, modified=? WHERE id=?",
+                document.getName(), document.getSize(), document.getParentId(), document.getMimeType(), document.isFolder(), document.getCreated(), document.getModified(),
+                document.getId());
+    }
+
+    @Override
     public List<DatabaseDocument> findByParentId(Long parentId) {
         if (parentId == null) {
-            return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document WHERE parent_id IS NULL", BeanPropertyRowMapper.newInstance(DatabaseDocument.class));
+            return jdbcTemplate.query("SELECT * FROM document WHERE parent_id IS NULL", BeanPropertyRowMapper.newInstance(DatabaseDocument.class));
         } else {
-            return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document WHERE parent_id=?", BeanPropertyRowMapper.newInstance(DatabaseDocument.class), parentId);
+            return jdbcTemplate.query("SELECT * FROM document WHERE parent_id=?", BeanPropertyRowMapper.newInstance(DatabaseDocument.class), parentId);
         }
     }
 
     @Override
     public List<DatabaseDocument> findAll() {
-        return jdbcTemplate.query("SELECT id, name, size, parent_id, mime_type, folder, created, modified FROM document", BeanPropertyRowMapper.newInstance(DatabaseDocument.class));
+        return jdbcTemplate.query("SELECT * FROM document", BeanPropertyRowMapper.newInstance(DatabaseDocument.class));
     }
 
     @Override public void deleteById(Long documentId) {

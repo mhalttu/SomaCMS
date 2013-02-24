@@ -3,6 +3,7 @@ package fi.essentia.simplecms.controllers;
 import fi.essentia.simplecms.dao.DataDao;
 import fi.essentia.simplecms.tree.DocumentManager;
 import fi.essentia.simplecms.tree.TreeDocument;
+import fi.essentia.simplecms.util.ArchiveHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ public class AdminController {
     public static final String SUCCESS = "{\"success\":true}";
     @Autowired private DocumentManager documentManager;
     @Autowired private DataDao dataDao;
+    @Autowired private ArchiveHelper archiveHelper;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String admin() {
@@ -29,6 +31,9 @@ public class AdminController {
     @RequestMapping(value="/document/{id}", method=RequestMethod.GET)
     public String showFolder(@PathVariable Long id, Model model) {
         TreeDocument document = documentManager.documentById(id);
+        if (document == null) {
+            throw new ResourceNotFoundException();
+        }
         model.addAttribute("document", document);
         if (document.isFolder()) {
             return "folder";
@@ -51,7 +56,13 @@ public class AdminController {
 
     @RequestMapping(value="/document/{parentId}/files", method=RequestMethod.POST)
     public @ResponseBody String uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
-        documentManager.createDocument(parentId, file);
+        String contentType = file.getContentType();
+        if (contentType.equals("application/zip")) {
+            byte[] bytes = file.getBytes();
+            archiveHelper.storeDocuments(parentId, bytes);
+        } else {
+            documentManager.storeDocument(parentId, file.getOriginalFilename(), file.getBytes());
+        }
         return SUCCESS;
     }
 

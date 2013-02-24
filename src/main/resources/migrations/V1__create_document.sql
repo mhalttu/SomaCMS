@@ -8,6 +8,6 @@ CREATE TABLE `document` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp,
   PRIMARY KEY (`id`),
-  UNIQUE (`name`),
+  UNIQUE (`parent_id`, `name`),
   FOREIGN KEY (`parent_id`) REFERENCES `document` (`id`)
 ) AUTO_INCREMENT=1

@@ -1,4 +1,12 @@
-function folders() {
+function clickDocument() {
+    if (this.id == "") {
+        location.href="/admin/document/0";
+    } else {
+        location.href="/admin/document/" + this.id;
+    }
+}
+
+function createFolder() {
     bootbox.prompt("Folder Name?", function(result) {
         if (result === null) {
         } else {

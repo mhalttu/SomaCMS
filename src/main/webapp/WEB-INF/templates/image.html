@@ -42,11 +42,7 @@
 </div>
 
 <script th:inline="javascript">
-    $(document).ready(function() {
-        $('.link-row').click(function() {
-            location.href="/admin/document/" + this.id;
-        });
-    });
+    $('.link-row').click(clickDocument);
 </script>
 
 </body>

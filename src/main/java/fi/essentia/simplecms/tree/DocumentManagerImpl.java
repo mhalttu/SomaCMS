@@ -4,13 +4,12 @@ import fi.essentia.simplecms.controllers.UnauthorizedException;
 import fi.essentia.simplecms.dao.DataDao;
 import fi.essentia.simplecms.dao.DocumentDao;
 import fi.essentia.simplecms.models.DatabaseDocument;
-import fi.essentia.simplecms.models.Document;
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,7 @@ import java.util.Map;
  */
 @Component
 public class DocumentManagerImpl implements DocumentManager {
+    private Tika tika = new Tika();
     public static final long ROOT_ID = 0;
     private TreeDocument root;
     private Map<Long, TreeDocument> idToDocument = new HashMap<Long, TreeDocument>();
@@ -63,7 +63,7 @@ public class DocumentManagerImpl implements DocumentManager {
         idToDocument.put(ROOT_ID, root);
     }
 
-    @Override public Document documentFromPath(String path) {
+    @Override public TreeDocument documentFromPath(String path) {
         String[] split = path.split("/");
         TreeDocument document = root;
         for (String name : split) {
@@ -111,25 +111,29 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public void createDocument(Long parentId, MultipartFile file) {
+    public void storeDocument(Long parentId, String fileName, byte[] bytes) {
+        String mimeType = tika.detect(bytes, fileName);
+        // TODO This method should should be transactional..
         TreeDocument parent = folder(parentId);
+        TreeDocument document = parent.childByName(fileName);
+        if (document == null) {
+            DatabaseDocument databaseDocument = new DatabaseDocument();
+            databaseDocument.setName(fileName);
+            databaseDocument.setParentId(parent.isRoot() ? null : parent.getId());
+            databaseDocument.setSize(bytes.length);
+            databaseDocument.setMimeType(mimeType);
+            documentDao.save(databaseDocument);
+            addToTree(databaseDocument, parentId);
 
-        DatabaseDocument databaseDocument = new DatabaseDocument();
-        databaseDocument.setName(file.getOriginalFilename());
-        databaseDocument.setParentId(parent.isRoot() ? null : parent.getId());
-        byte[] bytes;
-        try {
-            bytes = file.getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            dataDao.insertData(databaseDocument.getId(), bytes);
+        } else {
+            document.setModified(new Date());
+            document.setSize(bytes.length);
+            document.setMimeType(mimeType);
+            documentDao.update(document);
+
+            dataDao.updateData(document.getId(), bytes);
         }
-        databaseDocument.setSize(bytes.length);
-        databaseDocument.setMimeType(file.getContentType());
-        documentDao.save(databaseDocument);
-        addToTree(databaseDocument, parentId);
-
-        // TODO The whole document creation should be transactional
-        dataDao.insertData(databaseDocument.getId(), bytes);
     }
 
     @Override

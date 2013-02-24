@@ -63,15 +63,14 @@
 </div>
 
 <script th:inline="javascript">
+    var editor;
     $(document).ready(function() {
-        $('.link-row').click(function() {
-            location.href="/admin/document/" + this.id;
-        });
+        $('.link-row').click(clickDocument);
 
         var editorMode = null;
         /*[+editorMode = [[${document.mimeType}]];+]*/
 
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             mode: editorMode,
             tabMode: "indent",
             lineNumbers:true,

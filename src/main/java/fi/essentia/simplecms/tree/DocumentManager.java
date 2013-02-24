@@ -9,9 +9,9 @@ import java.io.IOException;
  *
  */
 public interface DocumentManager {
-    Document documentFromPath(String path);
+    TreeDocument documentFromPath(String path);
     TreeDocument documentById(Long id);
     void createFolder(Long parentId, String name);
-    void createDocument(Long parentId, MultipartFile file);
+    void storeDocument(Long parentId, String fileName, byte[] bytes1);
     void deleteDocument(Long documentId);
 }

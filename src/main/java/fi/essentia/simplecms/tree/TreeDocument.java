@@ -13,7 +13,7 @@ import java.util.*;
  *
  */
 public class TreeDocument implements Document {
-    @Delegate(excludes = ParentId.class) private final DatabaseDocument databaseDocument;
+    @Delegate private final DatabaseDocument databaseDocument;
     @Getter @Setter private TreeDocument parent;
 
     private Map<String, TreeDocument> nameToChild = new HashMap<String, TreeDocument>();
@@ -34,15 +34,6 @@ public class TreeDocument implements Document {
 
     public Collection<TreeDocument> getChildren() {
         return Collections.unmodifiableCollection(children);
-    }
-
-    public Long getParentId() {
-        Long parentId = databaseDocument.getParentId();
-        if (parentId == null) {
-            return 0L;
-        } else {
-            return parentId;
-        }
     }
 
     public String getPath() {
@@ -72,8 +63,12 @@ public class TreeDocument implements Document {
     }
 
     public boolean isText() {
+        if (isFolder()) {
+            return false;
+        }
+
         String mimeType = getMimeType();
-        return mimeType != null && mimeType.startsWith("text/");
+        return mimeType.startsWith("text/") || mimeType.equals("application/xml") || mimeType.equals("application/xhtml+xml");
     }
 
     public boolean isViewable() {
@@ -91,10 +86,6 @@ public class TreeDocument implements Document {
 
     public Document getShallowCopy() {
         return new ImmutableDocument(databaseDocument);
-    }
-
-    private static interface ParentId {
-        Long getParentId();
     }
 
     private static class TreeDocumentComparator implements Comparator<TreeDocument> {
