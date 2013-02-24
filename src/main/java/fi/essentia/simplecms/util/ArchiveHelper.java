@@ -42,13 +42,10 @@ public class ArchiveHelper {
                     documentManager.createFolder(parent.getId(), file.getName());
                 }
             } else {
-                long size = zipEntry.getSize();
-                if (size > 0) {
-                    ByteArrayOutputStream out = new ByteArrayOutputStream((int) size);
-                    IOUtils.copy(in, out);
-                    out.close();
-                    documentManager.storeDocument(parent.getId(), file.getName(), out.toByteArray());
-                }
+                ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+                IOUtils.copy(in, out);
+                out.close();
+                documentManager.storeDocument(parent.getId(), file.getName(), out.toByteArray());
             }
             zipEntry = in.getNextEntry();
         }
