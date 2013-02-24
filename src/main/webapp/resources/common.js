@@ -1,9 +1,9 @@
-function newFolder() {
+function folders() {
     bootbox.prompt("Folder Name?", function(result) {
         if (result === null) {
         } else {
             $.ajax({
-                url: "newFolder/",
+                url: window.location.pathname + "/folders",
                 type: "post",
                 data: "name=" + result,
                 success: function(result) {
@@ -17,13 +17,12 @@ function newFolder() {
     });
 }
 
-function saveText(text, parentId) {
+function saveText(text, documentId) {
     $.ajax({
-        url: "save/",
         type: "put",
         data: "contents=" + text,
         success: function(result) {
-            location.href="/admin/view/" + parentId + "/";
+            location.href="/admin/document/" + documentId;
         },
         error: function() {
             alert("Error");
@@ -36,10 +35,10 @@ function deleteDocument() {
     var row = $(this).closest('tr');
     var id = row.attr('id');
     var name = row.find(".document-name").html();
-    bootbox.confirm("Delete " + name + "?", function(result) {
+    bootbox.confirm("Are you sure you want to delete <b>" + name + "</b>?", function(result) {
         if (result) {
             $.ajax({
-                url: "delete/" + id + "/",
+                url: "/admin/document/" + id,
                 type: "delete",
                 success: function(result) {
                     location.reload();

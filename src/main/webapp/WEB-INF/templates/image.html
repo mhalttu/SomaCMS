@@ -16,7 +16,7 @@
 
 <div class="container">
     <div>
-        <a href="/admin/view/0/"><img src="/resources/logo.png"/></a>
+        <a href="/admin/document/0/"><img src="/resources/logo.png"/></a>
     </div>
     <hr/>
     <div class="row">
@@ -44,7 +44,7 @@
 <script th:inline="javascript">
     $(document).ready(function() {
         $('.link-row').click(function() {
-            location.href="/admin/view/" + this.id + "/";
+            location.href="/admin/document/" + this.id;
         });
     });
 </script>

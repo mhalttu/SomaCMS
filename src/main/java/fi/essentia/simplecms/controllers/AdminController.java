@@ -23,10 +23,10 @@ public class AdminController {
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String admin() {
-        return "redirect:/admin/view/0/";
+        return "redirect:/admin/document/0";
     }
 
-    @RequestMapping(value="/view/{id}/", method=RequestMethod.GET)
+    @RequestMapping(value="/document/{id}", method=RequestMethod.GET)
     public String showFolder(@PathVariable Long id, Model model) {
         TreeDocument document = documentManager.documentById(id);
         model.addAttribute("document", document);
@@ -43,26 +43,26 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value="/view/{parentId}/newFolder", method=RequestMethod.POST)
-    public @ResponseBody String newFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
+    @RequestMapping(value="/document/{parentId}/folders", method=RequestMethod.POST)
+    public @ResponseBody String folders(@PathVariable Long parentId, @RequestParam("name") String name) {
         documentManager.createFolder(parentId, name);
         return SUCCESS;
     }
 
-    @RequestMapping(value="/view/{parentId}/upload", method=RequestMethod.POST)
+    @RequestMapping(value="/document/{parentId}/files", method=RequestMethod.POST)
     public @ResponseBody String uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
         documentManager.createDocument(parentId, file);
         return SUCCESS;
     }
 
-    @RequestMapping(value="/view/{documentId}/save", method=RequestMethod.PUT)
+    @RequestMapping(value="/document/{documentId}", method=RequestMethod.PUT)
     public @ResponseBody String saveTextDocument(@PathVariable Long documentId, @RequestParam("contents") String contents) {
         dataDao.updateData(documentId, contents.getBytes());
         return SUCCESS;
     }
 
-    @RequestMapping(value="/view/{parentId}/delete/{documentId}", method=RequestMethod.DELETE)
-    public @ResponseBody String delete(@PathVariable Long parentId, @PathVariable Long documentId) {
+    @RequestMapping(value="/document/{documentId}", method=RequestMethod.DELETE)
+    public @ResponseBody String delete(@PathVariable Long documentId) {
         documentManager.deleteDocument(documentId);
         return SUCCESS;
     }
