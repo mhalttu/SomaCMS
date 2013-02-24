@@ -15,7 +15,9 @@ import java.util.*;
 public class TreeDocument implements Document {
     @Delegate(excludes = ParentId.class) private final DatabaseDocument databaseDocument;
     @Getter @Setter private TreeDocument parent;
-    private Map<String, TreeDocument> nameToChild = new TreeMap<String, TreeDocument>();
+
+    private Map<String, TreeDocument> nameToChild = new HashMap<String, TreeDocument>();
+    private SortedSet<TreeDocument> children = new TreeSet<TreeDocument>(new TreeDocumentComparator());
 
     public TreeDocument(DatabaseDocument databaseDocument) {
         this.databaseDocument = databaseDocument;
@@ -23,6 +25,7 @@ public class TreeDocument implements Document {
 
     public void addChild(TreeDocument document) {
         nameToChild.put(document.getName(), document);
+        children.add(document);
     }
 
     public TreeDocument childByName(String name) {
@@ -30,7 +33,7 @@ public class TreeDocument implements Document {
     }
 
     public Collection<TreeDocument> getChildren() {
-        return Collections.unmodifiableCollection(nameToChild.values());
+        return Collections.unmodifiableCollection(children);
     }
 
     public Long getParentId() {
@@ -82,14 +85,34 @@ public class TreeDocument implements Document {
     }
 
     public void removeChild(Document document) {
-        nameToChild.remove(document.getName());
-    }
-
-    private interface ParentId {
-        Long getParentId();
+        TreeDocument removedDocument = nameToChild.remove(document.getName());
+        children.remove(removedDocument);
     }
 
     public Document getShallowCopy() {
         return new ImmutableDocument(databaseDocument);
+    }
+
+    private static interface ParentId {
+        Long getParentId();
+    }
+
+    private static class TreeDocumentComparator implements Comparator<TreeDocument> {
+        @Override
+        public int compare(TreeDocument first, TreeDocument second) {
+            if (first.isFolder()) {
+                if (!second.isFolder()) {
+                    return -1;
+                } else {
+                    return first.getName().compareTo(second.getName());
+                }
+            } else {
+                if (second.isFolder()) {
+                    return 1;
+                } else {
+                    return first.getName().compareTo(second.getName());
+                }
+            }
+        }
     }
 }
