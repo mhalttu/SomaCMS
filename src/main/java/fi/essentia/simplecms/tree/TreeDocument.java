@@ -81,6 +81,10 @@ public class TreeDocument implements Document {
         return parent == null;
     }
 
+    public void removeChild(Document document) {
+        nameToChild.remove(document.getName());
+    }
+
     private interface ParentId {
         Long getParentId();
     }

@@ -143,6 +143,8 @@ public class DocumentManagerImpl implements DocumentManager {
         }
 
         documentDao.deleteById(documentId);
+        document.getParent().removeChild(document);
+        idToDocument.remove(documentId);
     }
 
     private void addToTree(DatabaseDocument databaseDocument, Long parentId) {

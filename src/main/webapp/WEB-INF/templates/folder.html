@@ -88,8 +88,11 @@
                 onProgress: function(id, fileName, loaded, total) {
                 },
                 onComplete: function(id, fileName, responseJSON) {
-                    alert(responseJSON);
-                    location.reload();
+                    if (responseJSON.success) {
+                        location.reload();
+                    } else {
+                        alert("Upload Failed");
+                    }
                 }
             }
         });

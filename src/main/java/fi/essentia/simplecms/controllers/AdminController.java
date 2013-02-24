@@ -61,7 +61,7 @@ public class AdminController {
         return SUCCESS;
     }
 
-    @RequestMapping(value="/view/{parentId}/delete/${documentId}", method=RequestMethod.DELETE)
+    @RequestMapping(value="/view/{parentId}/delete/{documentId}", method=RequestMethod.DELETE)
     public @ResponseBody String delete(@PathVariable Long parentId, @PathVariable Long documentId) {
         documentManager.deleteDocument(documentId);
         return SUCCESS;
