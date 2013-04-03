@@ -31,14 +31,22 @@
         <div class="span12">
             <hr/>
             <table class="document-table">
-                <tr th:id="${document.parentId}" th:class="${document.root} ? 'document-row greyed-out' : 'document-row link-row'">
-                    <td>
-                        <img th:class="${document.root} ? 'document-thumbnail greyed-out' : 'document-thumbnail'" th:src="@{/resources/back.jpg}"/>
+                <tr>
+                    <td class="breadcrumps" colspan="3">
+                        <span th:each="breadcrumb, iter : ${document.breadcrumbs}">
+                            <span th:unless="${iter.first}">/</span>
+
+                            <span th:if="${iter.first}">
+                                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img src="/resources/home.png"/></a>
+                            </span>
+                            <span th:unless="${iter.first}">
+                                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
+                                <span th:unless="${iter.last}">
+                                    <a th:href="${breadcrumb.id}" th:text="${breadcrumb.name}">Parent</a>
+                                </span>
+                            </span>
+                        </span>
                     </td>
-                    <td class="document-name">
-                        Parent Folder
-                    </td>
-                    <td></td>
                 </tr>
                 <tr th:id="${child.id}" th:class="${child.viewable} ? 'document-row link-row' : 'document-row'"
                     th:each="child : ${document.children}" class="document-row">

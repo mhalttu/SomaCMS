@@ -58,7 +58,7 @@ public class DocumentManagerImpl implements DocumentManager {
         DatabaseDocument databaseDocument = new DatabaseDocument();
         databaseDocument.setFolder(true);
         databaseDocument.setId(ROOT_ID);
-        databaseDocument.setName("");
+        databaseDocument.setName("root");
         root = new TreeDocument(databaseDocument);
         idToDocument.put(ROOT_ID, root);
     }

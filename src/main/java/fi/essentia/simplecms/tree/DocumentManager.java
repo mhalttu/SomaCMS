@@ -16,6 +16,5 @@ public interface DocumentManager {
     void createFolder(Long parentId, String name);
     void storeDocument(Long parentId, String fileName, byte[] bytes1);
     void deleteDocument(Long documentId);
-
     Collection<TreeDocument> documentsByPath(String path);
 }

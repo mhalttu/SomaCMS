@@ -15,6 +15,11 @@ tr.document-row {
     font-size: x-large;
 }
 
+.breadcrumps {
+    font-size: x-large;
+    padding-bottom: 20px;
+}
+
 tr.link-row {
     color: #0081c2;
     cursor: pointer;

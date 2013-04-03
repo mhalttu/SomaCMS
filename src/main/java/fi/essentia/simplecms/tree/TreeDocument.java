@@ -1,5 +1,6 @@
 package fi.essentia.simplecms.tree;
 
+import com.google.common.collect.Collections2;
 import fi.essentia.simplecms.models.DatabaseDocument;
 import fi.essentia.simplecms.models.Document;
 import lombok.Delegate;
@@ -37,13 +38,26 @@ public class TreeDocument implements Document {
     }
 
     public String getPath() {
-        LinkedList<String> pathElements = new LinkedList<String>();
+        List<Document> pathElements = getBreadcrumbs();
+        StringBuilder path = new StringBuilder("/");
+        for (int i=1; i<pathElements.size() - 1; i++) {
+            path.append(pathElements.get(i).getName());
+            path.append("/");
+        }
+        path.append(getName());
+        return path.toString();
+    }
+
+    public List<Document> getBreadcrumbs() {
+        LinkedList<Document> pathElements = new LinkedList<Document>();
+
         TreeDocument document = this;
         while (!document.isRoot()) {
-            pathElements.addFirst(document.getName());
+            pathElements.addFirst(document);
             document = document.getParent();
         }
-        return "/" + StringUtils.join(pathElements, "/");
+        pathElements.addFirst(document);
+        return pathElements;
     }
 
     public String getThumbail() {
