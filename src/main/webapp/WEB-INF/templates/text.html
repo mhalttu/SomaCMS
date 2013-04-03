@@ -38,12 +38,21 @@
     <div class="row">
         <div class="span12">
             <table>
-                <tr th:unless="${document.root}" th:id="${document.parentId}" class="document-row link-row">
-                    <td>
-                        <img class="document-thumbnail" th:src="@{/resources/back.jpg}"/>
-                    </td>
-                    <td class="document-name">
-                        Parent Folder
+                <tr>
+                    <td class="breadcrumps" colspan="3">
+                        <span th:each="breadcrumb, iter : ${document.breadcrumbs}">
+                            <span th:unless="${iter.first}">/</span>
+
+                            <span th:if="${iter.first}">
+                                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img src="/resources/home.png"/></a>
+                            </span>
+                            <span th:unless="${iter.first}">
+                                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
+                                <span th:unless="${iter.last}">
+                                    <a th:href="${breadcrumb.id}" th:text="${breadcrumb.name}">Parent</a>
+                                </span>
+                            </span>
+                        </span>
                     </td>
                 </tr>
             </table>

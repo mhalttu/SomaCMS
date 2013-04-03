@@ -31,7 +31,7 @@
         <div class="span12">
             <hr/>
             <table class="document-table">
-                <tr>
+                <tr th:unless="${document.root}">
                     <td class="breadcrumps" colspan="3">
                         <span th:each="breadcrumb, iter : ${document.breadcrumbs}">
                             <span th:unless="${iter.first}">/</span>

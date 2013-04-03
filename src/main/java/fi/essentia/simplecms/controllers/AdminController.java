@@ -54,7 +54,7 @@ public class AdminController {
     }
 
     @RequestMapping(value="/document/{parentId}/folders", method=RequestMethod.POST)
-    public @ResponseBody String folders(@PathVariable Long parentId, @RequestParam("query") String name) {
+    public @ResponseBody String folders(@PathVariable Long parentId, @RequestParam("name") String name) {
         documentManager.createFolder(parentId, name);
         return SUCCESS;
     }
