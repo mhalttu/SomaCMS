@@ -1,6 +1,9 @@
 package fi.essentia.simplecms.controllers;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import fi.essentia.simplecms.dao.DataDao;
+import fi.essentia.simplecms.json.SearchResult;
 import fi.essentia.simplecms.tree.DocumentManager;
 import fi.essentia.simplecms.tree.TreeDocument;
 import fi.essentia.simplecms.util.ArchiveHelper;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * @author Markus Halttunen
@@ -19,6 +23,7 @@ import java.io.IOException;
 @RequestMapping(value="/admin/")
 public class AdminController {
     public static final String SUCCESS = "{\"success\":true}";
+
     @Autowired private DocumentManager documentManager;
     @Autowired private DataDao dataDao;
     @Autowired private ArchiveHelper archiveHelper;
@@ -49,7 +54,7 @@ public class AdminController {
     }
 
     @RequestMapping(value="/document/{parentId}/folders", method=RequestMethod.POST)
-    public @ResponseBody String folders(@PathVariable Long parentId, @RequestParam("name") String name) {
+    public @ResponseBody String folders(@PathVariable Long parentId, @RequestParam("query") String name) {
         documentManager.createFolder(parentId, name);
         return SUCCESS;
     }
@@ -76,5 +81,16 @@ public class AdminController {
     public @ResponseBody String delete(@PathVariable Long documentId) {
         documentManager.deleteDocument(documentId);
         return SUCCESS;
+    }
+
+    @RequestMapping(value= "/search/", method = RequestMethod.GET)
+    public @ResponseBody Collection<SearchResult> listDocuments(@RequestParam(value = "query") String query) {
+        Collection<TreeDocument> treeDocuments = documentManager.documentsByPath(query);
+        return Collections2.transform(treeDocuments, new Function<TreeDocument, SearchResult>() {
+            @Override
+            public SearchResult apply(TreeDocument treeDocument) {
+                return new SearchResult(treeDocument.getId(), treeDocument.getPath());
+            }
+        });
     }
 }

@@ -1,9 +1,12 @@
 package fi.essentia.simplecms.tree;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import fi.essentia.simplecms.controllers.UnauthorizedException;
 import fi.essentia.simplecms.dao.DataDao;
 import fi.essentia.simplecms.dao.DocumentDao;
 import fi.essentia.simplecms.models.DatabaseDocument;
+import org.apache.commons.lang.StringUtils;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -148,6 +151,16 @@ public class DocumentManagerImpl implements DocumentManager {
         documentDao.deleteById(documentId);
         document.getParent().removeChild(document);
         idToDocument.remove(documentId);
+    }
+
+    @Override
+    public Collection<TreeDocument> documentsByPath(final String path) {
+        return Collections2.filter(idToDocument.values(), new Predicate<TreeDocument>() {
+            @Override
+            public boolean apply(TreeDocument treeDocument) {
+                return StringUtils.containsIgnoreCase(treeDocument.getPath(), path);
+            }
+        });
     }
 
     private void addToTree(DatabaseDocument databaseDocument, Long parentId) {

@@ -7,25 +7,29 @@
     <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}"></script>
     <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
     <script th:src="@{/resources/bootbox/bootbox.min.js}"></script>
-    <script th:src="@{/resources/common.js}"></script>
+    <script th:src="@{/resources/application.js}"></script>
     <!--<script th:inline="javascript">/*<![CDATA[*/ var document = /*[[${document.shallowCopy}]]*/ null; /*]]>*/</script>-->
 
     <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/resources/common.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/application.css}" rel="stylesheet"/>
 
-    <link th:href="@{/resources/upload/fineuploader-3.3.0.css}" rel="stylesheet"/>
-    <script th:src="@{/resources/upload/jquery.fineuploader-3.3.0.min.js}"></script>
-
+    <link th:href="@{/resources/upload/fineuploader-3.4.1.css}" rel="stylesheet"/>
+    <script th:src="@{/resources/upload/jquery.fineuploader-3.4.1.min.js}"></script>
 </head>
 <body>
 
 <div class="container">
     <div>
-        <a href="0"><img th:src="@{/resources/logo.png}"/></a>
+        <div class="logo">
+            <a href="0"><img th:src="@{/resources/logo.png}"/></a>
+        </div>
+        <div class="search">
+            <input id="search" type="text" data-provide="typeahead" placeholder="Search"/>
+        </div>
     </div>
-    <hr/>
     <div class="row">
         <div class="span12">
+            <hr/>
             <table class="document-table">
                 <tr th:id="${document.parentId}" th:class="${document.root} ? 'document-row greyed-out' : 'document-row link-row'">
                     <td>
@@ -59,42 +63,27 @@
     </div>
     <hr/>
     <div class="row">
-        <div id="fine-uploader-basic" class="btn btn-success">
-            <i class="icon-upload icon-white"></i> Upload File
-        </div>
+        <div class="span4">
         <button type="button" class="btn btn-primary" onclick="createFolder()">New Folder</button>
+            <div id="fine-uploader-basic" class="btn btn-success">
+                <i class="icon-upload icon-white"></i> Upload File
+            </div>
+        </div>
+        <div class="span3">
+            <div id="progress-bar" class="progress progress-striped active" style="margin-top: 5px">
+                <div class="bar" style="width: 0%;"></div>
+            </div>
+        </div>
     </div>
     <div id="messages"></div>
 </div>
 
 <script>
     $(document).ready(function() {
-        $('.link-row').click(clickDocument);
+        initializeUploader();
+        initializeSearch();
 
-        var uploader = new qq.FineUploaderBasic({
-            button: $('#fine-uploader-basic')[0],
-            request: {
-                endpoint: window.location.pathname + '/files'
-            },
-            validation: {
-            },
-            callbacks: {
-                onSubmit: function(id, fileName) {
-                },
-                onUpload: function(id, fileName) {
-                },
-                onProgress: function(id, fileName, loaded, total) {
-                },
-                onComplete: function(id, fileName, responseJSON) {
-                    if (responseJSON.success) {
-                        location.reload();
-                    } else {
-                        alert("Upload Failed");
-                    }
-                }
-            }
-        });
-
+        $('.link-row').click(documentClicked);
         $('.delete-button').hover(function() {
             $(this).toggleClass("btn-danger");
         }).click(deleteDocument);

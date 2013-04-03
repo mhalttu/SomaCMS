@@ -7,10 +7,10 @@
     <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}"></script>
     <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
     <script th:src="@{/resources/bootbox/bootbox.min.js}"></script>
-    <script th:src="@{/resources/common.js}"></script>
+    <script th:src="@{/resources/application.js}"></script>
 
     <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/resources/common.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/application.css}" rel="stylesheet"/>
 </head>
 <body>
 
@@ -42,7 +42,7 @@
 </div>
 
 <script th:inline="javascript">
-    $('.link-row').click(clickDocument);
+    $('.link-row').click(documentClicked);
 </script>
 
 </body>

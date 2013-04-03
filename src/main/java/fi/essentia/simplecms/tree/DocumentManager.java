@@ -4,6 +4,8 @@ import fi.essentia.simplecms.models.Document;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -14,4 +16,6 @@ public interface DocumentManager {
     void createFolder(Long parentId, String name);
     void storeDocument(Long parentId, String fileName, byte[] bytes1);
     void deleteDocument(Long documentId);
+
+    Collection<TreeDocument> documentsByPath(String path);
 }

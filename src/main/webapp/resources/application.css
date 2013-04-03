@@ -56,3 +56,12 @@ p.empty-folder {
     font-style: italic;
     padding-top: 20px;
 }
+
+.logo {
+    float:left;
+}
+
+.search {
+    margin-top: 20px;
+    float: right;
+}
