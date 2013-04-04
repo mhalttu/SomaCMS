@@ -8,6 +8,11 @@
     <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}" src="../../resources/bootstrap/js/bootstrap.min.js"></script>
     <script th:src="@{/resources/bootbox/bootbox.min.js}" src="../../resources/bootbox/bootbox.min.js"></script>
     <script th:src="@{/resources/application.js}" src="../../resources/application.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var textDocument = /*[[${document.shallowCopy}]]*/ "";
+        /*]]>*/
+    </script>
 
     <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap/css/bootstrap.min.css"/>
     <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../resources/application.css"/>
@@ -67,7 +72,6 @@
             </table>
         </div>
     </div>
-    <br/>
     <div class="row">
         <div class="span12">
             <form><textarea id="code" name="code" th:text="${documentText}"></textarea></form>
@@ -75,7 +79,8 @@
     </div>
     <div class="row">
         <div class="span12">
-            <button type="button" class="btn btn-primary" th:onclick="'saveText(editor.getValue(), ' + ${document.parent.id} + ')'">Save</button>
+            <button type="button" id="save" class="btn btn-primary" th:onclick="'saveText(editor.getValue(), textDocument.id)'">Save</button>
+            <button type="button" id="delete" class="btn btn-danger" th:onclick="'deleteDocument(textDocument.id, textDocument.name, navigateToParent)'">Delete</button>
         </div>
     </div>
 </div>
@@ -83,20 +88,38 @@
 <div class='notifications top-right'></div>
 
 <script th:inline="javascript">
-    var editor;
+    navigateToParent = function() {
+        var parentId = textDocument.parentId;
+        if (parentId == null) {
+            parentId = 0;
+        }
+        location.href=parentId;
+    };
+
     $(document).ready(function() {
         $('.link-row').click(documentClicked);
 
         var editorMode = null;
         /*[+editorMode = [[${document.mimeType}]];+]*/
 
-        editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        window.editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             mode: editorMode,
             tabMode: "indent",
             lineNumbers:true,
             matchBrackets:true,
             viewportMargin:Infinity
         });
+
+        $('#save').attr('disabled', 'disabled');
+        editor.on("change", function() {
+            $('#save').removeAttr('disabled');
+        });
+
+        window.onbeforeunload = function (e) {
+            if (!editor.isClean()) {
+                return 'Your document contains unsaved changes.'
+            }
+        };
     });
 </script>
 </body>

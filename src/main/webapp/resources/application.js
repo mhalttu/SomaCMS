@@ -33,10 +33,13 @@ function saveText(text, documentId) {
         success: function(result) {
             $('.top-right').notify({
                 type: "success",
-                message: { text: 'Saved!' },
+                message: { text: 'Document Saved!' },
                 closable: false,
                 fadeOut: { enabled: true, delay: 1000 }
             }).show();
+
+            window.editor.markClean();
+            $('#save').attr('disabled', 'disabled');
         },
         error: function() {
             bootbox.alert("Could not save the changes. Sorry!");
@@ -44,24 +47,28 @@ function saveText(text, documentId) {
     });
 }
 
-function deleteDocument() {
-    event.stopImmediatePropagation();
-    var row = $(this).closest('tr');
-    var id = row.attr('id');
-    var name = row.find(".document-name").html();
-    bootbox.confirm("Are you sure you want to delete <b>" + name + "</b>?", function(result) {
+function deleteDocument(id, name, success) {
+    bootbox.confirm("Are you sure you want to delete <b>" + name + "</b>?", function (result) {
         if (result) {
             $.ajax({
                 url: id,
                 type: "delete",
-                success: function(result) {
-                    location.reload();
-                },
-                error: function() {
+                success: success,
+                error: function () {
                     bootbox.alert("Could not delete " + name + ". Sorry!");
                 }
             });
         }
+    });
+}
+
+function deleteDocumentOnRow() {
+    event.stopImmediatePropagation();
+    var row = $(this).closest('tr');
+    var id = row.attr('id');
+    var name = row.find(".document-name").html();
+    deleteDocument(id, name, function (result) {
+        location.reload();
     });
 }
 
