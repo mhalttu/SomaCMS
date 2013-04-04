@@ -40,7 +40,7 @@ public class TreeDocument implements Document {
     public String getPath() {
         List<Document> pathElements = getBreadcrumbs();
         StringBuilder path = new StringBuilder("/");
-        for (int i=1; i<pathElements.size() - 1; i++) {
+        for (int i=1; i<pathElements.size(); i++) {
             path.append(pathElements.get(i).getName());
             path.append("/");
         }
