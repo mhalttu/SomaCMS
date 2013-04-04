@@ -159,7 +159,7 @@ public class DocumentManagerImpl implements DocumentManager {
         return Collections2.filter(idToDocument.values(), new Predicate<TreeDocument>() {
             @Override
             public boolean apply(TreeDocument treeDocument) {
-                return StringUtils.containsIgnoreCase(treeDocument.getPath(), path);
+                return StringUtils.containsIgnoreCase(treeDocument.getPath(), path) && treeDocument.isViewable() && !treeDocument.isRoot();
             }
         });
     }
