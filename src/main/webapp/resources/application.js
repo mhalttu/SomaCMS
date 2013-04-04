@@ -18,7 +18,7 @@ function createFolder() {
                     location.reload()
                 },
                 error: function() {
-                    alert("Error");
+                    bootbox.alert("Could not create folder " + name);
                 }
             });
         }
@@ -31,10 +31,15 @@ function saveText(text, documentId) {
         data: text,
         url: window.location.pathname,
         success: function(result) {
-            location.href=documentId;
+            $('.top-right').notify({
+                type: "success",
+                message: { text: 'Saved!' },
+                closable: false,
+                fadeOut: { enabled: true, delay: 1000 }
+            }).show();
         },
         error: function() {
-            alert("Error");
+            bootbox.alert("Could not save the changes. Sorry!");
         }
     });
 }
@@ -53,7 +58,7 @@ function deleteDocument() {
                     location.reload();
                 },
                 error: function() {
-                    alert("Error");
+                    bootbox.alert("Could not delete " + name + ". Sorry!");
                 }
             });
         }
@@ -83,9 +88,9 @@ function initializeUploader() {
                 progressBar.hide();
 
                 if (responseJSON.success) {
-                    location.reload(); // TODO Better message, don't reload?
+                    location.reload();
                 } else {
-                    bootbox.alert("Failed to upload " + fileName + " failed: " + responseJSON.rea);
+                    bootbox.alert("Failed to upload " + fileName + ". Please ask the administrator for details.");
                 }
             }
         }

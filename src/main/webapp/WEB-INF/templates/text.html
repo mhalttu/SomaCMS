@@ -20,6 +20,9 @@
     <script th:src="@{/resources/codemirror/mode/vbscript/vbscript.js}" src="../../resources/codemirror/mode/vbscript/vbscript.js"></script>
     <script th:src="@{/resources/codemirror/mode/htmlmixed/htmlmixed.js}" src="../../resources/codemirror/mode/htmlmixed/htmlmixed.js"></script>
 
+    <script th:src="@{/resources/bootstrap-notify/bootstrap-notify.js}" src="../../resources/bootstrap-notify/bootstrap-notify.js"></script>
+    <link th:href="@{/resources/bootstrap-notify/bootstrap-notify.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap-notify/bootstrap-notify.css"/>
+
     <style>
         .CodeMirror {
             border-top: 1px solid black;
@@ -76,6 +79,8 @@
         </div>
     </div>
 </div>
+
+<div class='notifications top-right'></div>
 
 <script th:inline="javascript">
     var editor;

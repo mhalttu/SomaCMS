@@ -31,11 +31,16 @@ GRANT ALL ON simplecms.* TO 'simplecms'@'localhost' IDENTIFIED BY 'simplecms';
 
 TODO
 ----
-* Spring Security
 * Javadoc
 * Saving document without leaving the page
 * Uploading a new version of the same file
 * Add screenshots here
+* Create new text document
+* Unmodified changes, leave
+* Delete on same page
+* Enable save button when changes
+* Test: Find on page
+* Test: Edit performance
 
 Things I'm Not Too Proud Of
 ---------------------------
@@ -49,3 +54,5 @@ Improvement Ideas
 * Implement a better user management
 * Add version tracking for documents
 * Usability: Show newly uploaded documents (or added folders) with an animation
+* Export the whole database as an archive
+
