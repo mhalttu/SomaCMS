@@ -8,11 +8,6 @@
     <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}" src="../../resources/bootstrap/js/bootstrap.min.js"></script>
     <script th:src="@{/resources/bootbox/bootbox.min.js}" src="../../resources/bootbox/bootbox.min.js"></script>
     <script th:src="@{/resources/application.js}" src="../../resources/application.js"></script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var textDocument = /*[[${document.shallowCopy}]]*/ "";
-        /*]]>*/
-    </script>
 
     <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap/css/bootstrap.min.css"/>
     <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../resources/application.css"/>
@@ -88,11 +83,13 @@
 <div class='notifications top-right'></div>
 
 <script th:inline="javascript">
+    /*<![CDATA[*/
+    var textDocument = /*[[${document.shallowCopy}]]*/ null;
+    var editorMode = /*[[${document.mimeType}]]*/ null;
+    /*]]>*/
+
     $(document).ready(function() {
         $('.link-row').click(documentClicked);
-
-        var editorMode = null;
-        /*[+editorMode = [[${document.mimeType}]];+]*/
         initializeEditor(editorMode);
     });
 </script>

@@ -137,7 +137,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public void deleteDocument(Long documentId) {
+    public TreeDocument deleteDocument(Long documentId) {
         TreeDocument document = documentById(documentId);
         if (document.isRoot()) {
             throw new UnauthorizedException();
@@ -151,6 +151,7 @@ public class DocumentManagerImpl implements DocumentManager {
         documentDao.deleteById(documentId);
         document.getParent().removeChild(document);
         idToDocument.remove(documentId);
+        return document;
     }
 
     @Override

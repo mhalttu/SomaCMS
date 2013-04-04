@@ -8,13 +8,15 @@
     <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}" src="../../resources/bootstrap/js/bootstrap.min.js"></script>
     <script th:src="@{/resources/bootbox/bootbox.min.js}" src="../../resources/bootbox/bootbox.min.js"></script>
     <script th:src="@{/resources/application.js}" src="../../resources/application.js"></script>
-    <!--<script th:inline="javascript">/*<![CDATA[*/ var document = /*[[${document.shallowCopy}]]*/ null; /*]]>*/</script>-->
 
     <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap/css/bootstrap.min.css"/>
     <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../resources/application.css"/>
 
     <link th:href="@{/resources/upload/fineuploader-3.4.1.css}" rel="stylesheet" href="../../resources/upload/fineuploader-3.4.1.css"/>
     <script th:src="@{/resources/upload/jquery.fineuploader-3.4.1.min.js}" src="../../resources/upload/jquery.fineuploader-3.4.1.min.js"></script>
+
+    <script th:src="@{/resources/bootstrap-notify/bootstrap-notify.js}" src="../../resources/bootstrap-notify/bootstrap-notify.js"></script>
+    <link th:href="@{/resources/bootstrap-notify/bootstrap-notify.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap-notify/bootstrap-notify.css"/>
 </head>
 <body>
 
@@ -87,7 +89,13 @@
     <div id="messages"></div>
 </div>
 
-<script>
+<div class='notifications top-right'></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message = /*[[${message}]]*/ null;
+    /*]]>*/
+
     $(document).ready(function() {
         initializeUploader();
         initializeSearch();
@@ -96,6 +104,10 @@
         $('.delete-button').hover(function() {
             $(this).toggleClass("btn-danger");
         }).click(deleteDocumentOnRow);
+
+        if (message != null) {
+            notify(message);
+        }
     });
 </script>
 </body>

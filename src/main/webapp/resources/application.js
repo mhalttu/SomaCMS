@@ -31,13 +31,7 @@ function saveText(text, documentId) {
         data: text,
         url: window.location.pathname,
         success: function(result) {
-            $('.top-right').notify({
-                type: "success",
-                message: { text: 'Document Saved!' },
-                closable: false,
-                fadeOut: { enabled: true, delay: 1000 }
-            }).show();
-
+            notify("Document Saved!");
             window.editor.markClean();
             $('#save').attr('disabled', 'disabled');
         },
@@ -161,4 +155,13 @@ function navigateToParent() {
         parentId = 0;
     }
     location.href=parentId;
+}
+
+function notify(message) {
+    $('.top-right').notify({
+        type: "success",
+        message: { html: message },
+        closable: false,
+        fadeOut: { enabled: true, delay: 2000 }
+    }).show();
 }

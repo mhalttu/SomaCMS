@@ -8,10 +8,12 @@ import fi.essentia.simplecms.tree.DocumentManager;
 import fi.essentia.simplecms.tree.TreeDocument;
 import fi.essentia.simplecms.util.ArchiveHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,6 +25,7 @@ import java.util.Collection;
 @Controller
 @RequestMapping(value="/admin/")
 @Secured(value = "ROLE_ADMIN")
+@Scope("session")
 public class AdminController {
     public static final String SUCCESS = "{\"success\":true}";
 
@@ -30,18 +33,24 @@ public class AdminController {
     @Autowired private DataDao dataDao;
     @Autowired private ArchiveHelper archiveHelper;
 
+    String message;
+
     @RequestMapping(method=RequestMethod.GET)
     public String admin() {
         return "redirect:document/0";
     }
 
     @RequestMapping(value="/document/{id}", method=RequestMethod.GET)
-    public String showFolder(@PathVariable Long id, Model model) {
+    public String showFolder(@PathVariable Long id, Model model, WebRequest webRequest) {
         TreeDocument document = documentManager.documentById(id);
         if (document == null) {
             throw new ResourceNotFoundException();
         }
         model.addAttribute("document", document);
+        if (message != null) {
+            model.addAttribute("message", message);
+            message = null;
+        }
         if (document.isFolder()) {
             return "folder";
         } else if (document.isImage()) {
@@ -58,6 +67,7 @@ public class AdminController {
     @RequestMapping(value="/document/{parentId}/folders", method=RequestMethod.POST)
     public @ResponseBody String folders(@PathVariable Long parentId, @RequestParam("name") String name) {
         documentManager.createFolder(parentId, name);
+        message = "Folder <b>" + name + "</b> created";
         return SUCCESS;
     }
 
@@ -81,7 +91,8 @@ public class AdminController {
 
     @RequestMapping(value="/document/{documentId}", method=RequestMethod.DELETE)
     public @ResponseBody String delete(@PathVariable Long documentId) {
-        documentManager.deleteDocument(documentId);
+        TreeDocument treeDocument = documentManager.deleteDocument(documentId);
+        message = (treeDocument.isFolder() ? "Folder " : "Document") + " <b>" + treeDocument.getName() + "</b> deleted.";
         return SUCCESS;
     }
 
