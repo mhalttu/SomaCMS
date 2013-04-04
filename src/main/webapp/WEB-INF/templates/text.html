@@ -4,21 +4,21 @@
 <head>
     <title>SimpleCMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}"></script>
-    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
-    <script th:src="@{/resources/bootbox/bootbox.min.js}"></script>
-    <script th:src="@{/resources/application.js}"></script>
+    <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}" src="../../resources/jquery/jquery-1.9.1.min.js"></script>
+    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}" src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+    <script th:src="@{/resources/bootbox/bootbox.min.js}" src="../../resources/bootbox/bootbox.min.js"></script>
+    <script th:src="@{/resources/application.js}" src="../../resources/application.js"></script>
 
-    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/resources/application.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap/css/bootstrap.min.css"/>
+    <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../resources/application.css"/>
 
-    <link rel="stylesheet" th:href="@{/resources/codemirror/lib/codemirror.css}"/>
-    <script th:src="@{/resources/codemirror/lib/codemirror.js}"></script>
-    <script th:src="@{/resources/codemirror/mode/xml/xml.js}"></script>
-    <script th:src="@{/resources/codemirror/mode/javascript/javascript.js}"></script>
-    <script th:src="@{/resources/codemirror/mode/css/css.js}"></script>
-    <script th:src="@{/resources/codemirror/mode/vbscript/vbscript.js}"></script>
-    <script th:src="@{/resources/codemirror/mode/htmlmixed/htmlmixed.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/codemirror/lib/codemirror.css}" href="../../resources/codemirror/lib/codemirror.css"/>
+    <script th:src="@{/resources/codemirror/lib/codemirror.js}" src="../../resources/codemirror/lib/codemirror.js"></script>
+    <script th:src="@{/resources/codemirror/mode/xml/xml.js}" src="../../resources/codemirror/mode/xml/xml.js"></script>
+    <script th:src="@{/resources/codemirror/mode/javascript/javascript.js}" src="../../resources/codemirror/mode/javascript/javascript.js"></script>
+    <script th:src="@{/resources/codemirror/mode/css/css.js}" src="../../resources/codemirror/mode/css/css.js"></script>
+    <script th:src="@{/resources/codemirror/mode/vbscript/vbscript.js}" src="../../resources/codemirror/mode/vbscript/vbscript.js"></script>
+    <script th:src="@{/resources/codemirror/mode/htmlmixed/htmlmixed.js}" src="../../resources/codemirror/mode/htmlmixed/htmlmixed.js"></script>
 
     <style>
         .CodeMirror {
@@ -32,25 +32,30 @@
 
 <div class="container">
     <div>
-        <a href="0"><img th:src="@{/resources/logo.png}"/></a>
+        <div class="logo">
+            <a href="0"><img th:src="@{/resources/logo.png}" src="../../resources/logo.png"/></a>
+        </div>
+        <div class="search">
+            <input id="search" type="text" data-provide="typeahead" placeholder="Search"/>
+        </div>
     </div>
-    <hr/>
     <div class="row">
         <div class="span12">
+            <hr/>
             <table>
-                <tr>
+                <tr th:unless="${document.root}">
                     <td class="breadcrumps" colspan="3">
                         <span th:each="breadcrumb, iter : ${document.breadcrumbs}">
                             <span th:unless="${iter.first}">/</span>
 
                             <span th:if="${iter.first}">
-                                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img src="/resources/home.png"/></a>
+                                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img th:src="@{/resources/home.png}" src="../../resources/home.png"/></a>
                             </span>
                             <span th:unless="${iter.first}">
-                                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
                                 <span th:unless="${iter.last}">
                                     <a th:href="${breadcrumb.id}" th:text="${breadcrumb.name}">Parent</a>
                                 </span>
+                                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
                             </span>
                         </span>
                     </td>

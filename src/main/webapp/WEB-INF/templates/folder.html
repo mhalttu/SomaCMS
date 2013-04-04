@@ -4,24 +4,24 @@
 <head>
     <title>SimpleCMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}"></script>
-    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
-    <script th:src="@{/resources/bootbox/bootbox.min.js}"></script>
-    <script th:src="@{/resources/application.js}"></script>
+    <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}" src="../../resources/jquery/jquery-1.9.1.min.js"></script>
+    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}" src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+    <script th:src="@{/resources/bootbox/bootbox.min.js}" src="../../resources/bootbox/bootbox.min.js"></script>
+    <script th:src="@{/resources/application.js}" src="../../resources/application.js"></script>
     <!--<script th:inline="javascript">/*<![CDATA[*/ var document = /*[[${document.shallowCopy}]]*/ null; /*]]>*/</script>-->
 
-    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/resources/application.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap/css/bootstrap.min.css"/>
+    <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../resources/application.css"/>
 
-    <link th:href="@{/resources/upload/fineuploader-3.4.1.css}" rel="stylesheet"/>
-    <script th:src="@{/resources/upload/jquery.fineuploader-3.4.1.min.js}"></script>
+    <link th:href="@{/resources/upload/fineuploader-3.4.1.css}" rel="stylesheet" href="../../resources/upload/fineuploader-3.4.1.css"/>
+    <script th:src="@{/resources/upload/jquery.fineuploader-3.4.1.min.js}" src="../../resources/upload/jquery.fineuploader-3.4.1.min.js"></script>
 </head>
 <body>
 
 <div class="container">
     <div>
         <div class="logo">
-            <a href="0"><img th:src="@{/resources/logo.png}"/></a>
+            <a href="0"><img th:src="@{/resources/logo.png}" src="../../resources/logo.png"/></a>
         </div>
         <div class="search">
             <input id="search" type="text" data-provide="typeahead" placeholder="Search"/>
@@ -37,13 +37,13 @@
                             <span th:unless="${iter.first}">/</span>
 
                             <span th:if="${iter.first}">
-                                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img src="/resources/home.png"/></a>
+                                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img th:src="@{/resources/home.png}" src="../../resources/home.png"/></a>
                             </span>
                             <span th:unless="${iter.first}">
-                                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
                                 <span th:unless="${iter.last}">
                                     <a th:href="${breadcrumb.id}" th:text="${breadcrumb.name}">Parent</a>
                                 </span>
+                                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
                             </span>
                         </span>
                     </td>
@@ -51,7 +51,7 @@
                 <tr th:id="${child.id}" th:class="${child.viewable} ? 'document-row link-row' : 'document-row'"
                     th:each="child : ${document.children}" class="document-row">
                     <td>
-                        <img class="document-thumbnail" th:src="@{${child.thumbail}}" src="/resources/document.png"/>
+                        <img class="document-thumbnail" th:src="@{${child.thumbail}}" src="../../resources/document.png"/>
                     </td>
                     <td th:text="${child.name}" class="document-name">
                         example.txt
