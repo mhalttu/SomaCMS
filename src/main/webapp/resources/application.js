@@ -133,3 +133,32 @@ function initializeSearch() {
         }
     });
 }
+
+function initializeEditor(editorMode) {
+    window.editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: editorMode,
+        tabMode: "indent",
+        lineNumbers:true,
+        matchBrackets:true,
+        viewportMargin:Infinity
+    });
+
+    $('#save').attr('disabled', 'disabled');
+    editor.on("change", function() {
+        $('#save').removeAttr('disabled');
+    });
+
+    window.onbeforeunload = function (e) {
+        if (!editor.isClean()) {
+            return 'Your document contains unsaved changes.'
+        }
+    };
+}
+
+function navigateToParent() {
+    var parentId = textDocument.parentId;
+    if (parentId == null) {
+        parentId = 0;
+    }
+    location.href=parentId;
+}

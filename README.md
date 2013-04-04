@@ -35,6 +35,8 @@ TODO
 * Create new text document
 * Javadoc
 * Uploading a new version of the same file
+* Separate page specific scripts
+* Message when a file was deleted or added?
 
 Things I'm Not Too Proud Of
 ---------------------------
