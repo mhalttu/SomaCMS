@@ -1,15 +1,15 @@
-SimpleCMS (Java)
+SimpleCMS (for Java)
 =========
 
 Yet another CMS. Why?
 ---------------------
-I needed to find the simplest possible CMS running on the Java stack. There are lot of simple solutions e.g. for PHP
-but I couldn't find anything simple enough for Java.
+I needed to find the simplest possible CMS running on the Java stack. There are lot of nice, simple solutions e.g. for
+PHP but I couldn't find anything simple enough for Java.
 
-I wanted to teach myself web development so this project was as good an excuse as any.
+I wanted to learn web development, so this project was as good an excuse as any.
 
-What is it?
------------
+What is SimpleCMS
+-----------------
 It's almost misleading to call SimpleCMS a content management system. You can upload images and text documents. You can
 edit the text documents using an in-line editor. Finally, you can view those documents in the browser.
 
@@ -20,23 +20,32 @@ Core Values
 
 Setup
 -----
-1. Setup the database
+1. Check the configuration at arc/main/resources/simplecms.properties
+2. Setup the database, e.g.
 ```mysql
 CREATE DATABASE simplecms;
 GRANT ALL ON simplecms.* TO 'simplecms'@'localhost' IDENTIFIED BY 'simplecms';
 ```
-2. Run locally: mvn jetty-run
-3. Navigate to http://localhost:8080/admin/
+3. Run locally: mvn jetty-run
+4. Navigate to http://localhost:8080/admin/
 
 TODO
 ----
-1. Javadoc
-2. Saving document without leaving the page
-3. Uploading a new version of the same file
+* Spring Security
+* Javadoc
+* Saving document without leaving the page
+* Uploading a new version of the same file
+* Add screenshots here
+
+Things I'm Not Too Proud Of
+---------------------------
+* No unit tests. Shame on me.
+* Some of the Thymeleaf constructs feel a bit awkward
+* Too much code duplication on the html pages
 
 Improvement Ideas
 -----------------
-* One page application e.g. using AngularJS
-* Better user management
-* Version history for the documents
+* Convert it to a single-page application e.g. using AngularJS
+* Implement a better user management
+* Add version tracking for documents
 * Usability: Show newly uploaded documents (or added folders) with an animation

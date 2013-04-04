@@ -8,6 +8,7 @@ import fi.essentia.simplecms.tree.DocumentManager;
 import fi.essentia.simplecms.tree.TreeDocument;
 import fi.essentia.simplecms.util.ArchiveHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,11 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * @author Markus Halttunen
+ * All the administration logic for the
  */
 @Controller
 @RequestMapping(value="/admin/")
+@Secured(value = "ROLE_ADMIN")
 public class AdminController {
     public static final String SUCCESS = "{\"success\":true}";
 

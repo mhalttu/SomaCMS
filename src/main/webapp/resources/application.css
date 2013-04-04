@@ -40,7 +40,7 @@ img.greyed-out, tr.greyed-out > td {
 
 td.document-name {
     padding-left: 10px;
-    min-width: 600px;
+    min-width: 800px;
 }
 
 #fine-uploader-basic {
@@ -66,7 +66,11 @@ p.empty-folder {
     float:left;
 }
 
-.search {
-    margin-top: 20px;
+.top-right {
     float: right;
+    text-align: right;
+}
+
+.search {
+    margin-top: 5px;
 }

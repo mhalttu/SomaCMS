@@ -1,0 +1,60 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SimpleCMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"
+            src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"
+          href="../../resources/bootstrap/css/bootstrap.min.css"/>
+</head>
+
+<body>
+<div class="container">
+            <div id="legend">
+                <legend class="">
+                    <a href="0"><img th:src="@{/resources/logo.png}" src="../../resources/logo.png"/></a>
+                </legend>
+            </div>
+
+
+        <div th:if="${failed}" class="alert alert-error">
+            Wrong username or password
+        </div>
+        <div th:if="${logout}" class="alert alert-success">
+            You have logged out
+        </div>
+
+        <form class="form-horizontal" th:action="@{/j_spring_security_check}" method="POST">
+            <fieldset>
+
+                    <div class="control-group">
+                        <!-- Username -->
+                        <label class="control-label" for="j_username">Username</label>
+
+                        <div class="controls">
+                            <input type="text" id="j_username" name="j_username" placeholder="" class="input-xlarge"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <!-- Password-->
+                        <label class="control-label" for="j_password">Password</label>
+
+                        <div class="controls">
+                            <input type="password" id="j_password" name="j_password" placeholder="" class="input-xlarge"/>
+                        </div>
+                    </div>
+
+
+                    <div class="control-group">
+                        <!-- Button -->
+                        <div class="controls">
+                            <button class="btn btn-success">Login</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+</body>
+</html>
