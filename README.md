@@ -31,7 +31,6 @@ GRANT ALL ON simplecms.* TO 'simplecms'@'localhost' IDENTIFIED BY 'simplecms';
 
 TODO
 ----
-* Cancel
 * Tell if file already exists
 * Return types
 * Add screenshots here
