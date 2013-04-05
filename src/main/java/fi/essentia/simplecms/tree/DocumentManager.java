@@ -13,9 +13,9 @@ import java.util.List;
 public interface DocumentManager {
     TreeDocument documentFromPath(String path);
     TreeDocument documentById(Long id);
-    void createFolder(Long parentId, String name);
-    long createTextFile(Long parentId, String name);
-    void storeDocument(Long parentId, String fileName, byte[] bytes1);
+    TreeDocument createFolder(Long parentId, String name);
+    TreeDocument createTextFile(Long parentId, String name);
+    TreeDocument storeDocument(Long parentId, String fileName, byte[] bytes);
     TreeDocument deleteDocument(Long documentId);
     Collection<TreeDocument> documentsByPath(String path);
 }

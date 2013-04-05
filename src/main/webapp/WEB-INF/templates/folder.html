@@ -77,8 +77,8 @@
         <div id="fine-uploader-basic" class="btn btn-success">
             <i class="icon-upload icon-white"></i> Upload File
         </div>
-        <button type="button" class="btn btn" onclick="createFolder()"><i class="icon-folder-open"></i> New Folder</button>
-        <button type="button" class="btn btn" onclick="createDocument()"><i class="icon-file"></i> New Document</button>
+        <button type="button" class="btn btn" onclick="createFolder(documentId)"><i class="icon-folder-open"></i> New Folder</button>
+        <button type="button" class="btn btn" onclick="createDocument(documentId)"><i class="icon-file"></i> New Document</button>
     </div>
     <div class="span5">
         <div id="progress-bar" class="progress progress-striped active" style="margin-top: 5px">
@@ -91,6 +91,8 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
+    var contextPath = /*[[${contextPath}]]*/ null;
+    var documentId = /*[[${document.id}]]*/ null;
     var message = /*[[${message}]]*/ null;
     /*]]>*/
 

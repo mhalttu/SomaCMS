@@ -29,7 +29,6 @@ import java.util.Collection;
 @Secured(value = "ROLE_ADMIN")
 @Scope("session")
 public class AdminController {
-    public static final String SUCCESS = "{\"success\":true}";
 
     @Autowired private DocumentManager documentManager;
     @Autowired private DataDao dataDao;
@@ -48,6 +47,7 @@ public class AdminController {
         if (document == null) {
             throw new ResourceNotFoundException();
         }
+        model.addAttribute("contextPath", webRequest.getContextPath());
         model.addAttribute("document", document);
         if (message != null) {
             model.addAttribute("message", message);
@@ -66,48 +66,50 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value="/document/{parentId}/folders", method=RequestMethod.POST)
-    public @ResponseBody String createFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
-        documentManager.createFolder(parentId, name);
+    @RequestMapping(value="/api/document/{parentId}/folders", method=RequestMethod.POST)
+    public @ResponseBody Result createFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
+        TreeDocument folder = documentManager.createFolder(parentId, name);
         message = "Folder <b>" + name + "</b> created";
-        return SUCCESS;
+        return new Created(folder.getId());
     }
 
-    @RequestMapping(value="/document/{parentId}/documents", method=RequestMethod.POST)
+    @RequestMapping(value="/api/document/{parentId}/documents", method=RequestMethod.POST)
     public @ResponseBody Result createTextFile(@PathVariable Long parentId, @RequestParam("name") String name) {
         try {
-            return new Created(documentManager.createTextFile(parentId, name));
+            TreeDocument testFile = documentManager.createTextFile(parentId, name);
+            return new Created(testFile.getId());
         } catch (UnsupportedMimeTypeException e) {
             return new Error("The file doesn't seem to be a text document.");
         }
     }
 
-    @RequestMapping(value="/document/{parentId}/files", method=RequestMethod.POST)
-    public @ResponseBody String uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
+    @RequestMapping(value="/api/document/{parentId}/files", method=RequestMethod.POST)
+    public @ResponseBody Result uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
         String contentType = file.getContentType();
         if (contentType.equals("application/zip")) {
             byte[] bytes = file.getBytes();
             archiveHelper.storeDocuments(parentId, bytes);
+            return Result.success();
         } else {
-            documentManager.storeDocument(parentId, file.getOriginalFilename(), file.getBytes());
+            TreeDocument treeDocument = documentManager.storeDocument(parentId, file.getOriginalFilename(), file.getBytes());
+            return new Created(treeDocument.getId());
         }
-        return SUCCESS;
     }
 
-    @RequestMapping(value="/document/{documentId}", method=RequestMethod.PUT)
-    public @ResponseBody String saveTextDocument(@PathVariable Long documentId, @RequestBody String contents) {
+    @RequestMapping(value="/api/document/{documentId}", method=RequestMethod.PUT)
+    public @ResponseBody Result saveTextDocument(@PathVariable Long documentId, @RequestBody String contents) {
         dataDao.updateData(documentId, contents.getBytes());
-        return SUCCESS;
+        return Result.success();
     }
 
-    @RequestMapping(value="/document/{documentId}", method=RequestMethod.DELETE)
-    public @ResponseBody String delete(@PathVariable Long documentId) {
+    @RequestMapping(value="/api/document/{documentId}", method=RequestMethod.DELETE)
+    public @ResponseBody Result delete(@PathVariable Long documentId) {
         TreeDocument treeDocument = documentManager.deleteDocument(documentId);
         message = (treeDocument.isFolder() ? "Folder " : "Document") + " <b>" + treeDocument.getName() + "</b> deleted.";
-        return SUCCESS;
+        return Result.success();
     }
 
-    @RequestMapping(value= "/search/", method = RequestMethod.GET)
+    @RequestMapping(value= "/api/search/", method = RequestMethod.GET)
     public @ResponseBody Collection<SearchResult> listDocuments(@RequestParam(value = "query") String query) {
         Collection<TreeDocument> treeDocuments = documentManager.documentsByPath(query);
         return Collections2.transform(treeDocuments, new Function<TreeDocument, SearchResult>() {

@@ -6,19 +6,23 @@ function documentClicked() {
     }
 }
 
-function createFolder() {
+function createFolder(documentId) {
     bootbox.prompt("What is the name of the folder?", function(result) {
         if (result == null) {
         } else {
             $.ajax({
-                url: window.location.pathname + "/folders",
+                url: contextPath + "/admin/api/document/" + documentId  + "/folders",
                 type: "post",
                 data: "name=" + result,
                 success: function(result) {
                     location.reload()
                 },
-                error: function() {
-                    bootbox.alert("Failed to create folder " + name);
+                error: function(xhr) {
+                    if (xhr.status == 403) {
+                        location.href="/login/";
+                    } else {
+                        bootbox.alert("Failed to create folder " + name);
+                    }
                 }
             });
         }
@@ -30,18 +34,22 @@ function createDocument() {
         if (fileName == null) {
         } else {
             $.ajax({
-                url: window.location.pathname + "/documents",
+                url: contextPath + "/admin/api/document/" + documentId  + "/documents",
                 type: "post",
                 data: "name=" + fileName,
                 success: function(result) {
                     if (result.success) {
                         location.href = result.documentId;
                     } else {
-                        bootbox.alert("Failed to create document <b>" + fileName + "</b>. " + result.message);
+                        bootbox.alert("Failed to create document <b>" + fileName + "</b>. " + result.explanation);
                     }
                 },
-                error: function() {
-                    bootbox.alert("Failed to create document " + name);
+                error: function(xhr) {
+                    if (xhr.status == 403) {
+                        location.href="/login/";
+                    } else {
+                        bootbox.alert("Failed to create document " + name);
+                    }
                 }
             });
         }
@@ -53,14 +61,18 @@ function saveText(text, documentId) {
     $.ajax({
         type: "put",
         data: text,
-        url: window.location.pathname,
+        url: contextPath + "/admin/api/document/" + documentId,
         success: function(result) {
             notify("Document Saved!");
             window.editor.markClean();
             $('#save').attr('disabled', 'disabled');
         },
         error: function() {
-            bootbox.alert("Could not save the changes. Sorry!");
+            if (xhr.status == 403) {
+                location.href="/login/";
+            } else {
+                bootbox.alert("Could not save the changes. Sorry!");
+            }
         }
     });
 }
@@ -69,11 +81,15 @@ function deleteDocument(id, name, success) {
     bootbox.confirm("Are you sure you want to delete <b>" + name + "</b>?", function (result) {
         if (result) {
             $.ajax({
-                url: id,
+                url: contextPath + "/admin/api/document/" + id,
                 type: "delete",
                 success: success,
                 error: function () {
-                    bootbox.alert("Could not delete " + name + ". Sorry!");
+                    if (xhr.status == 403) {
+                        location.href="/login/";
+                    } else {
+                        bootbox.alert("Could not delete " + name + ". Sorry!");
+                    }
                 }
             });
         }
@@ -96,7 +112,7 @@ function initializeUploader() {
     var uploader = new qq.FineUploaderBasic({
         button: $('#fine-uploader-basic')[0],
         request: {
-            endpoint: window.location.pathname + '/files'
+            endpoint: contextPath + '/admin/api/files'
         },
         validation: {
         },
@@ -132,7 +148,7 @@ function initializeSearch() {
             }
             searching = setTimeout(function() {
                 return $.getJSON(
-                    "../search/",
+                    contextPath + "/admin/api/search/",
                     { query:query },
                     function(data){
                         var paths = [];

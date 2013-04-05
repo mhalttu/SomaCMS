@@ -57,11 +57,18 @@
     </bean>
 
     <!-- Spring Security -->
-    <sec:http auto-config="true">
+    <bean id="authenticationEntryPoint"
+          class="fi.essentia.simplecms.security.AjaxAwareAuthenticationEntryPoint">
+        <constructor-arg name="loginUrl" value="/login/"/>
+    </bean>
+
+    <sec:http auto-config="true"
+              entry-point-ref="authenticationEntryPoint">
         <sec:form-login login-page="/login/" default-target-url="/admin/"
                     authentication-failure-url="/login/failed" />
         <sec:logout logout-success-url="/logout/" />
     </sec:http>
+
     <sec:global-method-security secured-annotations="enabled" />
 
     <sec:authentication-manager>

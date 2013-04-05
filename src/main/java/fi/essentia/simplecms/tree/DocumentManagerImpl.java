@@ -82,8 +82,8 @@ public class DocumentManagerImpl implements DocumentManager {
         return idToDocument.get(id);
     }
 
-    @Override public void createFolder(Long parentId, String name) {
-        createDocument(parentId, name, true);
+    @Override public TreeDocument createFolder(Long parentId, String name) {
+        return createDocument(parentId, name, true);
     }
 
     private TreeDocument createDocument(Long parentId, String name, boolean folder) throws UnsupportedMimeTypeException {
@@ -105,10 +105,10 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public long createTextFile(Long parentId, String name) {
+    public TreeDocument createTextFile(Long parentId, String name) {
         TreeDocument document = createDocument(parentId, name, false);
         dataDao.insertData(document.getId(), new byte[0]);
-        return document.getId();
+        return document;
     }
 
     private TreeDocument folder(Long folderId) {
@@ -128,7 +128,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public void storeDocument(Long parentId, String fileName, byte[] bytes) {
+    public TreeDocument storeDocument(Long parentId, String fileName, byte[] bytes) {
         String mimeType = tika.detect(bytes, fileName);
         // TODO This method should should be transactional..
         TreeDocument parent = folder(parentId);
@@ -151,6 +151,7 @@ public class DocumentManagerImpl implements DocumentManager {
 
             dataDao.updateData(document.getId(), bytes);
         }
+        return document;
     }
 
     @Override

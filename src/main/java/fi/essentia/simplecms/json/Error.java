@@ -3,14 +3,14 @@ package fi.essentia.simplecms.json;
 /**
  */
 public class Error extends Result {
-    private String message;
+    private String explanation;
 
-    public Error(String message) {
+    public Error(String explanation) {
         super(false);
-        this.message = message;
+        this.explanation = explanation;
     }
 
-    public String getMessage() {
-        return message;
+    public String getExplanation() {
+        return explanation;
     }
 }
