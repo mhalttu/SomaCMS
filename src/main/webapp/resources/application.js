@@ -65,6 +65,16 @@ function saveText(text, documentId) {
     });
 }
 
+function discardText() {
+    bootbox.confirm("Are you sure you want to discard all changes?", function (result) {
+        if (result) {
+            alert("Discard not implemented");
+            window.editor.discardChanges();
+        }
+    });
+
+}
+
 function deleteDocument(id, name, success) {
     bootbox.confirm("Are you sure you want to delete <b>" + name + "</b>?", function (result) {
         if (result) {
@@ -162,8 +172,10 @@ function initializeEditor(editorMode) {
     });
 
     $('#save').attr('disabled', 'disabled');
+    $('#discard').attr('disabled', 'disabled');
     editor.on("change", function() {
         $('#save').removeAttr('disabled');
+        $('#discard').removeAttr('disabled');
     });
 
     window.onbeforeunload = function (e) {

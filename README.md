@@ -39,6 +39,9 @@ TODO
 * Javadoc
 * Uploading a new version of the same file
 * Separate page specific scripts
+* Favicon
+* Name
+* Domain?
 
 Things I'm Not Too Proud Of
 ---------------------------
