@@ -14,6 +14,7 @@ public interface DocumentManager {
     TreeDocument documentFromPath(String path);
     TreeDocument documentById(Long id);
     void createFolder(Long parentId, String name);
+    long createTextFile(Long parentId, String name);
     void storeDocument(Long parentId, String fileName, byte[] bytes1);
     TreeDocument deleteDocument(Long documentId);
     Collection<TreeDocument> documentsByPath(String path);

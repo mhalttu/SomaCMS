@@ -73,20 +73,18 @@
         </div>
     </div>
     <hr/>
-    <div class="row">
-        <div class="span4">
-        <button type="button" class="btn btn-primary" onclick="createFolder()">New Folder</button>
-            <div id="fine-uploader-basic" class="btn btn-success">
-                <i class="icon-upload icon-white"></i> Upload File
-            </div>
+    <div>
+        <div id="fine-uploader-basic" class="btn btn-success">
+            <i class="icon-upload icon-white"></i> Upload File
         </div>
-        <div class="span3">
-            <div id="progress-bar" class="progress progress-striped active" style="margin-top: 5px">
-                <div class="bar" style="width: 0%;"></div>
-            </div>
+        <button type="button" class="btn btn" onclick="createFolder()"><i class="icon-folder-open"></i> New Folder</button>
+        <button type="button" class="btn btn" onclick="createDocument()"><i class="icon-file"></i> New Document</button>
+    </div>
+    <div class="span5">
+        <div id="progress-bar" class="progress progress-striped active" style="margin-top: 5px">
+            <div class="bar" style="width: 0%;"></div>
         </div>
     </div>
-    <div id="messages"></div>
 </div>
 
 <div class='notifications top-right'></div>

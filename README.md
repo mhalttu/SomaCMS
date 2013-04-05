@@ -31,12 +31,14 @@ GRANT ALL ON simplecms.* TO 'simplecms'@'localhost' IDENTIFIED BY 'simplecms';
 
 TODO
 ----
+* Cancel
+* Tell if file already exists
+* Return types
 * Add screenshots here
 * Create new text document
 * Javadoc
 * Uploading a new version of the same file
 * Separate page specific scripts
-* Message when a file was deleted or added?
 
 Things I'm Not Too Proud Of
 ---------------------------

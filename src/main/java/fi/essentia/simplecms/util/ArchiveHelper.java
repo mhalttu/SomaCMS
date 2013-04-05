@@ -34,7 +34,7 @@ public class ArchiveHelper {
                 parent = documentManager.documentFromPath(parentPath);
             }
             if (parent == null) {
-                throw new NullPointerException("Could not find the parent folder for " + zipEntry.getName());
+                throw new NullPointerException("Failed to find the parent folder for " + zipEntry.getName());
             }
 
             if (zipEntry.isDirectory()) {

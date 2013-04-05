@@ -3,9 +3,11 @@ package fi.essentia.simplecms.controllers;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import fi.essentia.simplecms.dao.DataDao;
-import fi.essentia.simplecms.json.SearchResult;
+import fi.essentia.simplecms.json.*;
+import fi.essentia.simplecms.json.Error;
 import fi.essentia.simplecms.tree.DocumentManager;
 import fi.essentia.simplecms.tree.TreeDocument;
+import fi.essentia.simplecms.tree.UnsupportedMimeTypeException;
 import fi.essentia.simplecms.util.ArchiveHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -65,10 +67,19 @@ public class AdminController {
     }
 
     @RequestMapping(value="/document/{parentId}/folders", method=RequestMethod.POST)
-    public @ResponseBody String folders(@PathVariable Long parentId, @RequestParam("name") String name) {
+    public @ResponseBody String createFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
         documentManager.createFolder(parentId, name);
         message = "Folder <b>" + name + "</b> created";
         return SUCCESS;
+    }
+
+    @RequestMapping(value="/document/{parentId}/documents", method=RequestMethod.POST)
+    public @ResponseBody Result createTextFile(@PathVariable Long parentId, @RequestParam("name") String name) {
+        try {
+            return new Created(documentManager.createTextFile(parentId, name));
+        } catch (UnsupportedMimeTypeException e) {
+            return new Error("The file doesn't seem to be a text document.");
+        }
     }
 
     @RequestMapping(value="/document/{parentId}/files", method=RequestMethod.POST)

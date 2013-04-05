@@ -7,8 +7,8 @@ function documentClicked() {
 }
 
 function createFolder() {
-    bootbox.prompt("Folder Name?", function(result) {
-        if (result === null) {
+    bootbox.prompt("What is the name of the folder?", function(result) {
+        if (result == null) {
         } else {
             $.ajax({
                 url: window.location.pathname + "/folders",
@@ -18,11 +18,35 @@ function createFolder() {
                     location.reload()
                 },
                 error: function() {
-                    bootbox.alert("Could not create folder " + name);
+                    bootbox.alert("Failed to create folder " + name);
                 }
             });
         }
     });
+}
+
+function createDocument() {
+    bootbox.prompt("What is the name of the document?", function(fileName) {
+        if (fileName == null) {
+        } else {
+            $.ajax({
+                url: window.location.pathname + "/documents",
+                type: "post",
+                data: "name=" + fileName,
+                success: function(result) {
+                    if (result.success) {
+                        location.href = result.documentId;
+                    } else {
+                        bootbox.alert("Failed to create document <b>" + fileName + "</b>. " + result.message);
+                    }
+                },
+                error: function() {
+                    bootbox.alert("Failed to create document " + name);
+                }
+            });
+        }
+    });
+
 }
 
 function saveText(text, documentId) {
@@ -161,7 +185,6 @@ function notify(message) {
     $('.top-right').notify({
         type: "success",
         message: { html: message },
-        closable: false,
         fadeOut: { enabled: true, delay: 2000 }
     }).show();
 }

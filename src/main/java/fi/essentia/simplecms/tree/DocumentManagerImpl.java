@@ -83,15 +83,32 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override public void createFolder(Long parentId, String name) {
-        TreeDocument parent = folder(parentId);
+        createDocument(parentId, name, true);
+    }
 
+    private TreeDocument createDocument(Long parentId, String name, boolean folder) throws UnsupportedMimeTypeException {
+        TreeDocument parent = folder(parentId);
         DatabaseDocument databaseDocument = new DatabaseDocument();
         databaseDocument.setName(name);
-        databaseDocument.setFolder(true);
+        databaseDocument.setFolder(folder);
+        if (!folder) {
+            String mimeType = tika.detect(name);
+            databaseDocument.setMimeType(mimeType);
+            if (!databaseDocument.isText()) {
+                throw new UnsupportedMimeTypeException();
+            }
+        }
         databaseDocument.setParentId(parent.isRoot() ? null : parent.getId());
-        documentDao.save(databaseDocument);
 
-        addToTree(databaseDocument, parentId);
+        documentDao.save(databaseDocument);
+        return addToTree(databaseDocument, parentId);
+    }
+
+    @Override
+    public long createTextFile(Long parentId, String name) {
+        TreeDocument document = createDocument(parentId, name, false);
+        dataDao.insertData(document.getId(), new byte[0]);
+        return document.getId();
     }
 
     private TreeDocument folder(Long folderId) {
@@ -164,11 +181,12 @@ public class DocumentManagerImpl implements DocumentManager {
         });
     }
 
-    private void addToTree(DatabaseDocument databaseDocument, Long parentId) {
+    private TreeDocument addToTree(DatabaseDocument databaseDocument, Long parentId) {
         TreeDocument treeDocument = new TreeDocument(databaseDocument);
         TreeDocument parent = parentFromId(parentId);
         parent.addChild(treeDocument);
         treeDocument.setParent(parent);
         idToDocument.put(treeDocument.getId(), treeDocument);
+        return treeDocument;
     }
 }
