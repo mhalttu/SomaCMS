@@ -16,8 +16,11 @@ Soma means cute in Finnish.
 
 Screenshots
 -----------
-![Main view](screenshots/folders.png "Main View")
-![Editor view](screenshots/editor.png "Editor View")
+### Main View with Folders
+![Main view](screenshots/folders.png)
+
+### Editor View
+![Editor view](screenshots/editor.png)
 
 Setup
 -----
