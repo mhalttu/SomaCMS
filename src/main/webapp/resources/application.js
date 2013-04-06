@@ -38,7 +38,7 @@ function createDocument() {
         if (fileName == null) {
         } else {
             $.ajax({
-                url: contextPath + "/admin/api/document/" + documentId  + "/documents",
+                url: contextPath + "/admin/api/document/" + currentDocument.id  + "/documents",
                 type: "post",
                 data: "name=" + fileName,
                 success: function(result) {
@@ -119,19 +119,19 @@ function deleteDocumentOnRow() {
     });
 }
 
-function initializeUploader(document, folder) {
+function initializeUploader(document) {
     var progressBar = $('#progress-bar');
     progressBar.hide();
     var uploader = new qq.FineUploaderBasic({
         button: $('#upload')[0],
         request: {
-            endpoint: folder ? contextPath + '/admin/api/document/' + document.id + '/files' : contextPath + '/admin/api/document/' + document.id + '/replace'
+            endpoint: document.folder ? contextPath + '/admin/api/document/' + document.id + '/files' : contextPath + '/admin/api/document/' + document.id + '/replace'
         },
         validation: {
         },
         callbacks: {
             onSubmit: function(id, fileName) {
-                if (!folder && fileName != document.name) {
+                if (!document.folder && fileName != document.name) {
                     bootbox.alert("The name of the current file <b>" + document.name + "</b> is different from the uploaded file <b>" + fileName + "</b>");
                     return false;
                 }
