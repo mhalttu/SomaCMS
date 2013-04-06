@@ -5,10 +5,10 @@ SomaCMS is a super-simple, user friendly content management system running on Ja
 
 Yet another CMS. Why?
 ---------------------
-I needed a simple CMS running on the Java stack. There are lot of nice, simple solutions written on PHP but I couldn't
+I needed a very simple CMS. There seems to be a lot of nice, simple products written on PHP but I couldn't
 find anything simple enough for Java.
 
-I wanted to learn web development, so this project was as good an excuse as any.
+I also wanted to learn some web development, so this project was as good an excuse as any. :)
 
 What does *soma* mean?
 ----------------------
@@ -42,12 +42,12 @@ http://sourceforge.net/u/jjbenson/wiki/thymol/. For example, Chrome on OS X:
 open -a "Google Chrome" --args --allow-file-access-from-files
 ```
 
-Things I'm Not Too Proud Of
+Things I'm not too proud of
 ---------------------------
 * No unit tests. Shame on me.
 * The REST api could be a bit more consistent
 
-Improvement Ideas
+Improvement ideas
 -----------------
 * Add support for renaming files and folders
 * Implement better user management
