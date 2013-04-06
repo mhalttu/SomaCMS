@@ -1,62 +1,19 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>SimpleCMS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}" src="../../resources/jquery/jquery-1.9.1.min.js"></script>
-    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}" src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-    <script th:src="@{/resources/bootbox/bootbox.min.js}" src="../../resources/bootbox/bootbox.min.js"></script>
-    <script th:src="@{/resources/application.js}" src="../../resources/application.js"></script>
-
-    <link th:href="@{/resources/upload/fineuploader-3.4.1.css}" rel="stylesheet" href="../../resources/upload/fineuploader-3.4.1.css"/>
-    <script th:src="@{/resources/upload/jquery.fineuploader-3.4.1.min.js}" src="../../resources/upload/jquery.fineuploader-3.4.1.min.js"></script>
-
-    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap/css/bootstrap.min.css"/>
-    <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../resources/application.css"/>
-
-    <script th:src="@{/resources/bootstrap-notify/bootstrap-notify.js}" src="../../resources/bootstrap-notify/bootstrap-notify.js"></script>
-    <link th:href="@{/resources/bootstrap-notify/bootstrap-notify.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap-notify/bootstrap-notify.css"/>
+<head th:include="fragments :: header">
+    <script src="../../resources/jquery/jquery-1.9.1.min.js"></script>
+    <script src="../../resources/thymol/thymol.js"></script>
 </head>
 <body>
 
 <div class="container">
-    <div>
-        <div class="logo">
-            <a href="0"><img th:src="@{/resources/logo.png}" src="../../resources/logo.png"/></a>
-        </div>
-        <div style="text-align: right">
-            <a href="qwe" class="logout">Logout</a><br/>
-            <input id="search" type="text" data-provide="typeahead" placeholder="Search" class="search"/>
-        </div>
-    </div>
+    <div th:include="fragments :: top-bar"></div>
     <div class="row">
         <div class="span12">
             <hr/>
-            <table>
-                <tr>
-                    <td class="breadcrumps" colspan="3">
-                        <span th:each="breadcrumb, iter : ${document.breadcrumbs}">
-                            <span th:unless="${iter.first}">/</span>
-
-                            <span th:if="${iter.first}">
-                                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img th:src="@{/resources/home.png}" src="../../resources/home.png"/></a>
-                            </span>
-                            <span th:unless="${iter.first}">
-                                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
-                                <span th:unless="${iter.last}">
-                                    <a th:href="${breadcrumb.id}" th:text="${breadcrumb.name}">Parent</a>
-                                </span>
-                            </span>
-                        </span>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="span12">
+            <div th:include="fragments :: breadcrumbs"></div>
+            <br/>
             <img class="preview" th:src="@{${document.path}}" src="../../resources/document.png"/>
         </div>
     </div>
@@ -67,29 +24,12 @@
             <div id="upload" class="btn">
                 <i class="icon-upload"></i> Update
             </div>
-            <button type="button" id="delete" class="btn btn-danger" th:onclick="'deleteDocument(textDocument.id, textDocument.name, navigateToParent)'">Delete</button>
+            <button type="button" id="delete" class="btn btn-danger" th:onclick="'deleteDocument(currentDocument.id, currentDocument.name, navigateToParent)'">Delete</button>
         </div>
     </div>
 </div>
 
-<div class='notifications top-right'></div>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var contextPath = /*[[${contextPath}]]*/ null;
-    var imageDocument = /*[[${document.shallowCopy}]]*/ "";
-    var message = /*[[${message}]]*/ null;
-    /*]]>*/
-
-    $(document).ready(function() {
-        $('.link-row').click(documentClicked);
-        initializeUploader(imageDocument, false);
-
-        if (message != null) {
-            notify(message);
-        }
-    });
-</script>
+<script th:include="fragments :: initialize" th:inline="javascript"></script>
 
 </body>
 </html>

@@ -29,23 +29,26 @@ GRANT ALL ON simplecms.* TO 'simplecms'@'localhost' IDENTIFIED BY 'simplecms';
 3. Run locally: mvn jetty-run
 4. Navigate to http://localhost:8080/admin/
 
+Notes
+-----
+To edit the HTML pages without the server, you'll need to enable local file access in your browser. See more info at
+http://sourceforge.net/u/jjbenson/wiki/thymol/. For example, Chrome on OS X:
+```bash
+open -a "Google Chrome" --args --allow-file-access-from-files
+```
+
 TODO
 ----
-* Reload after update!! (Show message instead..)
 * Add screenshots here
 * Javadoc
-* Uploading a new version of the same file
 * Separate page specific scripts
 * Favicon
 * Name
 * Domain?
-* Remove duplication?
 
 Things I'm Not Too Proud Of
 ---------------------------
 * No unit tests. Shame on me.
-* Some of the Thymeleaf constructs feel a bit awkward
-* Too much code duplication on the html pages
 * The REST api could be a bit more consistent
 
 Improvement Ideas

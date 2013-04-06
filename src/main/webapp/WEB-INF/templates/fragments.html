@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <title>SimpleCMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap/css/bootstrap.min.css"/>
+    <link th:href="@{/resources/bootstrap-notify/bootstrap-notify.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap-notify/bootstrap-notify.css"/>
+    <link th:href="@{/resources/upload/fineuploader-3.4.1.css}" rel="stylesheet" href="../../resources/upload/fineuploader-3.4.1.css"/>
+    <link th:href="@{/resources/codemirror/lib/codemirror.css}" rel="stylesheet" href="../../resources/codemirror/lib/codemirror.css"/>
+    <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../resources/application.css"/>
+
+    <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}" src="../../resources/jquery/jquery-1.9.1.min.js"></script>
+    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}" src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+    <script th:src="@{/resources/bootstrap-notify/bootstrap-notify.js}" src="../../resources/bootstrap-notify/bootstrap-notify.js"></script>
+    <script th:src="@{/resources/bootbox/bootbox.min.js}" src="../../resources/bootbox/bootbox.min.js"></script>
+    <script th:src="@{/resources/upload/jquery.fineuploader-3.4.1.min.js}" src="../../resources/upload/jquery.fineuploader-3.4.1.min.js"></script>
+
+    <script th:src="@{/resources/application.js}" src="../../resources/application.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div th:fragment="top-bar">
+        <div class='notifications top-right'></div>
+        <div class="logo">
+            <a href="0"><img th:src="@{/resources/logo.png}" src="../../resources/logo.png"/></a>
+        </div>
+        <div style="text-align: right">
+            <a href="qwe" class="logout">Logout</a><br/>
+            <input id="search" type="text" data-provide="typeahead" placeholder="Search" class="search"/>
+        </div>
+    </div>
+
+    <div th:fragment="breadcrumbs">
+        <span th:each="breadcrumb, iter : ${document.breadcrumbs}" class="breadcrumbs">
+            <span th:unless="${iter.first}">/</span>
+
+            <span th:if="${iter.first}">
+                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img th:src="@{/resources/home.png}" src="../../resources/home.png"/></a>
+            </span>
+            <span th:unless="${iter.first}">
+                <span th:unless="${iter.last}">
+                    <a th:href="${breadcrumb.id}" th:text="${breadcrumb.name}">Parent</a>
+                </span>
+                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
+            </span>
+        </span>
+    </div>
+</div>
+
+<script th:fragment="initialize">
+    /*<![CDATA[*/
+    var contextPath = /*[[${contextPath}]]*/ null;
+    var currentDocument = /*[[${document.shallowCopy}]]*/ null;
+    var message = /*[[${message}]]*/ null;
+    /*]]>*/
+
+    $(document).ready(function() {
+        initializeUploader(currentDocument, false);
+        initializeSearch();
+        if (message != null) {
+            notify(message);
+        }
+    });
+</script>
+
+</body>
+</html>

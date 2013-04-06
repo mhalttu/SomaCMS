@@ -217,7 +217,7 @@ function initializeEditor(editorMode) {
 
 function navigateToParent() {
     window.onbeforeunload = null;
-    location.href=textDocument.parentId;
+    location.href=currentDocument.parentId;
 }
 
 function notify(message) {

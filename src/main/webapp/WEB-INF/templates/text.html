@@ -1,111 +1,49 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>SimpleCMS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script th:src="@{/resources/jquery/jquery-1.9.1.min.js}" src="../../resources/jquery/jquery-1.9.1.min.js"></script>
-    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}" src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-    <script th:src="@{/resources/bootbox/bootbox.min.js}" src="../../resources/bootbox/bootbox.min.js"></script>
-    <script th:src="@{/resources/application.js}" src="../../resources/application.js"></script>
-
-    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap/css/bootstrap.min.css"/>
-    <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../resources/application.css"/>
-
-    <link th:href="@{/resources/upload/fineuploader-3.4.1.css}" rel="stylesheet" href="../../resources/upload/fineuploader-3.4.1.css"/>
-    <script th:src="@{/resources/upload/jquery.fineuploader-3.4.1.min.js}" src="../../resources/upload/jquery.fineuploader-3.4.1.min.js"></script>
-
-    <link rel="stylesheet" th:href="@{/resources/codemirror/lib/codemirror.css}" href="../../resources/codemirror/lib/codemirror.css"/>
-    <script th:src="@{/resources/codemirror/lib/codemirror.js}" src="../../resources/codemirror/lib/codemirror.js"></script>
-    <script th:src="@{/resources/codemirror/mode/xml/xml.js}" src="../../resources/codemirror/mode/xml/xml.js"></script>
-    <script th:src="@{/resources/codemirror/mode/javascript/javascript.js}" src="../../resources/codemirror/mode/javascript/javascript.js"></script>
-    <script th:src="@{/resources/codemirror/mode/css/css.js}" src="../../resources/codemirror/mode/css/css.js"></script>
-    <script th:src="@{/resources/codemirror/mode/vbscript/vbscript.js}" src="../../resources/codemirror/mode/vbscript/vbscript.js"></script>
-    <script th:src="@{/resources/codemirror/mode/htmlmixed/htmlmixed.js}" src="../../resources/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-
-    <script th:src="@{/resources/bootstrap-notify/bootstrap-notify.js}" src="../../resources/bootstrap-notify/bootstrap-notify.js"></script>
-    <link th:href="@{/resources/bootstrap-notify/bootstrap-notify.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap-notify/bootstrap-notify.css"/>
-
-    <style>
-        .CodeMirror {
-            border-top: 1px solid black;
-            border-bottom: 1px solid black;
-            height: 450px;
-        }
-    </style>
+<head th:include="fragments :: header">
+    <script src="../../resources/jquery/jquery-1.9.1.min.js"></script>
+    <script src="../../resources/thymol/thymol.js"></script>
 </head>
+
 <body>
-
 <div class="container">
-    <div>
-        <div class="logo">
-            <a href="0"><img th:src="@{/resources/logo.png}" src="../../resources/logo.png"/></a>
-        </div>
-        <div style="text-align: right">
-            <a href="qwe" class="logout">Logout</a><br/>
-            <input id="search" type="text" data-provide="typeahead" placeholder="Search" class="search"/>
-        </div>
-    </div>
+    <div th:include="fragments :: top-bar"></div>
     <div class="row">
         <div class="span12">
-            <hr/>
-            <table>
-                <tr th:unless="${document.root}">
-                    <td class="breadcrumps" colspan="3">
-                        <span th:each="breadcrumb, iter : ${document.breadcrumbs}">
-                            <span th:unless="${iter.first}">/</span>
-
-                            <span th:if="${iter.first}">
-                                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img th:src="@{/resources/home.png}" src="../../resources/home.png"/></a>
-                            </span>
-                            <span th:unless="${iter.first}">
-                                <span th:unless="${iter.last}">
-                                    <a th:href="${breadcrumb.id}" th:text="${breadcrumb.name}">Parent</a>
-                                </span>
-                                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
-                            </span>
-                        </span>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span12">
-            <form><textarea id="code" name="code" th:text="${documentText}"></textarea></form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span12">
-            <button type="button" id="discard" class="btn" onclick="discardText()">Discard</button>
-            <button type="button" id="save" class="btn btn-success" onclick="saveText(editor.getValue(), textDocument.id)">Save</button>
-            <div id="upload" class="btn">
-                <i class="icon-upload"></i> Upload
-            </div>
-            <button type="button" id="delete" class="btn btn-danger" onclick="deleteDocument(textDocument.id, textDocument.name, navigateToParent)"><i class="icon-remove"></i> Delete</button>
+            <div class="span12">
+                <hr/>
+                <div th:include="fragments :: breadcrumbs"></div>
+                <form><textarea id="code" name="code" th:text="${documentText}"></textarea></form>
+                <button type="button" id="discard" class="btn" onclick="discardText()">Discard</button>
+                <button type="button" id="save" class="btn btn-success" onclick="saveText(editor.getValue(), currentDocument.id)">Save</button>
+                <div id="upload" class="btn">
+                    <i class="icon-upload"></i> Upload
+                </div>
+                <button type="button" id="delete" class="btn btn-danger" onclick="deleteDocument(currentDocument.id, currentDocument.name, navigateToParent)"><i class="icon-remove"></i> Delete</button>
+                </div>
         </div>
     </div>
 </div>
 
-<div class='notifications top-right'></div>
+<script th:include="fragments :: initialize" th:inline="javascript"></script>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var contextPath = /*[[${contextPath}]]*/ null;
-    var textDocument = /*[[${document.shallowCopy}]]*/ null;
     var editorMode = /*[[${document.mimeType}]]*/ null;
-    var message = /*[[${message}]]*/ null;
     /*]]>*/
 
     $(document).ready(function() {
-        initializeUploader(textDocument, false);
-        $('.link-row').click(documentClicked);
         initializeEditor(editorMode);
-
-        if (message != null) {
-            notify(message);
-        }
     });
 </script>
+
+<script th:src="@{/resources/codemirror/lib/codemirror.js}" src="../../resources/codemirror/lib/codemirror.js"></script>
+<script th:src="@{/resources/codemirror/mode/xml/xml.js}" src="../../resources/codemirror/mode/xml/xml.js"></script>
+<script th:src="@{/resources/codemirror/mode/javascript/javascript.js}" src="../../resources/codemirror/mode/javascript/javascript.js"></script>
+<script th:src="@{/resources/codemirror/mode/css/css.js}" src="../../resources/codemirror/mode/css/css.js"></script>
+<script th:src="@{/resources/codemirror/mode/vbscript/vbscript.js}" src="../../resources/codemirror/mode/vbscript/vbscript.js"></script>
+<script th:src="@{/resources/codemirror/mode/htmlmixed/htmlmixed.js}" src="../../resources/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
 </body>
 </html>

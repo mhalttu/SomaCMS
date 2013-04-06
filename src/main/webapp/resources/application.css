@@ -15,7 +15,7 @@ tr.document-row {
     font-size: x-large;
 }
 
-.breadcrumps {
+.breadcrumbs {
     font-size: x-large;
     padding-bottom: 20px;
 }
@@ -73,4 +73,10 @@ p.empty-folder {
 
 .search {
     margin-top: 5px;
+}
+
+.CodeMirror {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 450px;
 }
