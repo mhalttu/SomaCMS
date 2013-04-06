@@ -1,6 +1,7 @@
 package fi.essentia.somacms.json;
 
 /**
+ * Tells the client that an error occurred
  */
 public class Error extends Result {
     private String explanation;

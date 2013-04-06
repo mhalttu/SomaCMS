@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- *
+ * Concrete representation of the document metadata.
  */
 public class DatabaseDocument implements Document {
     @Getter @Setter private long id;

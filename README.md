@@ -35,9 +35,11 @@ open -a "Google Chrome" --args --allow-file-access-from-files
 
 TODO
 ----
+* Make document manager transactional
+* Separate page specific scripts
 * Add screenshots here
 * Javadoc
-* Separate page specific scripts
+
 
 Things I'm Not Too Proud Of
 ---------------------------

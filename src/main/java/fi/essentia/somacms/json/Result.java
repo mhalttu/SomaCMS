@@ -1,6 +1,7 @@
 package fi.essentia.somacms.json;
 
 /**
+ * Generic result sent to the client. Can either be a success or failure.
  */
 public class Result {
     public boolean success;

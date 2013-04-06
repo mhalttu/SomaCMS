@@ -1,6 +1,7 @@
 package fi.essentia.somacms.json;
 
 /**
+ * One document matching the search query
  */
 public class SearchResult {
     private long id;

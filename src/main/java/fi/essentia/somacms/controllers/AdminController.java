@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- * All the administration logic for the
+ * Takes care of all the administration tasks
  */
 @Controller
 @RequestMapping(value="/admin/")

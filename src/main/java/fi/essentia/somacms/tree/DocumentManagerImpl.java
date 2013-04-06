@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
- *
+ * Concrete implementation of the DocumentManager. Keeps the document metadata in memory for faster access.
  */
 @Component
 public class DocumentManagerImpl implements DocumentManager {
@@ -168,12 +168,6 @@ public class DocumentManagerImpl implements DocumentManager {
                 return StringUtils.containsIgnoreCase(treeDocument.getPath(), path) && treeDocument.isViewable() && !treeDocument.isRoot();
             }
         });
-    }
-
-    @Override
-    public void documentUpdated(TreeDocument document) {
-        document.setModified(new Date());
-
     }
 
     private TreeDocument addToTree(DatabaseDocument databaseDocument, Long parentId) {

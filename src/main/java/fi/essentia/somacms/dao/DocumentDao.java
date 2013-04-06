@@ -6,6 +6,9 @@ import fi.essentia.somacms.tree.TreeDocument;
 
 import java.util.List;
 
+/**
+ * Stores and loads the metadata for the documents
+ */
 public interface DocumentDao {
     public DatabaseDocument findById(long id);
     public long save(DatabaseDocument document);

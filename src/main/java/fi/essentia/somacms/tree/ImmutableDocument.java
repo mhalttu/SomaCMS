@@ -9,7 +9,7 @@ import lombok.experimental.Value;
 import java.util.Date;
 
 /**
- *
+ * An immutable representation of the Document object
  */
 public class ImmutableDocument implements Document {
     public ImmutableDocument(Document document) {

@@ -7,6 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 
+/**
+ * Solves the problem of Spring Security forwarding an AJAX request to the login page.
+ *
+ * Thanks to http://yoyar.com/blog/2012/06/dealing-with-the-spring-security-ajax-session-timeout-problem/
+ */
 public class AjaxAwareAuthenticationEntryPoint
         extends LoginUrlAuthenticationEntryPoint {
 

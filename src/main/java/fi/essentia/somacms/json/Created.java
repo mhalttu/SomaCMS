@@ -1,6 +1,7 @@
 package fi.essentia.somacms.json;
 
 /**
+ * Tells the client that a document has been created
  */
 public class Created extends Result {
     long documentId;

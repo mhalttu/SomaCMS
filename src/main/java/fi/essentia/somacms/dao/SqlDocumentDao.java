@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * SQL based implementation for storing the metadata
  */
 @Repository
 public class SqlDocumentDao implements DocumentDao {

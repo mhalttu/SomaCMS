@@ -11,7 +11,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 
 /**
- *
+ * SQL based implementation for storing the document contents
  */
 @Component
 public class SqlDataDao implements DataDao {

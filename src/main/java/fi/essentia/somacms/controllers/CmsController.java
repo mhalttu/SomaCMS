@@ -17,7 +17,7 @@ import java.net.URLDecoder;
 import java.sql.SQLException;
 
 /**
- *
+ * Exposes the contents of the CMS via normal web requests
  */
 @Component
 @RequestMapping(value="/", method= RequestMethod.GET)

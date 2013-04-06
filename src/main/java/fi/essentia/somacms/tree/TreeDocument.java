@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.*;
 
 /**
- *
+ * Wraps the normal database document better support keeping the document metadata in memory.
  */
 public class TreeDocument implements Document {
     public static final long ROOT_ID = 0;

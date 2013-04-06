@@ -15,7 +15,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- *
+ * Stores multiple documents to the given folder by reading their contents from a ZIP archive
  */
 @Component
 public class ArchiveHelper {

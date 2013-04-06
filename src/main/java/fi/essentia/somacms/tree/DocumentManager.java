@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
+ * Takes care of all the operations related to the document metadata and contents.
  */
 public interface DocumentManager {
     TreeDocument documentFromPath(String path);
@@ -18,5 +18,4 @@ public interface DocumentManager {
     TreeDocument storeDocument(Long parentId, String fileName, byte[] bytes);
     TreeDocument deleteDocument(Long documentId);
     Collection<TreeDocument> documentsByPath(String path);
-    void documentUpdated(TreeDocument document);
 }
