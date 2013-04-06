@@ -49,6 +49,7 @@ Things I'm not too proud of
 
 Improvement ideas
 -----------------
+* Make the layout a bit more responsive
 * Add support for renaming files and folders
 * Implement better user management
 * Add version tracking for documents
