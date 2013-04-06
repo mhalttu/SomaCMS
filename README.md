@@ -25,13 +25,14 @@ Screenshots
 Setup
 -----
 1. Check the configuration at `src/main/resources/somacms.properties`
-2. Setup the database, e.g.
-```sql
+2. Setup the database (see below)
+3. Run locally: `mvn jetty-run`
+4. Navigate to `http://localhost:8080/admin/
+
+```mysql
 CREATE DATABASE somacms;
 GRANT ALL ON somacms.* TO 'somacms'@'localhost' IDENTIFIED BY 'somacms';
 ```
-3. Run locally: `mvn jetty-run`
-4. Navigate to `http://localhost:8080/admin/
 
 Notes
 -----
