@@ -31,22 +31,22 @@ GRANT ALL ON simplecms.* TO 'simplecms'@'localhost' IDENTIFIED BY 'simplecms';
 
 TODO
 ----
-* Tell if file already exists
-* Return types
+* Reload after update!! (Show message instead..)
 * Add screenshots here
-* Create new text document
 * Javadoc
 * Uploading a new version of the same file
 * Separate page specific scripts
 * Favicon
 * Name
 * Domain?
+* Remove duplication?
 
 Things I'm Not Too Proud Of
 ---------------------------
 * No unit tests. Shame on me.
 * Some of the Thymeleaf constructs feel a bit awkward
 * Too much code duplication on the html pages
+* The REST api could be a bit more consistent
 
 Improvement Ideas
 -----------------

@@ -8,14 +8,15 @@
     <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}" src="../../resources/bootstrap/js/bootstrap.min.js"></script>
     <script th:src="@{/resources/bootbox/bootbox.min.js}" src="../../resources/bootbox/bootbox.min.js"></script>
     <script th:src="@{/resources/application.js}" src="../../resources/application.js"></script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var textDocument = /*[[${document.shallowCopy}]]*/ "";
-        /*]]>*/
-    </script>
+
+    <link th:href="@{/resources/upload/fineuploader-3.4.1.css}" rel="stylesheet" href="../../resources/upload/fineuploader-3.4.1.css"/>
+    <script th:src="@{/resources/upload/jquery.fineuploader-3.4.1.min.js}" src="../../resources/upload/jquery.fineuploader-3.4.1.min.js"></script>
 
     <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap/css/bootstrap.min.css"/>
     <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../resources/application.css"/>
+
+    <script th:src="@{/resources/bootstrap-notify/bootstrap-notify.js}" src="../../resources/bootstrap-notify/bootstrap-notify.js"></script>
+    <link th:href="@{/resources/bootstrap-notify/bootstrap-notify.css}" rel="stylesheet" media="screen" href="../../resources/bootstrap-notify/bootstrap-notify.css"/>
 </head>
 <body>
 
@@ -60,16 +61,33 @@
         </div>
     </div>
     <br/>
+    <hr/>
     <div class="row">
         <div class="span12">
+            <div id="fine-uploader-basic" class="btn">
+                <i class="icon-upload"></i> Update
+            </div>
             <button type="button" id="delete" class="btn btn-danger" th:onclick="'deleteDocument(textDocument.id, textDocument.name, navigateToParent)'">Delete</button>
         </div>
     </div>
 </div>
 
+<div class='notifications top-right'></div>
+
 <script th:inline="javascript">
+    /*<![CDATA[*/
+    var contextPath = /*[[${contextPath}]]*/ null;
+    var imageDocument = /*[[${document.shallowCopy}]]*/ "";
+    var message = /*[[${message}]]*/ null;
+    /*]]>*/
+
     $(document).ready(function() {
         $('.link-row').click(documentClicked);
+        initializeUploader(imageDocument, false);
+
+        if (message != null) {
+            notify(message);
+        }
     });
 </script>
 

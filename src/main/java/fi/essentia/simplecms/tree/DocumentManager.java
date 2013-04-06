@@ -18,4 +18,5 @@ public interface DocumentManager {
     TreeDocument storeDocument(Long parentId, String fileName, byte[] bytes);
     TreeDocument deleteDocument(Long documentId);
     Collection<TreeDocument> documentsByPath(String path);
+    void documentUpdated(TreeDocument document);
 }

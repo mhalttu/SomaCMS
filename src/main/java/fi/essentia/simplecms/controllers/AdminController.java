@@ -2,6 +2,7 @@ package fi.essentia.simplecms.controllers;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import fi.essentia.simplecms.dao.DataDao;
 import fi.essentia.simplecms.json.*;
 import fi.essentia.simplecms.json.Error;
@@ -11,6 +12,7 @@ import fi.essentia.simplecms.tree.UnsupportedMimeTypeException;
 import fi.essentia.simplecms.util.ArchiveHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * All the administration logic for the
@@ -42,7 +45,7 @@ public class AdminController {
     }
 
     @RequestMapping(value="/document/{id}", method=RequestMethod.GET)
-    public String showFolder(@PathVariable Long id, Model model, WebRequest webRequest) {
+    public String showDocument(@PathVariable Long id, Model model, WebRequest webRequest) {
         TreeDocument document = documentManager.documentById(id);
         if (document == null) {
             throw new ResourceNotFoundException();
@@ -68,7 +71,12 @@ public class AdminController {
 
     @RequestMapping(value="/api/document/{parentId}/folders", method=RequestMethod.POST)
     public @ResponseBody Result createFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
-        TreeDocument folder = documentManager.createFolder(parentId, name);
+        TreeDocument folder;
+        try {
+            folder = documentManager.createFolder(parentId, name);
+        } catch (DuplicateKeyException e) {
+            return new Error("There is already a document with the same name.");
+        }
         message = "Folder <b>" + name + "</b> created";
         return new Created(folder.getId());
     }
@@ -80,6 +88,8 @@ public class AdminController {
             return new Created(testFile.getId());
         } catch (UnsupportedMimeTypeException e) {
             return new Error("The file doesn't seem to be a text document.");
+        } catch (DuplicateKeyException e) {
+            return new Error("There is already a document with the same name.");
         }
     }
 
@@ -96,7 +106,26 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value="/api/document/{documentId}", method=RequestMethod.PUT)
+    @RequestMapping(value="/api/document/{documentId}/replace", method=RequestMethod.POST)
+    public @ResponseBody Result replace(@PathVariable Long documentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
+        String contentType = file.getContentType();
+        if (contentType.equals("application/zip")) {
+            return new Error("Updating archives is not supported");
+        } else {
+            TreeDocument document = documentManager.documentById(documentId);
+            String fileName = file.getOriginalFilename();
+            if (!document.getName().equals(fileName)) {
+                throw new RuntimeException("Received upload of " + fileName + " that was trying to replace " + document.getName());
+            }
+
+            documentManager.storeDocument(document.getParentId(), fileName, file.getBytes());
+            message = "File Updated";
+            return Result.success();
+        }
+    }
+
+
+    @RequestMapping(value="/api/document/{documentId}/save", method=RequestMethod.PUT)
     public @ResponseBody Result saveTextDocument(@PathVariable Long documentId, @RequestBody String contents) {
         dataDao.updateData(documentId, contents.getBytes());
         return Result.success();

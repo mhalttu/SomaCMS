@@ -20,18 +20,22 @@ import java.util.*;
 @Component
 public class DocumentManagerImpl implements DocumentManager {
     private Tika tika = new Tika();
-    public static final long ROOT_ID = 0;
-    private TreeDocument root;
     private Map<Long, TreeDocument> idToDocument = new HashMap<Long, TreeDocument>();
+    private TreeDocument root;
 
     @Autowired DocumentDao documentDao;
     @Autowired DataDao dataDao;
 
+
     @PostConstruct
     public void initialize() {
+        loadDocuments();
         initializeRoot();
-        loadChildren();
         linkDocuments();
+    }
+
+    private void initializeRoot() {
+        root = idToDocument.get(TreeDocument.ROOT_ID);
     }
 
     private void linkDocuments() {
@@ -46,21 +50,12 @@ public class DocumentManagerImpl implements DocumentManager {
         }
     }
 
-    private void loadChildren() {
+    private void loadDocuments() {
         List<DatabaseDocument> databaseDocuments = documentDao.findAll();
         for (DatabaseDocument databaseDocument : databaseDocuments) {
             TreeDocument treeDocument = new TreeDocument(databaseDocument);
             idToDocument.put(treeDocument.getId(), treeDocument);
         }
-    }
-
-    private void initializeRoot() {
-        DatabaseDocument databaseDocument = new DatabaseDocument();
-        databaseDocument.setFolder(true);
-        databaseDocument.setId(ROOT_ID);
-        databaseDocument.setName("root");
-        root = new TreeDocument(databaseDocument);
-        idToDocument.put(ROOT_ID, root);
     }
 
     @Override public TreeDocument documentFromPath(String path) {
@@ -76,9 +71,6 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override public TreeDocument documentById(Long id) {
-        if (id == null) {
-            return root;
-        }
         return idToDocument.get(id);
     }
 
@@ -98,7 +90,7 @@ public class DocumentManagerImpl implements DocumentManager {
                 throw new UnsupportedMimeTypeException();
             }
         }
-        databaseDocument.setParentId(parent.isRoot() ? null : parent.getId());
+        databaseDocument.setParentId(parent.getId());
 
         documentDao.save(databaseDocument);
         return addToTree(databaseDocument, parentId);
@@ -120,11 +112,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     private TreeDocument parentFromId(Long parentId) {
-        if (parentId == null) {
-            return root;
-        } else {
-            return idToDocument.get(parentId);
-        }
+        return idToDocument.get(parentId);
     }
 
     @Override
@@ -136,11 +124,11 @@ public class DocumentManagerImpl implements DocumentManager {
         if (document == null) {
             DatabaseDocument databaseDocument = new DatabaseDocument();
             databaseDocument.setName(fileName);
-            databaseDocument.setParentId(parent.isRoot() ? null : parent.getId());
+            databaseDocument.setParentId(parent.getId());
             databaseDocument.setSize(bytes.length);
             databaseDocument.setMimeType(mimeType);
             documentDao.save(databaseDocument);
-            addToTree(databaseDocument, parentId);
+            document = addToTree(databaseDocument, parentId);
 
             dataDao.insertData(databaseDocument.getId(), bytes);
         } else {
@@ -180,6 +168,12 @@ public class DocumentManagerImpl implements DocumentManager {
                 return StringUtils.containsIgnoreCase(treeDocument.getPath(), path) && treeDocument.isViewable() && !treeDocument.isRoot();
             }
         });
+    }
+
+    @Override
+    public void documentUpdated(TreeDocument document) {
+        document.setModified(new Date());
+
     }
 
     private TreeDocument addToTree(DatabaseDocument databaseDocument, Long parentId) {

@@ -14,6 +14,8 @@ import java.util.*;
  *
  */
 public class TreeDocument implements Document {
+    public static final long ROOT_ID = 0;
+
     @Delegate private final DatabaseDocument databaseDocument;
     @Getter @Setter private TreeDocument parent;
 
@@ -44,7 +46,6 @@ public class TreeDocument implements Document {
             path.append(pathElements.get(i).getName());
             path.append("/");
         }
-        path.append(getName());
         return path.toString();
     }
 
@@ -72,7 +73,7 @@ public class TreeDocument implements Document {
     }
 
     public boolean isRoot() {
-        return parent == null;
+        return getId() == ROOT_ID;
     }
 
     public void removeChild(Document document) {
@@ -81,7 +82,7 @@ public class TreeDocument implements Document {
     }
 
     public Document getShallowCopy() {
-        return new ImmutableDocument(databaseDocument);
+            return new ImmutableDocument(databaseDocument);
     }
 
     private static class TreeDocumentComparator implements Comparator<TreeDocument> {

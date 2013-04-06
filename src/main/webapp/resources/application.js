@@ -7,15 +7,19 @@ function documentClicked() {
 }
 
 function createFolder(documentId) {
-    bootbox.prompt("What is the name of the folder?", function(result) {
-        if (result == null) {
+    bootbox.prompt("What is the name of the folder?", function(fileName) {
+        if (fileName == null) {
         } else {
             $.ajax({
                 url: contextPath + "/admin/api/document/" + documentId  + "/folders",
                 type: "post",
-                data: "name=" + result,
+                data: "name=" + fileName,
                 success: function(result) {
-                    location.reload()
+                    if (result.success) {
+                        location.reload()
+                    } else {
+                        bootbox.alert("Failed to create folder <b>" + fileName + "</b>. " + result.explanation);
+                    }
                 },
                 error: function(xhr) {
                     if (xhr.status == 403) {
@@ -61,7 +65,7 @@ function saveText(text, documentId) {
     $.ajax({
         type: "put",
         data: text,
-        url: contextPath + "/admin/api/document/" + documentId,
+        url: contextPath + "/admin/api/document/" + documentId + "/save",
         success: function(result) {
             notify("Document Saved!");
             window.editor.markClean();
@@ -106,18 +110,22 @@ function deleteDocumentOnRow() {
     });
 }
 
-function initializeUploader() {
+function initializeUploader(document, folder) {
     var progressBar = $('#progress-bar');
     progressBar.hide();
     var uploader = new qq.FineUploaderBasic({
         button: $('#fine-uploader-basic')[0],
         request: {
-            endpoint: contextPath + '/admin/api/files'
+            endpoint: folder ? contextPath + '/admin/api/document/' + document.id + '/files' : contextPath + '/admin/api/document/' + document.id + '/replace'
         },
         validation: {
         },
         callbacks: {
             onSubmit: function(id, fileName) {
+                if (!folder && fileName != document.name) {
+                    bootbox.alert("The name of the current file <b>" + document.name + "</b> is different from the uploaded file <b>" + fileName + "</b>");
+                    return false;
+                }
             },
             onUpload: function(id, fileName) {
                 progressBar.show();

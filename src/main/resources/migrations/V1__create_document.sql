@@ -10,4 +10,4 @@ CREATE TABLE `document` (
   PRIMARY KEY (`id`),
   UNIQUE (`parent_id`, `name`),
   FOREIGN KEY (`parent_id`) REFERENCES `document` (`id`)
-) AUTO_INCREMENT=1
+) AUTO_INCREMENT=1;
