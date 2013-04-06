@@ -12,7 +12,7 @@ I wanted to learn web development, so this project was as good an excuse as any.
 
 What Does *Soma* mean?
 ----------------------
-Soma means small and cute in Finnish.
+Soma means cute in Finnish.
 
 Setup
 -----

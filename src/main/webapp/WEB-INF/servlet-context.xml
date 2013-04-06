@@ -63,7 +63,8 @@
     </bean>
 
     <sec:http auto-config="true"
-              entry-point-ref="authenticationEntryPoint">
+              entry-point-ref="authenticationEntryPoint"
+              disable-url-rewriting="true">
         <sec:form-login login-page="/login/" default-target-url="/admin/"
                     authentication-failure-url="/login/failed" />
         <sec:logout logout-success-url="/logout/" />
