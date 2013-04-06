@@ -1,8 +1,8 @@
-package fi.essentia.simplecms.tree;
+package fi.essentia.somacms.tree;
 
 import com.google.common.collect.Collections2;
-import fi.essentia.simplecms.models.DatabaseDocument;
-import fi.essentia.simplecms.models.Document;
+import fi.essentia.somacms.models.DatabaseDocument;
+import fi.essentia.somacms.models.Document;
 import lombok.Delegate;
 import lombok.Getter;
 import lombok.Setter;

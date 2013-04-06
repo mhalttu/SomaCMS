@@ -1,7 +1,7 @@
-package fi.essentia.simplecms.util;
+package fi.essentia.somacms.util;
 
-import fi.essentia.simplecms.tree.DocumentManager;
-import fi.essentia.simplecms.tree.TreeDocument;
+import fi.essentia.somacms.tree.DocumentManager;
+import fi.essentia.somacms.tree.TreeDocument;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

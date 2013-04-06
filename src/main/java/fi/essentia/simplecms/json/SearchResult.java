@@ -1,4 +1,4 @@
-package fi.essentia.simplecms.json;
+package fi.essentia.somacms.json;
 
 /**
  */

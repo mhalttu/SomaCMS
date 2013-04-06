@@ -1,6 +1,6 @@
-package fi.essentia.simplecms.dao;
+package fi.essentia.somacms.dao;
 
-import fi.essentia.simplecms.models.Document;
+import fi.essentia.somacms.models.Document;
 
 /**
  *

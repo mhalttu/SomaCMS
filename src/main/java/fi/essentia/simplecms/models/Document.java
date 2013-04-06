@@ -1,4 +1,4 @@
-package fi.essentia.simplecms.models;
+package fi.essentia.somacms.models;
 
 
 import java.util.Date;

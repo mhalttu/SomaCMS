@@ -1,15 +1,15 @@
-package fi.essentia.simplecms.controllers;
+package fi.essentia.somacms.controllers;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-import fi.essentia.simplecms.dao.DataDao;
-import fi.essentia.simplecms.json.*;
-import fi.essentia.simplecms.json.Error;
-import fi.essentia.simplecms.tree.DocumentManager;
-import fi.essentia.simplecms.tree.TreeDocument;
-import fi.essentia.simplecms.tree.UnsupportedMimeTypeException;
-import fi.essentia.simplecms.util.ArchiveHelper;
+import fi.essentia.somacms.dao.DataDao;
+import fi.essentia.somacms.json.*;
+import fi.essentia.somacms.json.Error;
+import fi.essentia.somacms.tree.DocumentManager;
+import fi.essentia.somacms.tree.TreeDocument;
+import fi.essentia.somacms.tree.UnsupportedMimeTypeException;
+import fi.essentia.somacms.util.ArchiveHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DuplicateKeyException;

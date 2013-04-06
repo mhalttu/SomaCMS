@@ -1,4 +1,4 @@
-package fi.essentia.simplecms.controllers;
+package fi.essentia.somacms.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

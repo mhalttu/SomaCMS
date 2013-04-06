@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fi.essentia</groupId>
-    <artifactId>simplecms</artifactId>
+    <artifactId>somacms</artifactId>
     <version>0.9</version>
     <packaging>war</packaging>
 
@@ -37,11 +37,11 @@
                 <version>2.0.3</version>
                 <configuration>
                     <driver>com.mysql.jdbc.Driver</driver>
-                    <url>jdbc:mysql://localhost:3306/simplecms</url>
-                    <user>simplecms</user>
-                    <password>simplecms</password>
+                    <url>jdbc:mysql://localhost:3306/somacms</url>
+                    <user>somacms</user>
+                    <password>somacms</password>
                     <schemas>
-                        <schema>simplecms</schema>
+                        <schema>somacms</schema>
                     </schemas>
                 </configuration>
             </plugin>

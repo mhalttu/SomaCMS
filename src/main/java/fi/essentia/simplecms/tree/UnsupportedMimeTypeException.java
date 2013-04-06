@@ -1,4 +1,4 @@
-package fi.essentia.simplecms.tree;
+package fi.essentia.somacms.tree;
 
 /**
  */

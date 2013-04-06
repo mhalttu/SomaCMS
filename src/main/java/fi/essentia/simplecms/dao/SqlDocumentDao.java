@@ -1,7 +1,7 @@
-package fi.essentia.simplecms.dao;
+package fi.essentia.somacms.dao;
 
-import fi.essentia.simplecms.models.DatabaseDocument;
-import fi.essentia.simplecms.models.Document;
+import fi.essentia.somacms.models.DatabaseDocument;
+import fi.essentia.somacms.models.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

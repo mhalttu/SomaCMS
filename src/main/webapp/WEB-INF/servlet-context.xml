@@ -15,7 +15,7 @@
           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 
-<context:property-placeholder location="classpath:simplecms.properties"/>
+<context:property-placeholder location="classpath:somacms.properties"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -34,7 +34,7 @@
     <mvc:resources mapping="/resources/**" location="/resources/" order="0"/>
     <mvc:resources mapping="/favicon.ico" location="/resources/favicon.ico" order="0"/>
     <mvc:annotation-driven/>
-    <context:component-scan base-package="fi.essentia.simplecms" />
+    <context:component-scan base-package="fi.essentia.somacms" />
 
     <!-- Uploads -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:maxUploadSize="${upload.maxBytes}"/>
@@ -58,7 +58,7 @@
 
     <!-- Spring Security -->
     <bean id="authenticationEntryPoint"
-          class="fi.essentia.simplecms.security.AjaxAwareAuthenticationEntryPoint">
+          class="fi.essentia.somacms.security.AjaxAwareAuthenticationEntryPoint">
         <constructor-arg name="loginUrl" value="/login/"/>
     </bean>
 

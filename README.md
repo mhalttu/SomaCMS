@@ -1,30 +1,26 @@
-SimpleCMS (for Java)
+SomaCMS
 =========
+SomaCMS is a super-simple, user friendly content management system running on Java. It's almost misleading to call it a
+ CMS. You can upload files, edit text documents in the browser and publish the results for easy access.
 
 Yet another CMS. Why?
 ---------------------
-I needed to find the simplest possible CMS running on the Java stack. There are lot of nice, simple solutions e.g. for
-PHP but I couldn't find anything simple enough for Java.
+I needed a simple CMS running on the Java stack. There are lot of nice, simple solutions written on PHP but I couldn't
+find anything simple enough for Java.
 
 I wanted to learn web development, so this project was as good an excuse as any.
 
-What is SimpleCMS
------------------
-It's almost misleading to call SimpleCMS a content management system. You can upload images and text documents. You can
-edit the text documents using an in-line editor. Finally, you can view those documents in the browser.
-
-Core Values
------------
-1. Simplicity
-2. Usability
+What Does *Soma* mean?
+----------------------
+Soma means small and cute in Finnish.
 
 Setup
 -----
-1. Check the configuration at arc/main/resources/simplecms.properties
+1. Check the configuration at arc/main/resources/somacms.properties
 2. Setup the database, e.g.
 ```mysql
-CREATE DATABASE simplecms;
-GRANT ALL ON simplecms.* TO 'simplecms'@'localhost' IDENTIFIED BY 'simplecms';
+CREATE DATABASE somacms;
+GRANT ALL ON somacms.* TO 'somacms'@'localhost' IDENTIFIED BY 'somacms';
 ```
 3. Run locally: mvn jetty-run
 4. Navigate to http://localhost:8080/admin/
@@ -42,9 +38,6 @@ TODO
 * Add screenshots here
 * Javadoc
 * Separate page specific scripts
-* Favicon
-* Name
-* Domain?
 
 Things I'm Not Too Proud Of
 ---------------------------
@@ -53,9 +46,7 @@ Things I'm Not Too Proud Of
 
 Improvement Ideas
 -----------------
-* Convert it to a single-page application e.g. using AngularJS
-* Implement a better user management
+* Convert to a single-page application e.g. using AngularJS
+* Implement better user management
 * Add version tracking for documents
-* Usability: Show newly uploaded documents (or added folders) with an animation
 * Export the whole database as an archive
-

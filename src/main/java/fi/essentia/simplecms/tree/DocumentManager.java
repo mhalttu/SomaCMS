@@ -1,6 +1,6 @@
-package fi.essentia.simplecms.tree;
+package fi.essentia.somacms.tree;
 
-import fi.essentia.simplecms.models.Document;
+import fi.essentia.somacms.models.Document;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

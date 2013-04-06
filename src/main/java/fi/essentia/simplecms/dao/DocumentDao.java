@@ -1,8 +1,8 @@
-package fi.essentia.simplecms.dao;
+package fi.essentia.somacms.dao;
 
-import fi.essentia.simplecms.models.DatabaseDocument;
-import fi.essentia.simplecms.models.Document;
-import fi.essentia.simplecms.tree.TreeDocument;
+import fi.essentia.somacms.models.DatabaseDocument;
+import fi.essentia.somacms.models.Document;
+import fi.essentia.somacms.tree.TreeDocument;
 
 import java.util.List;
 

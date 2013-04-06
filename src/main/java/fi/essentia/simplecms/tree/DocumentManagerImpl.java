@@ -1,11 +1,11 @@
-package fi.essentia.simplecms.tree;
+package fi.essentia.somacms.tree;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import fi.essentia.simplecms.controllers.UnauthorizedException;
-import fi.essentia.simplecms.dao.DataDao;
-import fi.essentia.simplecms.dao.DocumentDao;
-import fi.essentia.simplecms.models.DatabaseDocument;
+import fi.essentia.somacms.controllers.UnauthorizedException;
+import fi.essentia.somacms.dao.DataDao;
+import fi.essentia.somacms.dao.DocumentDao;
+import fi.essentia.somacms.models.DatabaseDocument;
 import org.apache.commons.lang.StringUtils;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
-package fi.essentia.simplecms.controllers;
+package fi.essentia.somacms.controllers;
 
-import fi.essentia.simplecms.dao.DataDao;
-import fi.essentia.simplecms.tree.DocumentManager;
-import fi.essentia.simplecms.tree.TreeDocument;
-import fi.essentia.simplecms.util.ArchiveHelper;
+import fi.essentia.somacms.dao.DataDao;
+import fi.essentia.somacms.tree.DocumentManager;
+import fi.essentia.somacms.tree.TreeDocument;
+import fi.essentia.somacms.util.ArchiveHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
