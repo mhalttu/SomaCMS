@@ -42,8 +42,12 @@ public class TreeDocument implements Document {
     public String getPath() {
         List<Document> pathElements = getBreadcrumbs();
         StringBuilder path = new StringBuilder("/");
-        for (int i=1; i<pathElements.size(); i++) {
+        for (int i=1; i<pathElements.size()-1; i++) {
             path.append(pathElements.get(i).getName());
+            path.append("/");
+        }
+        path.append(getName());
+        if (isFolder()) {
             path.append("/");
         }
         return path.toString();

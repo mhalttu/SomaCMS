@@ -8,10 +8,9 @@
 <body>
 
 <div class="container">
-    <div th:include="fragments :: top-bar"></div>
     <div class="row">
         <div class="span12">
-            <hr/>
+            <div th:include="fragments :: top-bar"></div>
             <div th:include="fragments :: breadcrumbs"></div>
             <table class="document-table">
                 <tr th:id="${child.id}" th:class="${child.viewable} ? 'document-row link-row' : 'document-row'"
