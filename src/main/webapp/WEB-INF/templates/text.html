@@ -77,8 +77,9 @@
     </div>
     <div class="row">
         <div class="span12">
-            <button type="button" id="save" class="btn btn-success" onclick="saveText(editor.getValue(), textDocument.id)"><i class="icon-ok"></i> Save Changes</button>
-            <div id="fine-uploader-basic" class="btn">
+            <button type="button" id="discard" class="btn" onclick="discardText()">Discard</button>
+            <button type="button" id="save" class="btn btn-success" onclick="saveText(editor.getValue(), textDocument.id)">Save</button>
+            <div id="upload" class="btn">
                 <i class="icon-upload"></i> Upload
             </div>
             <button type="button" id="delete" class="btn btn-danger" onclick="deleteDocument(textDocument.id, textDocument.name, navigateToParent)"><i class="icon-remove"></i> Delete</button>
