@@ -10,36 +10,33 @@ find anything simple enough for Java.
 
 I wanted to learn web development, so this project was as good an excuse as any.
 
-What Does *Soma* mean?
+What does *soma* mean?
 ----------------------
 Soma means cute in Finnish.
 
+Screenshots
+-----------
+![Main view](screenshots/folders.png)
+![Editor view](screenshots/editor.png)
+
 Setup
 -----
-1. Check the configuration at arc/main/resources/somacms.properties
+1. Check the configuration at `src/main/resources/somacms.properties`
 2. Setup the database, e.g.
-```mysql
+```sql
 CREATE DATABASE somacms;
 GRANT ALL ON somacms.* TO 'somacms'@'localhost' IDENTIFIED BY 'somacms';
 ```
-3. Run locally: mvn jetty-run
-4. Navigate to http://localhost:8080/admin/
+3. Run locally: `mvn jetty-run`
+4. Navigate to `http://localhost:8080/admin/
 
 Notes
 -----
-To edit the HTML pages without the server, you'll need to enable local file access in your browser. See more info at
+To edit the Thymeleaf pages without a server, you'll need to enable local file access in your browser. See more info at
 http://sourceforge.net/u/jjbenson/wiki/thymol/. For example, Chrome on OS X:
 ```bash
 open -a "Google Chrome" --args --allow-file-access-from-files
 ```
-
-TODO
-----
-* Make document manager transactional
-* Separate page specific scripts
-* Add screenshots here
-* Javadoc
-
 
 Things I'm Not Too Proud Of
 ---------------------------
@@ -48,7 +45,8 @@ Things I'm Not Too Proud Of
 
 Improvement Ideas
 -----------------
-* Convert to a single-page application e.g. using AngularJS
+* Add support for renaming files and folders
 * Implement better user management
 * Add version tracking for documents
 * Export the whole database as an archive
+* Convert to a single-page application e.g. using AngularJS
