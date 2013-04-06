@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="fragments :: header">
-    <script src="../../resources/jquery/jquery-1.9.1.min.js"></script>
-    <script src="../../resources/thymol/thymol.js"></script>
+    <script src="../../resources/libraries/jquery/jquery-1.9.1.min.js"></script>
+    <script src="../../resources/libraries/thymol/thymol.js"></script>
 </head>
 <body>
 
@@ -13,7 +13,7 @@
             <div th:include="fragments :: top-bar"></div>
             <div th:include="fragments :: breadcrumbs"></div>
             <br/>
-            <img class="preview" th:src="@{${document.path}}" src="../../resources/document.png"/>
+            <img class="preview" th:src="@{${document.path}}" src="../../resources/images/document.png"/>
         </div>
     </div>
     <br/>

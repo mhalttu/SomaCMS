@@ -3,10 +3,10 @@
 <head>
     <title>SomaCMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"
-            src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-    <link th:href="@{/resources/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"
-          href="../../resources/bootstrap/css/bootstrap.min.css"/>
+    <script th:src="@{/resources/libraries/bootstrap/js/bootstrap.min.js}"
+            src="../../resources/libraries/bootstrap/js/bootstrap.min.js"></script>
+    <link th:href="@{/resources/libraries/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"
+          href="../../resources/libraries/bootstrap/css/bootstrap.min.css"/>
 </head>
 
 <body>
@@ -14,7 +14,7 @@
     <div class="span5 offset1">
             <div id="legend">
                 <legend class="">
-                    <a href="0"><img th:src="@{/resources/logo.png}" src="../../resources/logo.png"/></a>
+                    <a href="0"><img th:src="@{/resources/images/logo.png}" src="../../resources/images/logo.png"/></a>
                 </legend>
                 <div th:if="${failed}" class="alert alert-error">
                     Wrong username or password

@@ -67,13 +67,13 @@ public class TreeDocument implements Document {
 
     public String getThumbail() {
         if (isFolder()) {
-            return "/resources/folder.png";
+            return "/resources/images/folder.png";
         }
         if (isImage()) {
             return getPath();
         }
 
-        return "/resources/document.png";
+        return "/resources/images/document.png";
     }
 
     public boolean isRoot() {

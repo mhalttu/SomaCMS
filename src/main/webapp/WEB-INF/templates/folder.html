@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" th:with="title='hello'">
 
 <head th:include="fragments :: header">
-    <script src="../../resources/jquery/jquery-1.9.1.min.js"></script>
-    <script src="../../resources/thymol/thymol.js"></script>
+    <script src="../../resources/libraries/jquery/jquery-1.9.1.min.js"></script>
+    <script src="../../resources/libraries/thymol/thymol.js"></script>
 </head>
 <body>
 
@@ -16,7 +16,7 @@
                 <tr th:id="${child.id}" th:class="${child.viewable} ? 'document-row link-row' : 'document-row'"
                     th:each="child : ${document.children}" class="document-row">
                     <td>
-                        <img class="document-thumbnail" th:src="@{${child.thumbail}}" src="../../resources/document.png"/>
+                        <img class="document-thumbnail" th:src="@{${child.thumbail}}" src="../../resources/images/document.png"/>
                     </td>
                     <td th:text="${child.name}" class="document-name">
                         example.txt
