@@ -148,11 +148,10 @@ function initializeUploader(document) {
             },
             onComplete: function(id, fileName, responseJSON) {
                 progressBar.hide();
-
                 if (responseJSON.success) {
                     location.reload();
                 } else {
-                    bootbox.alert("Failed to upload " + fileName + ". Please ask the administrator for details.");
+                    bootbox.alert("Failed to upload <b>" + fileName + "</b>. " + responseJSON.explanation);
                 }
             }
         }

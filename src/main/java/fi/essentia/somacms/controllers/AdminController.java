@@ -10,6 +10,8 @@ import fi.essentia.somacms.tree.DocumentManager;
 import fi.essentia.somacms.tree.TreeDocument;
 import fi.essentia.somacms.tree.UnsupportedMimeTypeException;
 import fi.essentia.somacms.util.ArchiveHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DuplicateKeyException;
@@ -32,6 +34,7 @@ import java.util.Date;
 @Secured(value = "ROLE_ADMIN")
 @Scope("session")
 public class AdminController {
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired private DocumentManager documentManager;
     @Autowired private DataDao dataDao;
@@ -95,32 +98,42 @@ public class AdminController {
 
     @RequestMapping(value="/api/document/{parentId}/files", method=RequestMethod.POST)
     public @ResponseBody Result uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
-        String contentType = file.getContentType();
-        if (contentType.equals("application/zip")) {
-            byte[] bytes = file.getBytes();
-            archiveHelper.storeDocuments(parentId, bytes);
-            return Result.success();
-        } else {
-            TreeDocument treeDocument = documentManager.storeDocument(parentId, file.getOriginalFilename(), file.getBytes());
-            return new Created(treeDocument.getId());
+        try {
+            String contentType = file.getContentType();
+            if (contentType.equals("application/zip")) {
+                byte[] bytes = file.getBytes();
+                archiveHelper.storeDocuments(parentId, bytes);
+                return Result.success();
+            } else {
+                TreeDocument treeDocument = documentManager.storeDocument(parentId, file.getOriginalFilename(), file.getBytes());
+                return new Created(treeDocument.getId());
+            }
+        } catch (RuntimeException e) {
+            logger.error("Upload of " + file.getOriginalFilename() + " failed", e);
+            return new Error(e.getMessage());
         }
     }
 
     @RequestMapping(value="/api/document/{documentId}/replace", method=RequestMethod.POST)
     public @ResponseBody Result replace(@PathVariable Long documentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
-        String contentType = file.getContentType();
-        if (contentType.equals("application/zip")) {
-            return new Error("Updating archives is not supported");
-        } else {
-            TreeDocument document = documentManager.documentById(documentId);
-            String fileName = file.getOriginalFilename();
-            if (!document.getName().equals(fileName)) {
-                throw new RuntimeException("Received upload of " + fileName + " that was trying to replace " + document.getName());
-            }
+        try {
+            String contentType = file.getContentType();
+            if (contentType.equals("application/zip")) {
+                return new Error("Updating archives is not supported");
+            } else {
+                TreeDocument document = documentManager.documentById(documentId);
+                String fileName = file.getOriginalFilename();
+                if (!document.getName().equals(fileName)) {
+                    throw new RuntimeException("Received upload of " + fileName + " that was trying to replace " + document.getName());
+                }
 
-            documentManager.storeDocument(document.getParentId(), fileName, file.getBytes());
-            message = "File Updated";
-            return Result.success();
+                documentManager.storeDocument(document.getParentId(), fileName, file.getBytes());
+                message = "File Updated";
+                return Result.success();
+            }
+        } catch (RuntimeException e) {
+            logger.error("Update of " + file.getOriginalFilename() + " failed", e);
+            return new Error(e.getMessage());
         }
     }
 

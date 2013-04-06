@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -18,6 +19,7 @@ import java.util.*;
  * Concrete implementation of the DocumentManager. Keeps the document metadata in memory for faster access.
  */
 @Component
+@Transactional
 public class DocumentManagerImpl implements DocumentManager {
     private Tika tika = new Tika();
     private Map<Long, TreeDocument> idToDocument = new HashMap<Long, TreeDocument>();
@@ -118,7 +120,6 @@ public class DocumentManagerImpl implements DocumentManager {
     @Override
     public TreeDocument storeDocument(Long parentId, String fileName, byte[] bytes) {
         String mimeType = tika.detect(bytes, fileName);
-        // TODO This method should should be transactional..
         TreeDocument parent = folder(parentId);
         TreeDocument document = parent.childByName(fileName);
         if (document == null) {
@@ -128,15 +129,13 @@ public class DocumentManagerImpl implements DocumentManager {
             databaseDocument.setSize(bytes.length);
             databaseDocument.setMimeType(mimeType);
             documentDao.save(databaseDocument);
-            document = addToTree(databaseDocument, parentId);
-
             dataDao.insertData(databaseDocument.getId(), bytes);
+            document = addToTree(databaseDocument, parentId);
         } else {
             document.setModified(new Date());
             document.setSize(bytes.length);
             document.setMimeType(mimeType);
             documentDao.update(document);
-
             dataDao.updateData(document.getId(), bytes);
         }
         return document;
