@@ -16,15 +16,14 @@
                 <legend class="">
                     <a href="0"><img th:src="@{/resources/logo.png}" src="../../resources/logo.png"/></a>
                 </legend>
+                <div th:if="${failed}" class="alert alert-error">
+                    Wrong username or password
+                </div>
+                <div th:if="${logout}" class="alert alert-success">
+                    You have logged out
+                </div>
+
             </div>
-        </div>
-
-
-        <div th:if="${failed}" class="alert alert-error">
-            Wrong username or password
-        </div>
-        <div th:if="${logout}" class="alert alert-success">
-            You have logged out
         </div>
 
         <form class="form-horizontal" th:action="@{/j_spring_security_check}" method="POST">
