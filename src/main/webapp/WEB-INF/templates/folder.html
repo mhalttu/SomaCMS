@@ -5,8 +5,9 @@
     <script src="../../resources/libraries/jquery/jquery-1.9.1.min.js"></script>
     <script src="../../resources/libraries/thymol/thymol.js"></script>
 </head>
-<body>
+<script th:src="@{/resources/folder.js}" src="../../resources/folder.js"></script>
 
+<body>
 <div class="container">
     <div class="row">
         <div class="span12">
@@ -50,7 +51,6 @@
 </div>
 
 <script th:include="fragments :: initialize" th:inline="javascript"></script>
-
 <script th:inline="javascript">
     $(document).ready(function() {
         $('.link-row').click(documentClicked);
