@@ -75,3 +75,11 @@ p.empty-folder {
     border-bottom: 1px solid black;
     height: 450px;
 }
+
+.notifications.top-center{
+    left:50%;top:25px;
+}
+
+.danger {
+    color: red;
+}

@@ -90,8 +90,12 @@ function discardText() {
     });
 }
 
-function deleteDocument(id, name, success) {
-    bootbox.confirm("Are you sure you want to delete <b>" + name + "</b>?", function (result) {
+function deleteDocument(id, name, folder, success) {
+    var message = "Are you sure you want to delete <b>" + name + "</b>?";
+    if (folder) {
+        message = message + " <span class='danger'>Everything inside the folder will be deleted.</span> ";
+    }
+    bootbox.confirm(message, function (result) {
         if (result) {
             $.ajax({
                 url: contextPath + "/admin/api/document/" + id,
@@ -114,7 +118,7 @@ function deleteDocumentOnRow() {
     var row = $(this).closest('tr');
     var id = row.attr('id');
     var name = row.find(".document-name").html();
-    deleteDocument(id, name, function (result) {
+    deleteDocument(id, name, true, function (result) {
         location.reload();
     });
 }
@@ -221,7 +225,7 @@ function navigateToParent() {
 }
 
 function notify(message) {
-    $('.top-right').notify({
+    $('.top-center').notify({
         type: "success",
         message: { html: message },
         fadeOut: { enabled: true, delay: 2000 }
