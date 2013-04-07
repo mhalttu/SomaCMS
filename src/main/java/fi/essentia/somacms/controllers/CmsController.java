@@ -25,6 +25,11 @@ public class CmsController {
     @Autowired private DocumentManager documentManager;
     @Autowired private DataDao dataDao;
 
+    @RequestMapping(value="/", method=RequestMethod.GET)
+    public String get() {
+        return "index";
+    }
+
     @RequestMapping(value="/**", method=RequestMethod.GET)
     public void get(HttpServletResponse response, HttpServletRequest request) throws SQLException, IOException {
         String contextPath = request.getContextPath();
