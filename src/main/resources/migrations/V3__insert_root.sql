@@ -1,3 +1,1 @@
-SET SESSION sql_mode='NO_AUTO_VALUE_ON_ZERO';
 INSERT INTO document VALUES(0, 'Root', 0, NULL, NULL, TRUE, NULL, NULL);
-SET SESSION sql_mode='';

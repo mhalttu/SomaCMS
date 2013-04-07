@@ -1,13 +1,13 @@
 CREATE TABLE document (
-  id int(11) NOT NULL AUTO_INCREMENT,
+  id SERIAL,
   name varchar(256),
-  size int(11),
-  parent_id int(11),
+  size int,
+  parent_id int,
   mime_type varchar(64),
-  folder int(1),
-  created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  folder boolean,
+  created timestamp DEFAULT CURRENT_TIMESTAMP,
   modified timestamp,
   PRIMARY KEY (id),
   UNIQUE (parent_id, name),
   FOREIGN KEY (parent_id) REFERENCES document (id)
-) AUTO_INCREMENT=1;
+);

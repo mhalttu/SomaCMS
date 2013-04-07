@@ -34,11 +34,6 @@ public class SqlDataDao implements DataDao {
 
     @Override
     public byte[] loadData(long documentId) {
-        Blob blob = jdbcTemplate.queryForObject("SELECT data FROM document_data WHERE document_id=?", Blob.class, documentId);
-        try {
-            return blob.getBytes(1, (int)blob.length());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return jdbcTemplate.queryForObject("SELECT data FROM document_data WHERE document_id=?", byte[].class, documentId);
     }
 }
