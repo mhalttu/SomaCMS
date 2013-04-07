@@ -61,7 +61,7 @@
         <property name="prefix" value="/WEB-INF/templates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />
-        <property name="cacheable" value="false"/> <!-- Set to true in production -->
+        <property name="cacheable" value="${thymeleaf.cacheable}"/>
     </bean>
 
     <bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
