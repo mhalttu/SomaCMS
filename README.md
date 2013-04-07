@@ -12,7 +12,7 @@ I also wanted to learn some web development, so this project was as good an excu
 
 What does *soma* mean?
 ----------------------
-Soma means cute in Finnish. I felt there were already enough projects called SimpleCMS in GitHub.
+Soma means cute in Finnish. I felt there were already enough projects called SimpleCMS on GitHub.
 
 Screenshots
 -----------
