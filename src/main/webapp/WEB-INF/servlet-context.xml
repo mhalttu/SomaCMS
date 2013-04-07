@@ -41,6 +41,17 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="fi.essentia.somacms" />
 
+    <!-- Cache control -->
+    <mvc:interceptors>
+        <bean id="webContentInterceptor"
+              class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+            <property name="cacheSeconds" value="0"/>
+            <property name="useExpiresHeader" value="true"/>
+            <property name="useCacheControlHeader" value="true"/>
+            <property name="useCacheControlNoStore" value="true"/>
+        </bean>
+    </mvc:interceptors>
+
     <!-- Uploads -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:maxUploadSize="${upload.maxBytes}"/>
 
