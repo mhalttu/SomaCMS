@@ -1,3 +1,5 @@
+*This branch has been converted to support Heroku and PostgreSQL.*
+
 SomaCMS
 =========
 SomaCMS is a super-simple, user friendly content management system running on Java. It's almost misleading to call it a
