@@ -55,3 +55,7 @@ Improvement ideas
 * Add version tracking for documents
 * Export the whole database as an archive
 * Convert to a single-page application e.g. using AngularJS
+
+License
+-------
+This software is released under the [MIT License](MIT-LICENSE.txt).
