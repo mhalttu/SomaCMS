@@ -11,50 +11,56 @@
 <body>
 <div class="container">
     <div class="span5 offset1">
-            <div id="legend">
-                <legend class="">
-                    <a href="0"><img th:src="@{/resources/images/logo.png}" src="../../resources/images/logo.png"/></a>
-                </legend>
-                <div th:if="${failed}" class="alert alert-error">
-                    Wrong username or password.
-                </div>
-                <div th:if="${logout}" class="alert alert-success">
-                    You have been logged out.
-                </div>
-
+        <div id="legend">
+            <legend class="">
+                <a href="0"><img th:src="@{/resources/images/logo.png}" src="../../resources/images/logo.png"/></a>
+            </legend>
+            <div th:if="${failed}" class="alert alert-error">
+                Wrong username or password.
             </div>
+            <div th:if="${logout}" class="alert alert-success">
+                You have been logged out.
+            </div>
+
         </div>
+    </div>
 
-        <form class="form-horizontal" th:action="@{/j_spring_security_check}" method="POST">
-            <fieldset>
+    <form class="form-horizontal" th:action="@{/j_spring_security_check}" method="POST">
+        <fieldset>
 
-                    <div class="control-group">
-                        <!-- Username -->
-                        <label class="control-label" for="j_username">Username</label>
+            <div class="control-group">
+                <!-- Username -->
+                <label class="control-label" for="j_username">Username</label>
 
-                        <div class="controls">
-                            <input type="text" id="j_username" name="j_username" placeholder="" class="input-xlarge"/>
-                        </div>
-                    </div>
+                <div class="controls">
+                    <input type="text" id="j_username" name="j_username" placeholder="" class="input-xlarge"/>
+                </div>
+            </div>
 
-                    <div class="control-group">
-                        <!-- Password-->
-                        <label class="control-label" for="j_password">Password</label>
+            <div class="control-group">
+                <!-- Password-->
+                <label class="control-label" for="j_password">Password</label>
 
-                        <div class="controls">
-                            <input type="password" id="j_password" name="j_password" placeholder="" class="input-xlarge"/>
-                        </div>
-                    </div>
+                <div class="controls">
+                    <input type="password" id="j_password" name="j_password" placeholder="" class="input-xlarge"/>
+                </div>
+            </div>
 
 
-                    <div class="control-group">
-                        <!-- Button -->
-                        <div class="controls">
-                            <button class="btn btn-success">Login</button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
+            <div class="control-group">
+                <!-- Button -->
+                <div class="controls">
+                    <button class="btn btn-success">Login</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $("#j_username").focus();
+        });
+    </script>
+</div>
 </body>
 </html>
