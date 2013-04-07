@@ -45,6 +45,17 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="fi.essentia.somacms" />
 
+    <!-- Cache control -->
+    <mvc:interceptors>
+        <bean id="webContentInterceptor"
+              class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+            <property name="cacheSeconds" value="0"/>
+            <property name="useExpiresHeader" value="true"/>
+            <property name="useCacheControlHeader" value="true"/>
+            <property name="useCacheControlNoStore" value="true"/>
+        </bean>
+    </mvc:interceptors>
+
     <!-- Uploads -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:maxUploadSize="${upload.maxBytes}"/>
 
@@ -54,7 +65,7 @@
         <property name="prefix" value="/WEB-INF/templates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />
-        <property name="cacheable" value="false"/> <!-- Set to true in production -->
+        <property name="cacheable" value="${thymeleaf.cacheable}"/>
     </bean>
 
     <bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">

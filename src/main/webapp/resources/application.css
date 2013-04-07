@@ -83,3 +83,8 @@ p.empty-folder {
 .danger {
     color: red;
 }
+
+.preview {
+    text-align: right;
+    vertical-align: text-top
+}
