@@ -11,32 +11,12 @@
 
 <body>
 <div class="container">
-    <div class="span4 offset4 pagination-centered">
+    <div class="span5 offset3 pagination-centered">
         <img th:src="@{/resources/images/logo.png}" src="../../resources/images/logo.png"/>
         <hr/>
-        <div th:if="${failed}" class="alert alert-error">
-            Wrong username or password.
-        </div>
-        <div th:if="${logout}" class="alert alert-success">
-            You have been logged out.
-        </div>
-        <form th:action="@{/j_spring_security_check}" method="POST">
-            <fieldset>
-                <input type="text" id="j_username" name="j_username" placeholder="Username" class="input-xlarge" />
-                <input type="password" id="j_password" name="j_password" placeholder="Password" class="input-xlarge"/>
-                <div class="controls">
-                    <button class="btn btn-success">Login</button>
-                </div>
-            </fieldset>
-        </form>
+        <p>Welcome! If you're looking for the administration, you can <a href="/admin/">find it here.</a></p>
     </div>
 </div>
-
-<script th:inline="javascript">
-    $(document).ready(function() {
-        $("#j_username").focus();
-    });
-</script>
 
 </body>
 </html>

@@ -1,18 +1,18 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="fragments :: header">
-    <script src="../../resources/libraries/jquery/jquery-1.9.1.min.js"></script>
-    <script src="../../resources/libraries/thymol/thymol.js"></script>
+<head th:include="admin/fragments :: header">
+    <script src="../../../resources/libraries/jquery/jquery-1.9.1.min.js"></script>
+    <script src="../../../resources/libraries/thymol/thymol.js"></script>
 </head>
 <body>
 
 <div class="container">
     <div class="row">
         <div class="span12">
-            <div th:include="fragments :: top-bar"></div>
-            <div th:include="fragments :: breadcrumbs"></div>
-            <img class="preview" th:src="@{${document.path}}" src="../../resources/images/document.png"/>
+            <div th:include="admin/fragments :: top-bar"></div>
+            <div th:include="admin/fragments :: breadcrumbs"></div>
+            <img class="preview" th:src="@{${document.path}}" src="../../../resources/images/document.png"/>
             <br/>
         </div>
     </div>
@@ -32,7 +32,7 @@
     </div>
 </div>
 
-<script th:include="fragments :: initialize" th:inline="javascript"></script>
+<script th:include="admin/fragments :: initialize" th:inline="javascript"></script>
 
 </body>
 </html>

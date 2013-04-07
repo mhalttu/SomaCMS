@@ -14,7 +14,7 @@ I also wanted to learn some web development, so this project was as good an excu
 
 What does *soma* mean?
 ----------------------
-Soma means cute in Finnish. I felt there were already enough projects called SimpleCMS in GitHub.
+Soma means cute in Finnish. I felt there were already enough projects called SimpleCMS on GitHub.
 
 Screenshots
 -----------
@@ -26,12 +26,12 @@ Screenshots
 
 Demonstration
 -------------
-You can test the product at http://somacms.herokuapp.com/admin/. Both the username and the password are "admin".
+You can test SomeCMS at http://somacms.herokuapp.com/admin/. Both the username and the password are "admin".
 
 Setup
 -----
 1. Check the configuration at `src/main/resources/somacms.properties`
-2. Setup the database (see below)
+2. Setup a MySQL database (see below)
 3. Run locally: `mvn jetty-run`
 4. Navigate to `http://localhost:8080/admin/`
 
@@ -56,6 +56,7 @@ Improvement ideas
 * Export the whole database as an archive
 * Convert to a single-page application e.g. using AngularJS
 * Add support for WYSIWYG editing
+* Add some nice default page when viewing "/"
 
 
 License
