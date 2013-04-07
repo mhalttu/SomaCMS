@@ -42,19 +42,17 @@ http://sourceforge.net/u/jjbenson/wiki/thymol/. For example, Chrome on OS X:
 open -a "Google Chrome" --args --allow-file-access-from-files
 ```
 
-Things I'm not too proud of
----------------------------
-* No unit tests. Shame on me.
-* The REST api could be a bit more consistent
-
 Improvement ideas
 -----------------
+* Write some Unit Tests. Shame on me.
 * Make the layout a bit more responsive
 * Add support for renaming files and folders
 * Implement better user management
 * Add version tracking for documents
 * Export the whole database as an archive
 * Convert to a single-page application e.g. using AngularJS
+* Add support for WYSIWYG editing
+
 
 License
 -------
