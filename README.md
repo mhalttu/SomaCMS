@@ -24,12 +24,12 @@ Screenshots
 
 Demonstration
 -------------
-You can test the product at http://somacms.herokuapp.com/admin/. Both the username and the password are "admin".
+You can test SomeCMS at http://somacms.herokuapp.com/admin/. Both the username and the password are "admin".
 
 Setup
 -----
 1. Check the configuration at `src/main/resources/somacms.properties`
-2. Setup the database (see below)
+2. Setup a MySQL database (see below)
 3. Run locally: `mvn jetty-run`
 4. Navigate to `http://localhost:8080/admin/`
 
