@@ -22,6 +22,10 @@ Screenshots
 ### Editor View
 ![Editor view](screenshots/editor.png)
 
+Demonstration
+-------------
+You can test the product at http://somacms.herokuapp.com/admin/. Both the username and the password are "admin".
+
 Setup
 -----
 1. Check the configuration at `src/main/resources/somacms.properties`
@@ -36,11 +40,9 @@ GRANT ALL ON somacms.* TO 'somacms'@'localhost' IDENTIFIED BY 'somacms';
 
 Notes
 -----
-To edit the Thymeleaf pages without a server, you'll need to enable local file access in your browser. See more info at
-http://sourceforge.net/u/jjbenson/wiki/thymol/. For example, Chrome on OS X:
-```bash
-open -a "Google Chrome" --args --allow-file-access-from-files
-```
+* To edit the Thymeleaf pages without a server, you'll need to enable local file access in your browser. See more info at
+http://sourceforge.net/u/jjbenson/wiki/thymol/. For example, Chrome on OS X: `open -a "Google Chrome" --args --allow-file-access-from-files`
+* The master branch requires MySQL but the Heroku branch has been converted to support PostgreSQL
 
 Improvement ideas
 -----------------
