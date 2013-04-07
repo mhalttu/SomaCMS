@@ -60,13 +60,13 @@ public class AdminController {
             message = null;
         }
         if (document.isFolder()) {
-            return "folder";
+            return "admin/folder";
         } else if (document.isImage()) {
-            return "image";
+            return "admin/image";
         } else if (document.isText()) {
             byte[] bytes = dataDao.loadData(document.getId());
             model.addAttribute("documentText", new String(bytes));
-            return "text";
+            return "admin/text";
         } else {
             throw new ResourceNotFoundException();
         }

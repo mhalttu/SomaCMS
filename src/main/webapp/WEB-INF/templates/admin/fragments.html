@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <title>SomaCMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link th:href="@{/resources/libraries/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../../resources/libraries/bootstrap/css/bootstrap.min.css"/> <!-- Excellent library when writing CSS -->
+    <link th:href="@{/resources/libraries/bootstrap-notify/bootstrap-notify.css}" rel="stylesheet" media="screen" href="../../../resources/libraries/bootstrap-notify/bootstrap-notify.css"/> <!-- Less intrusive notifications -->
+    <link th:href="@{/resources/libraries/upload/fineuploader-3.3.0.css}" rel="stylesheet" href="../../../resources/libraries/upload/fineuploader-3.3.0.css"/> <!-- Simple but versatile HTML5 file uploader -->
+    <link th:href="@{/resources/libraries/codemirror/lib/codemirror.css}" rel="stylesheet" href="../../../resources/libraries/codemirror/lib/codemirror.css"/> <!-- Used by the text editor -->
+    <link th:href="@{/resources/application.css}" rel="stylesheet" href="../../../resources/application.css"/> <!-- Our own CSS -->
+
+    <script th:src="@{/resources/libraries/jquery/jquery-1.9.1.min.js}" src="../../../resources/libraries/jquery/jquery-1.9.1.min.js"></script>
+    <script th:src="@{/resources/libraries/bootstrap/js/bootstrap.min.js}" src="../../../resources/libraries/bootstrap/js/bootstrap.min.js"></script>
+    <script th:src="@{/resources/libraries/bootstrap-notify/bootstrap-notify.js}" src="../../../resources/libraries/bootstrap-notify/bootstrap-notify.js"></script>
+    <script th:src="@{/resources/libraries/bootbox/bootbox.min.js}" src="../../../resources/libraries/bootbox/bootbox.min.js"></script>
+    <script th:src="@{/resources/libraries/upload/jquery.fineuploader-3.3.0.min.js}" src="../../../resources/libraries/upload/jquery.fineuploader-3.3.0.min.js"></script>
+
+    <script th:src="@{/resources/application.js}" src="../../../resources/application.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div th:fragment="top-bar">
+        <div class='notifications top-center'></div>
+        <div class="logo">
+            <a href="0"><img th:src="@{/resources/images/logo.png}" src="../../../resources/images/logo.png"/></a>
+        </div>
+        <div style="text-align: right">
+            <a th:href="@{/logout/}" class="logout">Logout</a><br/>
+            <input id="search" type="text" data-provide="typeahead" placeholder="Search" class="search"/>
+        </div>
+        <hr/>
+    </div>
+
+    <div th:fragment="breadcrumbs">
+        <span th:each="breadcrumb, iter : ${document.breadcrumbs}" class="breadcrumbs">
+            <span th:unless="${iter.first}">/</span>
+
+            <span th:if="${iter.first}">
+                <a th:unless="${iter.last}" th:href="${breadcrumb.id}"><img th:src="@{/resources/images/home.png}" src="../../../resources/images/home.png"/></a>
+            </span>
+            <span th:unless="${iter.first}">
+                <span th:unless="${iter.last}">
+                    <a th:href="${breadcrumb.id}" th:text="${breadcrumb.name}">Parent</a>
+                </span>
+                <span th:if="${iter.last}" th:text="${breadcrumb.name}">Current</span>
+            </span>
+        </span>
+        <p th:unless="${document.root}"></p>
+    </div>
+</div>
+
+<script th:fragment="initialize">
+    /*<![CDATA[*/
+    var contextPath = /*[[${contextPath}]]*/ null;
+    var currentDocument = /*[[${document.shallowCopy}]]*/ null;
+    var message = /*[[${message}]]*/ null;
+    /*]]>*/
+
+    $(document).ready(function() {
+        initializeUploader(currentDocument);
+        initializeSearch();
+        if (message != null) {
+            notify(message);
+        }
+    });
+</script>
+
+</body>
+</html>
