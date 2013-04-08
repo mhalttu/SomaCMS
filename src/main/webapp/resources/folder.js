@@ -64,8 +64,8 @@ function deleteDocumentOnRow() {
     event.stopImmediatePropagation();
     var row = $(this).closest('tr');
     var id = row.attr('id');
-    var name = row.find(".document-name").html();
-    deleteDocument(id, name, true, function (result) {
+    var selectedDocument = currentDocument.children[id]
+    deleteDocument(id, selectedDocument.name, selectedDocument.folder, function (result) {
         location.reload();
     });
 }

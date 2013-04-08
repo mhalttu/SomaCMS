@@ -6,12 +6,23 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Value;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * An immutable representation of the Document object
  */
 public class ImmutableDocument implements Document {
+    @Getter private long id;
+    @Getter private String name;
+    @Getter private long size;
+    @Getter private Long parentId;
+    @Getter private String mimeType;
+    @Getter private boolean folder;
+    @Getter private Date created;
+    @Getter private Date modified;
+
     public ImmutableDocument(Document document) {
         this.id = document.getId();
         this.name = document.getName();
@@ -23,12 +34,4 @@ public class ImmutableDocument implements Document {
         this.modified = document.getModified();
     }
 
-    @Getter private long id;
-    @Getter private String name;
-    @Getter private long size;
-    @Getter private Long parentId;
-    @Getter private String mimeType;
-    @Getter private boolean folder;
-    @Getter private Date created;
-    @Getter private Date modified;
 }
