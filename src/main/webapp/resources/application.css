@@ -20,7 +20,7 @@ tr.document-row {
     padding-bottom: 20px;
 }
 
-tr.link-row {
+td.link-row {
     color: #0081c2;
     cursor: pointer;
 }
