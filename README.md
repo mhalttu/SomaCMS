@@ -54,7 +54,6 @@ Improvement ideas
 * Export the whole database as an archive
 * Convert to a single-page application e.g. using AngularJS
 * Add support for WYSIWYG editing
-* Add some nice default page when viewing "/"
 
 
 License
