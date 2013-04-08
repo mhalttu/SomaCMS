@@ -24,7 +24,7 @@ Screenshots
 
 Demonstration
 -------------
-You can test SomeCMS at http://somacms.herokuapp.com/admin/. Both the username and the password are "admin".
+You can test SomaCMS at http://somacms.herokuapp.com/admin/. Both the username and the password are "admin".
 
 Setup
 -----
@@ -40,6 +40,7 @@ GRANT ALL ON somacms.* TO 'somacms'@'localhost' IDENTIFIED BY 'somacms';
 
 Notes
 -----
+* SomaCMS uses [Project Lombok](http://projectlombok.org/). If you see errors in IDEA, you should download the Lombok Plugin.
 * To edit the Thymeleaf pages without a server, you'll need to enable local file access in your browser. See more info at
 http://sourceforge.net/u/jjbenson/wiki/thymol/. For example, Chrome on OS X: `open -a "Google Chrome" --args --allow-file-access-from-files`
 * The master branch requires MySQL but the Heroku branch has been converted to support PostgreSQL
