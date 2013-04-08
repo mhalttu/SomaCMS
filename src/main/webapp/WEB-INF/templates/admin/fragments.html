@@ -49,6 +49,12 @@
         </span>
         <p th:unless="${document.root}"></p>
     </div>
+
+    <div th:fragment="upload-progress">
+        <div id="progress-bar" class="progress progress-striped active" style="margin-top: 5px">
+            <div class="bar" style="width: 0;"></div>
+        </div>
+    </div>
 </div>
 
 <script th:fragment="initialize">

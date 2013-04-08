@@ -43,11 +43,7 @@
             <i class="icon-upload icon-white"></i> Upload File
         </div>
     </div>
-    <div class="span5">
-        <div id="progress-bar" class="progress progress-striped active" style="margin-top: 5px">
-            <div class="bar" style="width: 0%;"></div>
-        </div>
-    </div>
+    <div class="span5" th:include="admin/fragments :: upload-progress"></div>
 </div>
 
 <script th:include="admin/fragments :: initialize" th:inline="javascript"></script>

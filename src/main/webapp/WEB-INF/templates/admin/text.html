@@ -28,7 +28,9 @@
         <div class="preview">
             <a href="#" th:href="@{${document.path}}">Preview</a>
         </div>
+        <div class="span5" th:include="admin/fragments :: upload-progress"></div>
     </div>
+
 </div>
 
 <script th:include="admin/fragments :: initialize" th:inline="javascript"></script>
