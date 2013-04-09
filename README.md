@@ -45,10 +45,6 @@ Notes
 http://sourceforge.net/u/jjbenson/wiki/thymol/. For example, Chrome on OS X: `open -a "Google Chrome" --args --allow-file-access-from-files`
 * The master branch requires MySQL but the Heroku branch has been converted to support PostgreSQL
 
-TODO
-----
-* The cache control settings in webContentInterceptor are too strict. They shouldn't apply e.g. to images.
-
 Improvement ideas
 -----------------
 * Write some Unit Tests. Shame on me.
