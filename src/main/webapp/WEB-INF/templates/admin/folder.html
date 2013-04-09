@@ -14,12 +14,11 @@
             <div th:include="admin/fragments :: top-bar"></div>
             <div th:include="admin/fragments :: breadcrumbs"></div>
             <table class="document-table">
-                <tr th:id="${child.id}" th:class="${child.viewable} ? 'document-row link-row' : 'document-row'"
-                    th:each="child : ${document.children}" class="document-row">
-                    <td>
+                <tr th:id="${child.id}" th:each="child : ${document.children}" class="document-row">
+                    <td th:class="${child.viewable} ? 'link-row' : ''">
                         <img class="document-thumbnail" th:src="@{${child.thumbail}}" src="../../../resources/images/document.png"/>
                     </td>
-                    <td th:text="${child.name}" class="document-name">
+                    <td th:text="${child.name}" th:class="${child.viewable} ? 'document-name link-row' : 'document-name'">
                         example.txt
                     </td>
                     <td>
@@ -43,14 +42,11 @@
             <i class="icon-upload icon-white"></i> Upload File
         </div>
     </div>
-    <div class="span5">
-        <div id="progress-bar" class="progress progress-striped active" style="margin-top: 5px">
-            <div class="bar" style="width: 0%;"></div>
-        </div>
-    </div>
+    <div class="span5" th:include="admin/fragments :: upload-progress"></div>
 </div>
 
 <script th:include="admin/fragments :: initialize" th:inline="javascript"></script>
+
 <script th:inline="javascript">
     $(document).ready(function() {
         $('.link-row').click(documentClicked);

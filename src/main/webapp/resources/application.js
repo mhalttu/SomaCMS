@@ -42,7 +42,7 @@ function initializeUploader(document) {
                 progressBar.show();
             },
             onProgress: function(id, fileName, loaded, total) {
-                $(".bar").width(loaded / total  + "%");
+                $(".bar").width((loaded / total * 100)  + "%");
             },
             onComplete: function(id, fileName, responseJSON) {
                 progressBar.hide();

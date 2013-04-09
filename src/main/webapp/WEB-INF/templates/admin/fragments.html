@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <link th:href="@{/resources/libraries/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../../resources/libraries/bootstrap/css/bootstrap.min.css"/> <!-- Excellent library when writing CSS -->
+    <link th:href="@{/resources/libraries/bootstrap/css/bootstrap-responsive.min.css}" rel="stylesheet" media="screen" href="../../../resources/libraries/bootstrap/css/bootstrap.min.css"/>
+
     <link th:href="@{/resources/libraries/bootstrap-notify/bootstrap-notify.css}" rel="stylesheet" media="screen" href="../../../resources/libraries/bootstrap-notify/bootstrap-notify.css"/> <!-- Less intrusive notifications -->
     <link th:href="@{/resources/libraries/upload/fineuploader-3.3.0.css}" rel="stylesheet" href="../../../resources/libraries/upload/fineuploader-3.3.0.css"/> <!-- Simple but versatile HTML5 file uploader -->
     <link th:href="@{/resources/libraries/codemirror/lib/codemirror.css}" rel="stylesheet" href="../../../resources/libraries/codemirror/lib/codemirror.css"/> <!-- Used by the text editor -->
@@ -20,14 +22,14 @@
 </head>
 
 <body>
+<div class='notifications top-center'></div>
 <div class="container">
     <div th:fragment="top-bar">
-        <div class='notifications top-center'></div>
         <div class="logo">
             <a href="0"><img th:src="@{/resources/images/logo.png}" src="../../../resources/images/logo.png"/></a>
         </div>
         <div style="text-align: right">
-            <a th:href="@{j_spring_security_logout}" class="logout">Logout</a><br/>
+            <a th:href="@{/j_spring_security_logout}" class="logout">Logout</a><br/>
             <input id="search" type="text" data-provide="typeahead" placeholder="Search" class="search"/>
         </div>
         <hr/>
@@ -48,6 +50,12 @@
             </span>
         </span>
         <p th:unless="${document.root}"></p>
+    </div>
+
+    <div th:fragment="upload-progress">
+        <div id="progress-bar" class="progress progress-striped active" style="margin-top: 5px">
+            <div class="bar" style="width: 0;"></div>
+        </div>
     </div>
 </div>
 

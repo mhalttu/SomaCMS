@@ -86,7 +86,11 @@ public class TreeDocument implements Document {
     }
 
     public Document getShallowCopy() {
+        if (isFolder()) {
+            return new ImmutableFolder(this);
+        } else {
             return new ImmutableDocument(databaseDocument);
+        }
     }
 
     private static class TreeDocumentComparator implements Comparator<TreeDocument> {

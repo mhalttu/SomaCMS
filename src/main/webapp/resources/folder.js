@@ -1,9 +1,7 @@
 function documentClicked() {
-    if (this.id == "") {
-        location.href="0";
-    } else {
-        location.href=this.id;
-    }
+    var row = $(this).closest('tr');
+    var id = row.attr('id');
+    location.href=id;
 }
 
 function createFolder(documentId) {
@@ -61,11 +59,10 @@ function createDocument() {
 }
 
 function deleteDocumentOnRow() {
-    event.stopImmediatePropagation();
     var row = $(this).closest('tr');
     var id = row.attr('id');
-    var name = row.find(".document-name").html();
-    deleteDocument(id, name, true, function (result) {
+    var selectedDocument = currentDocument.children[id]
+    deleteDocument(id, selectedDocument.name, selectedDocument.folder, function (result) {
         location.reload();
     });
 }

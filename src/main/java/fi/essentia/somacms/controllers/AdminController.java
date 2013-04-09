@@ -101,8 +101,9 @@ public class AdminController {
         try {
             String contentType = file.getContentType();
             if (contentType.equals("application/zip")) {
+                TreeDocument parent = documentManager.documentById(parentId);
                 byte[] bytes = file.getBytes();
-                archiveHelper.storeDocuments(parentId, bytes);
+                archiveHelper.storeDocuments(parent, bytes);
                 return Result.success();
             } else {
                 TreeDocument treeDocument = documentManager.storeDocument(parentId, file.getOriginalFilename(), file.getBytes());

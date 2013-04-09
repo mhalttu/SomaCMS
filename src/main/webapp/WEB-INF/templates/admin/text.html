@@ -25,10 +25,12 @@
             </div>
             <button type="button" id="delete" class="btn btn-danger" onclick="deleteDocument(currentDocument.id, currentDocument.name, false, navigateToParent)"><i class="icon-remove"></i> Delete</button>
         </div>
-        <div style="text-align: right; vertical-align: text-top">
-            <a href="#" th:href="${document.path}">Preview</a>
+        <div class="preview">
+            <a href="#" th:href="@{${document.path}}">Preview</a>
         </div>
+        <div class="span5" th:include="admin/fragments :: upload-progress"></div>
     </div>
+
 </div>
 
 <script th:include="admin/fragments :: initialize" th:inline="javascript"></script>
