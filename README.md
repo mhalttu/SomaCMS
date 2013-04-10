@@ -30,7 +30,7 @@ Setup
 -----
 1. Check the configuration at `src/main/resources/somacms.properties`
 2. Setup a MySQL database (see below)
-3. Run locally: `mvn jetty-run`
+3. Run locally: `mvn -Dsomacms.properties=classpath:somacms.properties jetty:run`
 4. Navigate to `http://localhost:8080/admin/`
 
 ```mysql
