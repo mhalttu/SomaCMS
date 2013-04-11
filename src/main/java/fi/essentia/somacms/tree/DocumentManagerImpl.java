@@ -60,7 +60,7 @@ public class DocumentManagerImpl implements DocumentManager {
         }
     }
 
-    @Override public TreeDocument documentFromPath(String path) {
+    @Override public synchronized TreeDocument documentFromPath(String path) {
         String[] split = path.split("/");
         TreeDocument document = root;
         for (String name : split) {
@@ -72,11 +72,11 @@ public class DocumentManagerImpl implements DocumentManager {
         return document;
     }
 
-    @Override public TreeDocument documentById(Long id) {
+    @Override public synchronized TreeDocument documentById(Long id) {
         return idToDocument.get(id);
     }
 
-    @Override public TreeDocument createFolder(Long parentId, String name) {
+    @Override public synchronized TreeDocument createFolder(Long parentId, String name) {
         return createDocument(parentId, name, true);
     }
 
@@ -99,7 +99,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public TreeDocument createTextFile(Long parentId, String name) {
+    public synchronized TreeDocument createTextFile(Long parentId, String name) {
         TreeDocument document = createDocument(parentId, name, false);
         dataDao.insertData(document.getId(), new byte[0]);
         return document;
@@ -118,7 +118,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public TreeDocument storeDocument(Long parentId, String fileName, byte[] bytes) {
+    public synchronized TreeDocument storeDocument(Long parentId, String fileName, byte[] bytes) {
         String mimeType = tika.detect(bytes, fileName);
         TreeDocument parent = folder(parentId);
         TreeDocument document = parent.childByName(fileName);
@@ -126,6 +126,7 @@ public class DocumentManagerImpl implements DocumentManager {
             DatabaseDocument databaseDocument = new DatabaseDocument();
             databaseDocument.setName(fileName);
             databaseDocument.setParentId(parent.getId());
+            databaseDocument.setModified(new Date());
             databaseDocument.setSize(bytes.length);
             databaseDocument.setMimeType(mimeType);
             documentDao.save(databaseDocument);
@@ -142,7 +143,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public TreeDocument deleteDocument(Long documentId) {
+    public synchronized TreeDocument deleteDocument(Long documentId) {
         TreeDocument document = documentById(documentId);
         if (document.isRoot()) {
             throw new UnauthorizedException();
@@ -160,7 +161,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public Collection<TreeDocument> documentsByPath(final String path) {
+    public synchronized Collection<TreeDocument> documentsByPath(final String path) {
         return Collections2.filter(idToDocument.values(), new Predicate<TreeDocument>() {
             @Override
             public boolean apply(TreeDocument treeDocument) {
