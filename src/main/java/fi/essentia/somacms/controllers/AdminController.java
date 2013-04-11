@@ -32,7 +32,6 @@ import java.util.Date;
 @Controller
 @RequestMapping(value="/admin/")
 @Secured(value = "ROLE_ADMIN")
-@Scope("session")
 public class AdminController {
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
