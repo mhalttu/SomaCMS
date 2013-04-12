@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Concrete implementation of the DocumentManager. Keeps the document metadata in memory for faster access.
@@ -22,7 +23,7 @@ import java.util.*;
 @Transactional
 public class DocumentManagerImpl implements DocumentManager {
     private Tika tika = new Tika();
-    private Map<Long, TreeDocument> idToDocument = new HashMap<Long, TreeDocument>();
+    private final Map<Long, TreeDocument> idToDocument = new ConcurrentHashMap<Long, TreeDocument>();
     private TreeDocument root;
 
     @Autowired DocumentDao documentDao;
@@ -60,7 +61,7 @@ public class DocumentManagerImpl implements DocumentManager {
         }
     }
 
-    @Override public synchronized TreeDocument documentFromPath(String path) {
+    @Override public TreeDocument documentFromPath(String path) {
         String[] split = path.split("/");
         TreeDocument document = root;
         for (String name : split) {
@@ -72,11 +73,11 @@ public class DocumentManagerImpl implements DocumentManager {
         return document;
     }
 
-    @Override public synchronized TreeDocument documentById(Long id) {
+    @Override public TreeDocument documentById(Long id) {
         return idToDocument.get(id);
     }
 
-    @Override public synchronized TreeDocument createFolder(Long parentId, String name) {
+    @Override public TreeDocument createFolder(Long parentId, String name) {
         return createDocument(parentId, name, true);
     }
 
@@ -99,7 +100,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public synchronized TreeDocument createTextFile(Long parentId, String name) {
+    public TreeDocument createTextFile(Long parentId, String name) {
         TreeDocument document = createDocument(parentId, name, false);
         dataDao.insertData(document.getId(), new byte[0]);
         return document;
@@ -118,7 +119,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public synchronized TreeDocument storeDocument(Long parentId, String fileName, byte[] bytes) {
+    public TreeDocument storeDocument(Long parentId, String fileName, byte[] bytes) {
         String mimeType = tika.detect(bytes, fileName);
         TreeDocument parent = folder(parentId);
         TreeDocument document = parent.childByName(fileName);
@@ -143,7 +144,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public synchronized TreeDocument deleteDocument(Long documentId) {
+    public TreeDocument deleteDocument(Long documentId) {
         TreeDocument document = documentById(documentId);
         if (document.isRoot()) {
             throw new UnauthorizedException();
@@ -161,7 +162,7 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override
-    public synchronized Collection<TreeDocument> documentsByPath(final String path) {
+    public Collection<TreeDocument> documentsByPath(final String path) {
         return Collections2.filter(idToDocument.values(), new Predicate<TreeDocument>() {
             @Override
             public boolean apply(TreeDocument treeDocument) {
