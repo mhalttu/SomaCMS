@@ -8,7 +8,7 @@
 <body>
 
 <div class="container">
-    <div class="row">
+    <div class="row-fluid">
         <div class="span12">
             <div th:include="admin/fragments :: top-bar"></div>
             <div th:include="admin/fragments :: breadcrumbs"></div>
@@ -17,15 +17,15 @@
         </div>
     </div>
     <hr/>
-    <div class="row">
+    <div class="row-fluid">
         <div class="span12">
-            <div class="span9">
+            <div class="span11">
                 <div id="upload" class="btn">
                     <i class="icon-upload"></i> Upload
                 </div>
-                <button type="button" id="delete" class="btn btn-danger" th:onclick="'deleteDocument(currentDocument.id, currentDocument.name, navigateToParent)'"><i class="icon-remove"></i> Delete</button>
+                <button type="button" id="delete" class="btn btn-danger" onclick="deleteDocument(currentDocument.id, currentDocument.name, false, navigateToParent)"><i class="icon-remove"></i> Delete</button>
             </div>
-            <div class="preview">
+            <div class="span1 preview">
                 <a href="#" th:href="@{${document.path}}">Preview</a>
             </div>
         </div>

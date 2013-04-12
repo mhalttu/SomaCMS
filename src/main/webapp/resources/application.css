@@ -7,10 +7,6 @@ hr {
     margin-top: 0px;
 }
 
-table.document-table {
-    width: 100%;
-}
-
 tr.document-row {
     font-size: x-large;
 }
@@ -38,11 +34,6 @@ img.greyed-out, tr.greyed-out > td {
     opacity: 0.5;
 }
 
-td.document-name {
-    padding-left: 10px;
-    min-width: 800px;
-}
-
 #upload {
     margin-left: 20px;
 }
@@ -67,6 +58,7 @@ p.empty-folder {
 }
 
 .search {
+    width: 300px;
     margin-top: 5px;
 }
 
@@ -77,7 +69,10 @@ p.empty-folder {
 }
 
 .notifications.top-center{
-    left:50%;top:25px;
+    left:50%;
+    top:25px;
+    width:300px;
+    margin-left:-150px;
 }
 
 .danger {
@@ -87,4 +82,28 @@ p.empty-folder {
 .preview {
     text-align: right;
     vertical-align: text-top
+}
+
+.document-thumbnail {
+    width: 42px;
+}
+
+.document-name {
+}
+
+.document-delete {
+    width: 80px;
+}
+
+.table th, .table td {
+    border-top: none;
+    vertical-align: baseline
+}
+
+.copyright {
+    position:absolute;
+    bottom:0;
+    left:45%;
+    font-size: small;
+    font-style: italic;
 }
