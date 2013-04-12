@@ -7,10 +7,6 @@ hr {
     margin-top: 0px;
 }
 
-table.document-table {
-    width: 100%;
-}
-
 tr.document-row {
     font-size: x-large;
 }
@@ -36,11 +32,6 @@ img.document-thumbnail {
 
 img.greyed-out, tr.greyed-out > td {
     opacity: 0.5;
-}
-
-td.document-name {
-    padding-left: 10px;
-    min-width: 800px;
 }
 
 #upload {
@@ -90,4 +81,20 @@ p.empty-folder {
 .preview {
     text-align: right;
     vertical-align: text-top
+}
+
+.document-thumbnail {
+    width: 42px;
+}
+
+.document-name {
+}
+
+.document-delete {
+    width: 80px;
+}
+
+.table th, .table td {
+    border-top: none;
+    vertical-align: baseline
 }

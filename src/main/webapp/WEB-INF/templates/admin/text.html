@@ -9,15 +9,15 @@
 
 <body>
 <div class="container">
-    <div class="row">
+    <div class="row-fluid">
         <div class="span12">
             <div th:include="admin/fragments :: top-bar"></div>
             <div th:include="admin/fragments :: breadcrumbs"></div>
             <form><textarea id="code" name="code" th:text="${documentText}"></textarea></form>
         </div>
     </div>
-    <div class="row">
-        <div class="span9">
+    <div class="row-fluid">
+        <div class="span11">
             <button type="button" id="discard" class="btn" onclick="discardText()">Discard</button>
             <button type="button" id="save" class="btn btn-success" onclick="saveText(editor.getValue(), currentDocument.id)">Save</button>
             <div id="upload" class="btn">
@@ -25,7 +25,7 @@
             </div>
             <button type="button" id="delete" class="btn btn-danger" onclick="deleteDocument(currentDocument.id, currentDocument.name, false, navigateToParent)"><i class="icon-remove"></i> Delete</button>
         </div>
-        <div class="preview">
+        <div class="span1 preview">
             <a href="#" th:href="@{${document.path}}">Preview</a>
         </div>
         <div class="span5" th:include="admin/fragments :: upload-progress"></div>

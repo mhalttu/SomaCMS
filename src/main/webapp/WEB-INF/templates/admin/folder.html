@@ -9,19 +9,19 @@
 
 <body>
 <div class="container">
-    <div class="row">
+    <div class="row-fluid">
         <div class="span12">
             <div th:include="admin/fragments :: top-bar"></div>
             <div th:include="admin/fragments :: breadcrumbs"></div>
-            <table class="document-table">
+            <table class="table table-hover">
                 <tr th:id="${child.id}" th:each="child : ${document.children}" class="document-row">
-                    <td th:class="${child.viewable} ? 'link-row' : ''">
+                    <td th:class="${child.viewable} ? 'document-thumbnail link-row' : 'document-thumbnail'">
                         <img class="document-thumbnail" th:src="@{${child.thumbail}}" src="../../../resources/images/document.png"/>
                     </td>
                     <td th:text="${child.name}" th:class="${child.viewable} ? 'document-name link-row' : 'document-name'">
                         example.txt
                     </td>
-                    <td>
+                    <td class="document-delete">
                         <button type="button" class="btn delete-button">Delete</button>
                     </td>
                 </tr>
@@ -35,11 +35,13 @@
         </div>
     </div>
     <hr/>
-    <div>
-        <button type="button" class="btn btn" onclick="createFolder(currentDocument.id)"><i class="icon-folder-open"></i> New Folder</button>
-        <button type="button" class="btn btn" onclick="createDocument(currentDocument.id)"><i class="icon-file"></i> New Document</button>
-        <div id="upload" class="btn btn-success">
-            <i class="icon-upload icon-white"></i> Upload File
+    <div class="row-fluid">
+        <div class="span12">
+            <button type="button" class="btn btn" onclick="createFolder(currentDocument.id)"><i class="icon-folder-open"></i> New Folder</button>
+            <button type="button" class="btn btn" onclick="createDocument(currentDocument.id)"><i class="icon-file"></i> New Document</button>
+            <div id="upload" class="btn btn-success">
+                <i class="icon-upload icon-white"></i> Upload File
+            </div>
         </div>
     </div>
     <div class="span5" th:include="admin/fragments :: upload-progress"></div>
