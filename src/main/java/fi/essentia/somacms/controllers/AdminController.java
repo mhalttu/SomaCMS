@@ -2,7 +2,6 @@ package fi.essentia.somacms.controllers;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import fi.essentia.somacms.dao.DataDao;
 import fi.essentia.somacms.json.*;
 import fi.essentia.somacms.json.Error;
@@ -13,18 +12,17 @@ import fi.essentia.somacms.util.ArchiveHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Date;
 
 /**
  * Takes care of all the administration tasks
@@ -34,12 +32,11 @@ import java.util.Date;
 @Secured(value = "ROLE_ADMIN")
 public class AdminController {
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+    public static final String KEY_NEXT_MESSAGE = "nextMessage";
 
     @Autowired private DocumentManager documentManager;
     @Autowired private DataDao dataDao;
     @Autowired private ArchiveHelper archiveHelper;
-
-    String message;
 
     @RequestMapping(method=RequestMethod.GET)
     public String admin() {
@@ -54,10 +51,13 @@ public class AdminController {
         }
         model.addAttribute("contextPath", webRequest.getContextPath());
         model.addAttribute("document", document);
-        if (message != null) {
-            model.addAttribute("message", message);
-            message = null;
+
+        String nextMessage = (String)webRequest.getAttribute(KEY_NEXT_MESSAGE, RequestAttributes.SCOPE_SESSION);
+        if (nextMessage != null) {
+            model.addAttribute("message", nextMessage);
+            webRequest.removeAttribute(KEY_NEXT_MESSAGE, RequestAttributes.SCOPE_SESSION);
         }
+
         if (document.isFolder()) {
             return "admin/folder";
         } else if (document.isImage()) {
@@ -72,15 +72,19 @@ public class AdminController {
     }
 
     @RequestMapping(value="/api/document/{parentId}/folders", method=RequestMethod.POST)
-    public @ResponseBody Result createFolder(@PathVariable Long parentId, @RequestParam("name") String name) {
+    public @ResponseBody Result createFolder(@PathVariable Long parentId, @RequestParam("name") String name, WebRequest request) {
         TreeDocument folder;
         try {
             folder = documentManager.createFolder(parentId, name);
         } catch (DuplicateKeyException e) {
             return new Error("There is already a document with the same name.");
         }
-        message = "Folder <b>" + name + "</b> created";
+        storeNextMessage(request, "Folder <b>" + name + "</b> created");
         return new Created(folder.getId());
+    }
+
+    private void storeNextMessage(WebRequest request, String message) {
+        request.setAttribute(KEY_NEXT_MESSAGE, message, RequestAttributes.SCOPE_SESSION);
     }
 
     @RequestMapping(value="/api/document/{parentId}/documents", method=RequestMethod.POST)
@@ -96,16 +100,18 @@ public class AdminController {
     }
 
     @RequestMapping(value="/api/document/{parentId}/files", method=RequestMethod.POST)
-    public @ResponseBody Result uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
+    public @ResponseBody Result uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file, WebRequest request) throws IOException {
         try {
             String contentType = file.getContentType();
             if (contentType.equals("application/zip")) {
                 TreeDocument parent = documentManager.documentById(parentId);
                 byte[] bytes = file.getBytes();
                 archiveHelper.storeDocuments(parent, bytes);
+                storeNextMessage(request, "Archive " + file.getOriginalFilename() + " extracted");
                 return Result.success();
             } else {
                 TreeDocument treeDocument = documentManager.storeDocument(parentId, file.getOriginalFilename(), file.getBytes());
+                storeNextMessage(request, "File " + file.getOriginalFilename() + " uploaded");
                 return new Created(treeDocument.getId());
             }
         } catch (RuntimeException e) {
@@ -115,7 +121,7 @@ public class AdminController {
     }
 
     @RequestMapping(value="/api/document/{documentId}/replace", method=RequestMethod.POST)
-    public @ResponseBody Result replace(@PathVariable Long documentId, @RequestParam(value="qqfile", required=true) MultipartFile file) throws IOException {
+    public @ResponseBody Result replace(@PathVariable Long documentId, @RequestParam(value="qqfile", required=true) MultipartFile file, WebRequest request) throws IOException {
         try {
             String contentType = file.getContentType();
             if (contentType.equals("application/zip")) {
@@ -128,7 +134,7 @@ public class AdminController {
                 }
 
                 documentManager.storeDocument(document.getParentId(), fileName, file.getBytes());
-                message = "File Updated";
+                storeNextMessage(request,"File " + fileName + " updated");
                 return Result.success();
             }
         } catch (RuntimeException e) {
@@ -145,9 +151,10 @@ public class AdminController {
     }
 
     @RequestMapping(value="/api/document/{documentId}", method=RequestMethod.DELETE)
-    public @ResponseBody Result delete(@PathVariable Long documentId) {
+    public @ResponseBody Result delete(@PathVariable Long documentId, WebRequest request) {
         TreeDocument treeDocument = documentManager.deleteDocument(documentId);
-        message = (treeDocument.isFolder() ? "Folder " : "Document") + " <b>" + treeDocument.getName() + "</b> deleted.";
+        String message = (treeDocument.isFolder() ? "Folder " : "Document") + " <b>" + treeDocument.getName() + "</b> deleted.";
+        storeNextMessage(request, message);
         return Result.success();
     }
 
