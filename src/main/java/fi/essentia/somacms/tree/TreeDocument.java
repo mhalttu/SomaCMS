@@ -26,16 +26,16 @@ public class TreeDocument implements Document {
         this.databaseDocument = databaseDocument;
     }
 
-    public void addChild(TreeDocument document) {
+    public synchronized void addChild(TreeDocument document) {
         nameToChild.put(document.getName(), document);
         children.add(document);
     }
 
-    public TreeDocument childByName(String name) {
+    public synchronized TreeDocument childByName(String name) {
         return nameToChild.get(name);
     }
 
-    public Collection<TreeDocument> getChildren() {
+    public synchronized Collection<TreeDocument> getChildren() {
         return Collections.unmodifiableCollection(children);
     }
 
@@ -80,12 +80,12 @@ public class TreeDocument implements Document {
         return getId() == ROOT_ID;
     }
 
-    public void removeChild(Document document) {
+    public synchronized void removeChild(Document document) {
         TreeDocument removedDocument = nameToChild.remove(document.getName());
         children.remove(removedDocument);
     }
 
-    public Document getShallowCopy() {
+    public synchronized Document getShallowCopy() {
         if (isFolder()) {
             return new ImmutableFolder(this);
         } else {
