@@ -77,7 +77,10 @@ p.empty-folder {
 }
 
 .notifications.top-center{
-    left:50%;top:25px;
+    left:50%;
+    top:25px;
+    width:300px;
+    margin-left:-150px;
 }
 
 .danger {
