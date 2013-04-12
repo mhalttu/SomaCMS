@@ -98,3 +98,11 @@ p.empty-folder {
     border-top: none;
     vertical-align: baseline
 }
+
+.copyright {
+    position:absolute;
+    bottom:0;
+    left:45%;
+    font-size: small;
+    font-style: italic;
+}
