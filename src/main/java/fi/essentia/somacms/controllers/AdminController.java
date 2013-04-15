@@ -12,6 +12,7 @@ import fi.essentia.somacms.util.ArchiveHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,7 @@ public class AdminController {
     @Autowired private DocumentManager documentManager;
     @Autowired private DataDao dataDao;
     @Autowired private ArchiveHelper archiveHelper;
+    @Value("${somacms.version}") String version;
 
     @RequestMapping(method=RequestMethod.GET)
     public String admin() {
@@ -51,6 +53,7 @@ public class AdminController {
         }
         model.addAttribute("contextPath", webRequest.getContextPath());
         model.addAttribute("document", document);
+        model.addAttribute("version", version);
 
         String nextMessage = (String)webRequest.getAttribute(KEY_NEXT_MESSAGE, RequestAttributes.SCOPE_SESSION);
         if (nextMessage != null) {
