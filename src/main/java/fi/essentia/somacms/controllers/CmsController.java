@@ -59,6 +59,7 @@ public class CmsController {
 
         byte[] bytes = dataDao.loadData(document.getId());
         response.setContentType(document.getMimeType());
+        response.setContentLength(bytes.length);
         IOUtils.write(bytes, response.getOutputStream());
         response.flushBuffer();
     }
