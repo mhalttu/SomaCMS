@@ -34,7 +34,7 @@ public class CmsController {
         return "index";
     }
 
-    @RequestMapping(value="/**", method=RequestMethod.GET)
+    @RequestMapping(value="/**", method={RequestMethod.GET, RequestMethod.HEAD})
     public void get(HttpServletResponse response, HttpServletRequest request, WebRequest webRequest) throws SQLException, IOException {
         String contextPath = request.getContextPath();
         String requestURI = request.getRequestURI();
