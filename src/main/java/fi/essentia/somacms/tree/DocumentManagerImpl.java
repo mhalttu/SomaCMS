@@ -62,6 +62,16 @@ public class DocumentManagerImpl implements DocumentManager {
     }
 
     @Override public TreeDocument documentFromPath(String path) {
+        // Shortcut for root
+        if (path.equals("/")) {
+            return root;
+        }
+
+        // Strip the first slash because otherwise split generates an empty string as the first element
+        if (path.startsWith("/")) {
+            path = path.substring(1);
+        }
+
         String[] split = path.split("/");
         TreeDocument document = root;
         for (String name : split) {
