@@ -22,9 +22,10 @@
 </head>
 
 <body>
-<div class='notifications top-center'></div>
+
 <div class="container">
     <div th:fragment="top-bar">
+        <div class='notifications top-center'></div>
         <div class="logo">
             <a href="0"><img th:src="@{/resources/images/logo.png}" src="../../../resources/images/logo.png"/></a>
         </div>
@@ -56,6 +57,10 @@
         <div id="progress-bar" class="progress progress-striped active" style="margin-top: 5px">
             <div class="bar" style="width: 0;"></div>
         </div>
+    </div>
+
+    <div th:fragment="copyright">
+        © 2013 Essentia Solutions Oy
     </div>
 </div>
 

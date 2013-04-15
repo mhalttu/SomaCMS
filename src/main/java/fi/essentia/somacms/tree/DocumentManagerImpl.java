@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Concrete implementation of the DocumentManager. Keeps the document metadata in memory for faster access.
@@ -22,7 +23,7 @@ import java.util.*;
 @Transactional
 public class DocumentManagerImpl implements DocumentManager {
     private Tika tika = new Tika();
-    private Map<Long, TreeDocument> idToDocument = new HashMap<Long, TreeDocument>();
+    private final Map<Long, TreeDocument> idToDocument = new ConcurrentHashMap<Long, TreeDocument>();
     private TreeDocument root;
 
     @Autowired DocumentDao documentDao;
@@ -126,6 +127,7 @@ public class DocumentManagerImpl implements DocumentManager {
             DatabaseDocument databaseDocument = new DatabaseDocument();
             databaseDocument.setName(fileName);
             databaseDocument.setParentId(parent.getId());
+            databaseDocument.setModified(new Date());
             databaseDocument.setSize(bytes.length);
             databaseDocument.setMimeType(mimeType);
             documentDao.save(databaseDocument);

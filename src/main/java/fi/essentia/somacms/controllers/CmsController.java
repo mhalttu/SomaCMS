@@ -5,6 +5,8 @@ import fi.essentia.somacms.dao.SqlDocumentDao;
 import fi.essentia.somacms.models.Document;
 import fi.essentia.somacms.tree.DocumentManager;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import java.sql.SQLException;
 @Component
 @RequestMapping(value="/", method= RequestMethod.GET)
 public class CmsController {
+    private static final Logger logger = LoggerFactory.getLogger(CmsController.class);
     @Autowired private DocumentManager documentManager;
     @Autowired private DataDao dataDao;
 
@@ -44,8 +47,14 @@ public class CmsController {
         if (document.isFolder()) {
             throw new UnauthorizedException();
         }
-        if (webRequest.checkNotModified(document.getModified().getTime())) {
-            return;
+        if (webRequest == null) {
+            logger.warn("WebRequest was null");
+        } else if (document.getModified() == null) {
+            logger.warn("document.getModified was null for " + document.getId());
+        } else {
+            if (webRequest.checkNotModified(document.getModified().getTime())) {
+                return;
+            }
         }
 
         byte[] bytes = dataDao.loadData(document.getId());
