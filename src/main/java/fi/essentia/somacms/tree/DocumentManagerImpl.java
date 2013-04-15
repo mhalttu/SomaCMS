@@ -61,7 +61,8 @@ public class DocumentManagerImpl implements DocumentManager {
         }
     }
 
-    @Override public TreeDocument documentFromPath(String path) {
+    @Override
+    public TreeDocument documentFromPath(String path) {
         // Shortcut for root
         if (path.equals("/")) {
             return root;
@@ -83,11 +84,13 @@ public class DocumentManagerImpl implements DocumentManager {
         return document;
     }
 
-    @Override public TreeDocument documentById(Long id) {
+    @Override
+    public TreeDocument documentById(Long id) {
         return idToDocument.get(id);
     }
 
-    @Override public TreeDocument createFolder(Long parentId, String name) {
+    @Override
+    public TreeDocument createFolder(Long parentId, String name) {
         return createDocument(parentId, name, true);
     }
 
