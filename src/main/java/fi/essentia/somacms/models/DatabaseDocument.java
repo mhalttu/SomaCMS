@@ -20,6 +20,15 @@ public class DatabaseDocument implements Document {
     @Getter @Setter private Date created;
     @Getter @Setter private Date modified;
 
+    public DatabaseDocument() {
+    }
+
+    public DatabaseDocument(long id, String name, boolean folder) {
+        this.id = id;
+        this.name = name;
+        this.folder = folder;
+    }
+
     public boolean isImage() {
         String mimeType = getMimeType();
         return mimeType != null && mimeType.startsWith("image/");
