@@ -6,6 +6,7 @@ import fi.essentia.somacms.models.Document;
 import lombok.Delegate;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
@@ -82,7 +83,9 @@ public class TreeDocument implements Document {
 
     public synchronized void removeChild(Document document) {
         TreeDocument removedDocument = nameToChild.remove(document.getName());
-        children.remove(removedDocument);
+        if (removedDocument != null) {
+            children.remove(removedDocument);
+        }
     }
 
     public synchronized Document getShallowCopy() {
@@ -110,5 +113,10 @@ public class TreeDocument implements Document {
                 }
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "TreeDocument(\"" + getName() + "\")";
     }
 }

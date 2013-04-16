@@ -2,6 +2,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header">
     <title>SomaCMS</title>
+    <meta name="version" th:content="${version}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <link th:href="@{/resources/libraries/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" href="../../../resources/libraries/bootstrap/css/bootstrap.min.css"/> <!-- Excellent library when writing CSS -->
