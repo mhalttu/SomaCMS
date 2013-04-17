@@ -146,10 +146,10 @@ public class AdminController {
         }
     }
 
-
     @RequestMapping(value="/api/document/{documentId}/save", method=RequestMethod.PUT)
     public @ResponseBody Result saveTextDocument(@PathVariable Long documentId, @RequestBody String contents) {
-        dataDao.updateData(documentId, contents.getBytes());
+        TreeDocument document = documentManager.documentById(documentId);
+        documentManager.storeDocument(document.getParentId(), document.getName(), contents.getBytes());
         return Result.success();
     }
 

@@ -73,6 +73,16 @@ public class ArchiveHelper {
         }
     }
 
+    public byte[] databaseAsArchive(TreeDocument root) {
+        // called by AdminController that has e.g. a method databaseAsArchive() with no parameters except HttpResponse (or perhaps documentId)
+        // Initialize the ZipOutputStream or similar
+        // Iterate through the children recursively starting from root
+        // Write the contents of the document as zip entries into the stream
+        // Finally return the byte[] contents of the stream
+        return null;
+    }
+
+
     private TreeDocument findParent(TreeDocument targetFolder, String filePath) {
         if (targetFolder.isRoot()) {
             return documentManager.documentFromPath(filePath);
