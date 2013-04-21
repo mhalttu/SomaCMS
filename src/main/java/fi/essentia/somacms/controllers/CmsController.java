@@ -31,10 +31,10 @@ public class CmsController {
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String get() {
-        return "index";
+        return "redirect:admin/";
     }
 
-    @RequestMapping(value="/**", method=RequestMethod.GET)
+    @RequestMapping(value="/**", method={RequestMethod.GET, RequestMethod.HEAD})
     public void get(HttpServletResponse response, HttpServletRequest request, WebRequest webRequest) throws SQLException, IOException {
         String contextPath = request.getContextPath();
         String requestURI = request.getRequestURI();
@@ -59,6 +59,7 @@ public class CmsController {
 
         byte[] bytes = dataDao.loadData(document.getId());
         response.setContentType(document.getMimeType());
+        response.setContentLength(bytes.length);
         IOUtils.write(bytes, response.getOutputStream());
         response.flushBuffer();
     }
