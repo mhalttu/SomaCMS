@@ -9,9 +9,9 @@ function createFolder(documentId) {
         if (fileName == null) {
         } else {
             $.ajax({
-                url: contextPath + "/admin/api/document/" + documentId  + "/folders",
+                url: contextPath + "/admin/api/documents/" + documentId  + "/children",
                 type: "post",
-                data: "name=" + fileName,
+                data: "type=folder&name=" + fileName,
                 success: function(result) {
                     if (result.success) {
                         location.reload()
@@ -36,9 +36,9 @@ function createDocument() {
         if (fileName == null) {
         } else {
             $.ajax({
-                url: contextPath + "/admin/api/document/" + currentDocument.id  + "/documents",
+                url: contextPath + "/admin/api/documents/" + currentDocument.id  + "/children",
                 type: "post",
-                data: "name=" + fileName,
+                data: "type=text&name=" + fileName,
                 success: function(result) {
                     if (result.success) {
                         location.href = result.documentId;

@@ -43,10 +43,10 @@ public class AdminController {
 
     @RequestMapping(method=RequestMethod.GET)
     public String admin() {
-        return "redirect:document/0";
+        return "redirect:documents/0";
     }
 
-    @RequestMapping(value="/document/{id}", method=RequestMethod.GET)
+    @RequestMapping(value="/documents/{id}", method=RequestMethod.GET)
     public String showDocument(@PathVariable Long id, Model model, WebRequest webRequest) {
         TreeDocument document = documentManager.documentById(id);
         if (document == null) {
@@ -75,7 +75,7 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value="/api/document/{parentId}/folders", method=RequestMethod.POST)
+    @RequestMapping(value="/api/documents/{parentId}/children", method=RequestMethod.POST, params="type=folder")
     public @ResponseBody Result createFolder(@PathVariable Long parentId, @RequestParam("name") String name, WebRequest request) {
         TreeDocument folder;
         try {
@@ -87,11 +87,7 @@ public class AdminController {
         return new Created(folder.getId());
     }
 
-    private void storeNextMessage(WebRequest request, String message) {
-        request.setAttribute(KEY_NEXT_MESSAGE, message, RequestAttributes.SCOPE_SESSION);
-    }
-
-    @RequestMapping(value="/api/document/{parentId}/documents", method=RequestMethod.POST)
+    @RequestMapping(value="/api/documents/{parentId}/children", method=RequestMethod.POST, params="type=text")
     public @ResponseBody Result createTextFile(@PathVariable Long parentId, @RequestParam("name") String name) {
         try {
             TreeDocument testFile = documentManager.createTextFile(parentId, name);
@@ -103,7 +99,7 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value="/api/document/{parentId}/files", method=RequestMethod.POST)
+    @RequestMapping(value="/api/documents/{parentId}/children", method=RequestMethod.POST, params="type=upload")
     public @ResponseBody Result uploadFile(@PathVariable Long parentId, @RequestParam(value="qqfile", required=true) MultipartFile file, WebRequest request) throws IOException {
         try {
             String contentType = file.getContentType();
@@ -124,7 +120,7 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value="/api/document/{documentId}/replace", method=RequestMethod.POST)
+    @RequestMapping(value="/api/documents/{documentId}", method=RequestMethod.POST, params="type=upload")
     public @ResponseBody Result replace(@PathVariable Long documentId, @RequestParam(value="qqfile", required=true) MultipartFile file, WebRequest request) throws IOException {
         try {
             String contentType = file.getContentType();
@@ -147,14 +143,14 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value="/api/document/{documentId}/save", method=RequestMethod.PUT)
-    public @ResponseBody Result saveTextDocument(@PathVariable Long documentId, @RequestBody String contents) {
+    @RequestMapping(value="/api/documents/{documentId}", method=RequestMethod.PUT, params="type=text")
+    public @ResponseBody Result saveTextDocument(@PathVariable Long documentId, @RequestParam String data) {
         TreeDocument document = documentManager.documentById(documentId);
-        documentManager.storeDocument(document.getParentId(), document.getName(), contents.getBytes());
+        documentManager.storeDocument(document.getParentId(), document.getName(), data.getBytes());
         return Result.success();
     }
 
-    @RequestMapping(value="/api/document/{documentId}", method=RequestMethod.DELETE)
+    @RequestMapping(value="/api/documents/{documentId}", method=RequestMethod.DELETE)
     public @ResponseBody Result delete(@PathVariable Long documentId, WebRequest request) {
         TreeDocument treeDocument = documentManager.deleteDocument(documentId);
         String message = (treeDocument.isFolder() ? "Folder " : "Document") + " <b>" + treeDocument.getName() + "</b> deleted.";
@@ -162,8 +158,8 @@ public class AdminController {
         return Result.success();
     }
 
-    @RequestMapping(value= "/api/search/", method = RequestMethod.GET)
-    public @ResponseBody Collection<SearchResult> listDocuments(@RequestParam(value = "query") String query) {
+    @RequestMapping(value= "/api/documents", method = RequestMethod.GET, params="query")
+    public @ResponseBody Collection<SearchResult> listDocuments(@RequestParam String query) {
         Collection<TreeDocument> treeDocuments = documentManager.documentsByPath(query);
         return Collections2.transform(treeDocuments, new Function<TreeDocument, SearchResult>() {
             @Override
@@ -171,5 +167,9 @@ public class AdminController {
                 return new SearchResult(treeDocument.getId(), treeDocument.getPath());
             }
         });
+    }
+
+    private void storeNextMessage(WebRequest request, String message) {
+        request.setAttribute(KEY_NEXT_MESSAGE, message, RequestAttributes.SCOPE_SESSION);
     }
 }

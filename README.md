@@ -48,7 +48,6 @@ http://sourceforge.net/u/jjbenson/wiki/thymol/. For example, Chrome on OS X: `op
 Improvement ideas
 -----------------
 * Write some Unit Tests. Shame on me.
-* Make the layout a bit more responsive
 * Add support for renaming files and folders
 * Implement better user management
 * Add version tracking for documents

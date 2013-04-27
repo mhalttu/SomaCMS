@@ -1,8 +1,8 @@
 function saveText(text, documentId) {
     $.ajax({
         type: "put",
-        data: text,
-        url: contextPath + "/admin/api/document/" + documentId + "/save",
+        data: "type=text&data=" + text,
+        url: contextPath + "/admin/api/documents/" + documentId,
         success: function(result) {
             notify("Document Saved!");
             window.editor.markClean();

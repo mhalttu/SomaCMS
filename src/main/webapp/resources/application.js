@@ -6,7 +6,7 @@ function deleteDocument(id, name, folder, success) {
     bootbox.confirm(message, function (result) {
         if (result) {
             $.ajax({
-                url: contextPath + "/admin/api/document/" + id,
+                url: contextPath + "/admin/api/documents/" + id,
                 type: "delete",
                 success: success,
                 error: function () {
@@ -27,7 +27,8 @@ function initializeUploader(document) {
     var uploader = new qq.FineUploaderBasic({
         button: $('#upload')[0],
         request: {
-            endpoint: document.folder ? contextPath + '/admin/api/document/' + document.id + '/files' : contextPath + '/admin/api/document/' + document.id + '/replace'
+            endpoint: contextPath + '/admin/api/documents/' + document.id + (document.folder ? '/children' : ''),
+            params:{type:"upload"}
         },
         validation: {
         },
@@ -37,6 +38,7 @@ function initializeUploader(document) {
                     bootbox.alert("The name of the current file <b>" + document.name + "</b> is different from the uploaded file <b>" + fileName + "</b>");
                     return false;
                 }
+                return true;
             },
             onUpload: function(id, fileName) {
                 progressBar.show();
@@ -69,7 +71,7 @@ function initializeSearch() {
             }
             searching = setTimeout(function() {
                 return $.getJSON(
-                    contextPath + "/admin/api/search/",
+                    contextPath + "/admin/api/documents",
                     { query:query },
                     function(data){
                         var paths = [];
