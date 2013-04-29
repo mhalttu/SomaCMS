@@ -107,3 +107,7 @@ p.empty-folder {
     font-size: small;
     font-style: italic;
 }
+
+.export {
+    float: right;
+}
