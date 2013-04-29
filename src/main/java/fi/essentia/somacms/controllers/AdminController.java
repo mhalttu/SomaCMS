@@ -3,6 +3,7 @@ package fi.essentia.somacms.controllers;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import fi.essentia.somacms.dao.DataDao;
+import fi.essentia.somacms.dao.ReadOnlyDataDao;
 import fi.essentia.somacms.json.*;
 import fi.essentia.somacms.json.Error;
 import fi.essentia.somacms.tree.DocumentManager;
@@ -36,7 +37,7 @@ public class AdminController {
     public static final String KEY_NEXT_MESSAGE = "nextMessage";
 
     @Autowired private DocumentManager documentManager;
-    @Autowired private DataDao dataDao;
+    @Autowired private ReadOnlyDataDao dataDao;
     @Autowired private ArchiveHelper archiveHelper;
     @Value("${somacms.version}") String version;
 

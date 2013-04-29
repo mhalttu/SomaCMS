@@ -31,7 +31,7 @@ public class CmsController {
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String get() {
-        return "redirect:admin/document/0";
+        return "redirect:admin/";
     }
 
     @RequestMapping(value="/**", method={RequestMethod.GET, RequestMethod.HEAD})
