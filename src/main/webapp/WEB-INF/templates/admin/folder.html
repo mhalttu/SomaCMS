@@ -42,6 +42,7 @@
             <div id="upload" class="btn btn-success">
                 <i class="icon-upload icon-white"></i> Upload File
             </div>
+            <a class="export" th:href="@{'/admin/api/export/' + ${document.id}}">Export</a>
         </div>
     </div>
     <div class="span5" th:include="admin/fragments :: upload-progress"></div>

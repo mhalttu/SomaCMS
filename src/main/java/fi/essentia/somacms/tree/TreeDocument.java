@@ -47,9 +47,12 @@ public class TreeDocument implements Document {
             path.append(pathElements.get(i).getName());
             path.append("/");
         }
-        path.append(getName());
-        if (isFolder()) {
-            path.append("/");
+
+        if (!isRoot()) {
+            path.append(getName());
+            if (isFolder()) {
+                path.append("/");
+            }
         }
         return path.toString();
     }

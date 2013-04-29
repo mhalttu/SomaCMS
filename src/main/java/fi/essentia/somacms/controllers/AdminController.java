@@ -2,7 +2,6 @@ package fi.essentia.somacms.controllers;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
-import fi.essentia.somacms.dao.DataDao;
 import fi.essentia.somacms.dao.ReadOnlyDataDao;
 import fi.essentia.somacms.json.*;
 import fi.essentia.somacms.json.Error;
@@ -10,6 +9,7 @@ import fi.essentia.somacms.tree.DocumentManager;
 import fi.essentia.somacms.tree.TreeDocument;
 import fi.essentia.somacms.tree.UnsupportedMimeTypeException;
 import fi.essentia.somacms.util.ArchiveHelper;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -85,6 +86,10 @@ public class AdminController {
         }
         storeNextMessage(request, "Folder <b>" + name + "</b> created");
         return new Created(folder.getId());
+    }
+
+    private void storeNextMessage(WebRequest request, String message) {
+        request.setAttribute(KEY_NEXT_MESSAGE, message, RequestAttributes.SCOPE_SESSION);
     }
 
     @RequestMapping(value="/api/documents/{parentId}/children", method=RequestMethod.POST, params="type=text")
@@ -169,7 +174,16 @@ public class AdminController {
         });
     }
 
-    private void storeNextMessage(WebRequest request, String message) {
-        request.setAttribute(KEY_NEXT_MESSAGE, message, RequestAttributes.SCOPE_SESSION);
+    @RequestMapping(value= "/api/export/{documentId}", method = RequestMethod.GET)
+    public void exportDocument(@PathVariable Long documentId, HttpServletResponse response) throws IOException {
+        TreeDocument root = documentManager.documentById(documentId);
+        byte[] bytes = archiveHelper.documentAsArchive(root);
+        response.setContentType("application/zip");
+        response.setContentLength(bytes.length);
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + root.getName() + ".zip\"");
+
+        IOUtils.write(bytes, response.getOutputStream());
+        response.flushBuffer();
     }
+
 }

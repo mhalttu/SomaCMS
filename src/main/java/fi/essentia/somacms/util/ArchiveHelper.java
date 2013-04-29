@@ -1,5 +1,6 @@
 package fi.essentia.somacms.util;
 
+import fi.essentia.somacms.dao.ReadOnlyDataDao;
 import fi.essentia.somacms.tree.DocumentManager;
 import fi.essentia.somacms.tree.TreeDocument;
 import org.apache.commons.io.IOUtils;
@@ -11,10 +12,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Stores multiple documents to the given folder by reading their contents from a ZIP archive
@@ -22,6 +25,7 @@ import java.util.zip.ZipInputStream;
 @Component
 public class ArchiveHelper {
     @Autowired private DocumentManager documentManager;
+    @Autowired private ReadOnlyDataDao readOnlyDataDao;
 
     public void storeDocuments(TreeDocument targetFolder, byte[] bytes) throws IOException {
         List<DocumentEntry> entries = new ArrayList<DocumentEntry>();
@@ -79,6 +83,42 @@ public class ArchiveHelper {
         } else {
             String rootPath = targetFolder.getPath().substring(1);
             return documentManager.documentFromPath(rootPath + filePath);
+        }
+    }
+
+    public byte[] documentAsArchive(TreeDocument document) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ZipOutputStream out = new ZipOutputStream(byteArrayOutputStream);
+        String rootPath;
+        if (document.isRoot()) {
+            rootPath = "/";
+        } else {
+            rootPath = document.getParent().getPath();
+        }
+        archiveDocument(out, document, rootPath);
+        out.close();
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    private void archiveDocument(ZipOutputStream out, TreeDocument document, String rootPath) throws IOException {
+        String fullPath = document.getPath();
+        String relativePath = fullPath.substring(rootPath.length()-1);
+
+        if (document.isFolder()) {
+            // Create an empty zip entry for directories except root
+            if (!document.isRoot()) {
+                out.putNextEntry(new ZipEntry(relativePath));
+                out.closeEntry();
+            }
+            Collection<TreeDocument> children = document.getChildren();
+            for (TreeDocument child : children) {
+                archiveDocument(out, child, rootPath);
+            }
+        } else {
+            out.putNextEntry(new ZipEntry(relativePath));
+            byte[] bytes = readOnlyDataDao.loadData(document.getId());
+            out.write(bytes);
+            out.closeEntry();
         }
     }
 
